@@ -1,0 +1,13 @@
+\.pyc$
+\.tar$
+\.zip$
+\.gz$
+\.gzip$
+\.bz2$
+\.7z$
+\.sqlite$
+\.db$
+^static/.*$
+^media/.*\.sql$
+^media/.*\.log$
+^media/.*\.txt$

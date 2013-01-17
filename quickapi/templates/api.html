@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block navbarmenu_left %}
+<li class="brand">
+    API - набор методов, предоставляемых сервисом.
+</li>
+{% endblock %}
+
+
+{% block content %}
+{% if type_list %}
+<div>
+    <h1>Форматы возврата</h1>
+    <ul>
+    {% for type in type_list %}
+        <li><strong>{{ type }}</strong>: https://{{ request.get_host }}{% url api type|lower %}</li>
+    {% endfor %}
+    </ul>
+</div>
+{% endif %}
+<div>
+    <h1>Методы и их параметры</h1>
+<pre><i>либо передаются в JSON посредством POST запроса:</i>
+data = {
+        'method': &lt;method_name&gt;,
+        'kwargs': { 'key': &lt;param1&gt;, 'key2': &lt;param2&gt;, ... },
+        'username': &lt;login_name&gt;,
+        'password': &lt;password&gt;,
+}
+<i>либо передаются в непосредственно в POST запросе,
+причём параметры авторизации необязательны</i></pre>
+<pre><i>Пример в Python с HTTP Basic авторизацией:</i>
+import urllib2, json, base64
+url = 'https://{{ request.get_host }}/api/'
+data = {'method':"get_orders_id", 'kwargs':{'date':'2012-01-01', 'state': 4 },}
+req = urllib2.Request(url, data=json.dumps(data),
+    headers={
+        'Authorization': 'Basic ' + base64.b64encode('%s:%s' % ('login', 'passwd'))
+    }
+)
+r = urllib2.urlopen(req)
+print r.read()</pre>
+<pre><i>Пример в Python без использования HTTP авторизации:</i>
+import urllib2, json
+url = 'https://{{ request.get_host }}/api/'
+data = {'username':'login','password':'passwd','method':"get_orders_id", 'kwargs':{'date': '2012-01-01', 'state':2 }, }
+r = urllib2.urlopen(url, data=json.dumps(data))
+print r.read()</pre>
+    <ul>
+    {% for name, method in methods.items %}
+        <li>
+            <h3>{{ name }}</h3>
+            <p>{{ method.doc|default:'' }}</p>
+        </li>
+    {% endfor %}
+    </ul>
+</div>
+{% endblock %}
+
+{% block debugger %}{{ request }}{% endblock %}
+
+{% block navbarmenu_right %}
+<li class="divider-vertical"></li>
+<li><a href="/">На главную</a></li>
+{% endblock %}
+
+{% block footer %}{% endblock %}

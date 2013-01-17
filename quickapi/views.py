@@ -1,0 +1,143 @@
+# -*- coding: utf-8 -*-
+"""
+###############################################################################
+# Copyright 2012 Grigoriy Kramarenko.
+###############################################################################
+# This file is part of QUICKAPI.
+#
+#    QUICKAPI is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation, either version 3 of the License, or
+#    (at your option) any later version.
+#
+#    QUICKAPI is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with QUICKAPI.  If not, see <http://www.gnu.org/licenses/>.
+#
+# Этот файл — часть QUICKAPI.
+#
+#   QUICKAPI - свободная программа: вы можете перераспространять ее и/или
+#   изменять ее на условиях Стандартной общественной лицензии GNU в том виде,
+#   в каком она была опубликована Фондом свободного программного обеспечения;
+#   либо версии 3 лицензии, либо (по вашему выбору) любой более поздней
+#   версии.
+#
+#   QUICKAPI распространяется в надежде, что она будет полезной,
+#   но БЕЗО ВСЯКИХ ГАРАНТИЙ; даже без неявной гарантии ТОВАРНОГО ВИДА
+#   или ПРИГОДНОСТИ ДЛЯ ОПРЕДЕЛЕННЫХ ЦЕЛЕЙ. Подробнее см. в Стандартной
+#   общественной лицензии GNU.
+#
+#   Вы должны были получить копию Стандартной общественной лицензии GNU
+#   вместе с этой программой. Если это не так, см.
+#   <http://www.gnu.org/licenses/>.
+###############################################################################
+"""
+from django.utils.translation import ugettext_lazy as _
+from django.template import RequestContext
+from django.shortcuts import render_to_response
+from django.utils import simplejson
+from django.contrib.auth import authenticate, login
+from django.views.decorators.csrf import csrf_exempt
+from django.contrib.sites.models import Site
+from django.conf import settings
+
+from http import JSONResponse, MESSAGES
+from conf import QUICKAPI_DEFINED_METHODS
+
+@csrf_exempt
+def test(request):
+    """ Тестовый ответ """
+    data = {
+        'integer': 9999,
+        'float': 9999.999,
+        'boolean': True,
+        'string': 'String',
+        'list': [9999, True, 'String'],
+        'dict': {'a': 1, 'b': 2, 'c': 3}
+    }
+    return JSONResponse(data=data)
+
+METHODS = {}
+for key,val in QUICKAPI_DEFINED_METHODS.items():
+    try:
+        method = __import__(val, fromlist=[''])
+    except ImportError:
+        try:
+            L = val.split('.')
+            _method = L[-1]
+            _module = '.'.join(L[:-1])
+            module = __import__(_module, fromlist=[''])
+            method = getattr(module, _method)
+        except ImportError as e:
+            print e
+            method = None
+    if method:
+        METHODS[key] = { 'method': method, 'doc': method.__doc__ }
+
+@csrf_exempt
+def api(request):
+    if request.is_ajax():
+        return run(request)
+    # Vars for docs
+    ctx = {}
+    ctx['site'] = Site.objects.get(id=settings.SITE_ID)
+    
+    ctx['methods'] = METHODS
+    return render_to_response('api.html', ctx,
+                            context_instance=RequestContext(request,))
+
+def run(request):
+    """ Авторизирует пользователя и запускает методы """
+
+    is_authenticate = request.user.is_authenticate()
+
+    def _auth(post):
+        if request.META.has_key('HTTP_AUTHORIZATION'):
+            key = request.META['HTTP_AUTHORIZATION']
+        elif request.META.has_key('HTTP_X_AUTHORIZATION'):
+            key = request.META['HTTP_X_AUTHORIZATION']
+        else:
+            return post.get('username', None), post.get('password', None)
+        if key.lower().count('basic'):
+            return key[6:].decode('base64').split(':')
+        else:
+            return None, None
+    
+    if 'method' in request.POST:
+        method = request.POST.get('method', 'quickapi.test')
+        kwargs = request.POST.get('kwargs', {})
+        if not is_authenticate:
+            username, password = _auth(request.POST)
+    elif request.method == 'POST':
+        try:
+            post = simplejson.loads(request.POST.keys()[0])
+            method = post.get('method', 'quickapi.test')
+            kwargs = post.get('kwargs', {})
+            if not is_authenticate:
+                username, password = _auth(post)
+        except Exception as e:
+            print e
+            return JSONResponse(status=400, message=unicode(e))
+    else:
+        return JSONResponse(status=400, message=MESSAGES[400])
+
+    if not is_authenticate:
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            if user.is_active:
+                login(request, user)
+            return JSONResponse(status=401, message=MESSAGES[401])
+    try:
+        real_method = METHODS[method]['method']
+    except Exception as e:
+        print e 
+        return JSONResponse(status=405, message=MESSAGES[405])
+    try:
+        return real_method(request, **kwargs)
+    except Exception as e:
+        print e 
+        return JSONResponse(status=500, message=MESSAGES[500])
