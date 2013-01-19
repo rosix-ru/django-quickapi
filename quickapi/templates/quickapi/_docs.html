@@ -1,0 +1,64 @@
+<div>
+    <legend>Запросы</legend>
+    <i>Запросы могут передаваться в JSON посредством POST:</i>
+<pre>
+data = {
+        'method': &lt;method_name&gt;,
+        'kwargs': { 'key': &lt;param1&gt;, 'key2': &lt;param2&gt;, ... },
+        'username': &lt;login_name&gt;,
+        'password': &lt;password&gt;,
+}</pre>
+<i>Либо передаются непосредственно в POST запросе, причём параметры 
+авторизации везде необязательны.</i>
+<hr>
+<i>Пример в Python с HTTP Basic авторизацией:</i>
+<pre>
+import urllib2, json, base64
+url = 'https://{{ request.get_host }}/api/'
+data = {'method':"get_orders_id", 'kwargs':{'date':'2012-01-01', 'state': 4 },}
+req = urllib2.Request(url, data=json.dumps(data),
+    headers={
+        'Authorization': 'Basic ' + base64.b64encode('%s:%s' % ('login', 'passwd'))
+    }
+)
+r = urllib2.urlopen(req)
+print r.read()</pre>
+<hr>
+<i>Пример в Python без использования HTTP авторизации:</i>
+<pre>
+import urllib2, json
+url = 'https://{{ request.get_host }}/api/'
+data = {'username':'login','password':'passwd','method':"get_orders_id", 'kwargs':{'date': '2012-01-01', 'state':2 }, }
+r = urllib2.urlopen(url, data=json.dumps(data))
+print r.read()</pre>
+</div>
+<hr>
+<div>
+    <legend>Общая структура ответов</legend>
+<pre>
+JSON_object = {
+    'status': 200, // коды HTTP, имеющие смысл.
+    'message': 'Строчное сообщение для пользователя',
+    'data': &lt;Вложенный объект JSON&gt;,
+}</pre>
+<i>Тип и структура вложенного объекта зависят от вызываемого метода (см. документацию ниже).</i>
+</div>
+<hr>
+<div>
+    <legend>Документация по методам и их параметрам</legend>
+    <table class="table table-condensed table-bordered table-striped">
+        <tr>
+            <th>№</th>
+            <th>Название метода</th>
+            <th>Описание использования</th>
+        </tr>
+    {% for name, method in methods.items %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td><strong>{{ name }}</strong></td>
+            <td>{{ method.doc|default:'' }}</td>
+        </tr>
+    {% endfor %}
+    </table>
+</div>
+
