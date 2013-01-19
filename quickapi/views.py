@@ -80,12 +80,16 @@ for key,val in QUICKAPI_DEFINED_METHODS.items():
 
 @csrf_exempt
 def api(request):
-    if request.is_ajax():
-        return run(request)
+    """ Распределяет запросы """
+    if request.is_ajax() or request.POST:
+        try:
+            return run(request)
+        except Exception as e:
+            print e
+            return JSONResponse(status=500, message=e)
     # Vars for docs
     ctx = {}
     ctx['site'] = Site.objects.get(id=settings.SITE_ID)
-    
     ctx['methods'] = METHODS
     return render_to_response('quickapi/index.html', ctx,
                             context_instance=RequestContext(request,))
@@ -93,7 +97,7 @@ def api(request):
 def run(request):
     """ Авторизирует пользователя и запускает методы """
 
-    is_authenticate = request.user.is_authenticate()
+    is_authenticate = not request.user.is_anonymous()
 
     def _auth(post):
         if request.META.has_key('HTTP_AUTHORIZATION'):
@@ -106,7 +110,7 @@ def run(request):
             return key[6:].decode('base64').split(':')
         else:
             return None, None
-    
+
     if 'method' in request.POST:
         method = request.POST.get('method', 'quickapi.test')
         kwargs = request.POST.get('kwargs', {})
@@ -127,10 +131,11 @@ def run(request):
 
     if not is_authenticate:
         user = authenticate(username=username, password=password)
-        if user is not None:
-            if user.is_active:
-                login(request, user)
+        if user is not None and user.is_active:
+            login(request, user)
+        else:
             return JSONResponse(status=401, message=MESSAGES[401])
+
     try:
         real_method = METHODS[method]['method']
     except Exception as e:
