@@ -103,14 +103,14 @@ def _get_json_response(ctx={}):
     response.write(result)
     return response
 
-def check_code(dic):
-    if not isinstance(dic['code'], int):
-        dic['code'] = int(dic['code'])
+def check_status(dic):
+    if not isinstance(dic['status'], int):
+        dic['status'] = int(dic['status'])
     return dic
 
 def check_message(dic):
     if dic['message'] is None:
-        dic['message'] = MESSAGES.get(dic['code'], ugettext('Undefined message'))
+        dic['message'] = MESSAGES.get(dic['status'], ugettext('Undefined message'))
     return dic
 
 def JSONResponse(**kwargs):
@@ -120,7 +120,7 @@ def JSONResponse(**kwargs):
         'data': {},
     }
     dic.update(kwargs)
-    dic = check_message(check_code(dic))
+    dic = check_message(check_status(dic))
     return _get_json_response(dic)
 
 def JSONRedirect(**kwargs):
@@ -130,5 +130,5 @@ def JSONRedirect(**kwargs):
         'data': { 'Location': '/' },
     }
     dic.update(kwargs)
-    dic = check_message(check_code(dic))
+    dic = check_message(check_status(dic))
     return _get_json_response(dic)
