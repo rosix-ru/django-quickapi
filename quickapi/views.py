@@ -37,6 +37,7 @@
 ###############################################################################
 """
 from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import ugettext
 from django.template import RequestContext
 from django.shortcuts import render_to_response
 from django.utils import simplejson
@@ -86,7 +87,7 @@ def api(request):
             return run(request)
         except Exception as e:
             print e
-            return JSONResponse(status=500, message=e)
+            return JSONResponse(status=500, message=unicode(e))
     # Vars for docs
     ctx = {}
     ctx['site'] = Site.objects.get(id=settings.SITE_ID)
@@ -143,6 +144,8 @@ def run(request):
         return JSONResponse(status=405, message=MESSAGES[405])
     try:
         return real_method(request, **kwargs)
+    except TypeError:
+        return JSONResponse(status=500, message=ugettext('Unexpected keyword argument(s)'))
     except Exception as e:
         print e 
         return JSONResponse(status=500, message=MESSAGES[500])

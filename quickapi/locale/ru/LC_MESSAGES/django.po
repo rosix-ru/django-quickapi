@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-01-17 23:28+1100\n"
-"PO-Revision-Date: 2013-01-17 23:28+1100\n"
+"POT-Creation-Date: 2013-01-20 00:47+1100\n"
+"PO-Revision-Date: 2013-01-20 00:47+1100\n"
 "Last-Translator: Grigoriy Kramarenko <root@rosix.ru>\n"
 "Language-Team: \n"
 "Language: RU\n"
@@ -18,54 +18,62 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
 
-#: http.py:81
+#: http.py:78
 msgid "OK"
 msgstr ""
 
-#: http.py:82
+#: http.py:79
 msgid "Created"
 msgstr "Создано"
 
-#: http.py:83
+#: http.py:80
 msgid "Accepted"
 msgstr "Принято"
 
-#: http.py:84
+#: http.py:81
 msgid "Moved Permanently"
 msgstr "Перемещено навсегда"
 
-#: http.py:85
+#: http.py:82
 msgid "Moved Temporarily"
 msgstr "Перемещено временно"
 
-#: http.py:86
+#: http.py:83
 msgid "Bad Request"
 msgstr "Плохой запрос"
 
-#: http.py:87
+#: http.py:84
 msgid "Unauthorized"
 msgstr "Не авторизован"
 
-#: http.py:88
+#: http.py:85
 msgid "Payment Required"
 msgstr "Требуется оплата"
 
-#: http.py:89
+#: http.py:86
 msgid "Forbidden"
 msgstr "Запрещено"
 
-#: http.py:90
+#: http.py:87
 msgid "Not Found"
 msgstr "Не найдено"
 
-#: http.py:91
+#: http.py:88
 msgid "Method Not Allowed"
 msgstr "Метод не доступен"
 
-#: http.py:92
+#: http.py:89
 msgid "Not Acceptable"
 msgstr "Не приемлемо"
 
-#: http.py:93
+#: http.py:90
 msgid "Internal Server Error"
 msgstr "Внутренняя ошибка сервера"
+
+#: http.py:113
+msgid "Undefined message"
+msgstr "Неопределённое сообщение"
+
+#: views.py:148
+msgid "Unexpected keyword argument(s)"
+msgstr "Неожиданный ключ аргумента(ов)"
