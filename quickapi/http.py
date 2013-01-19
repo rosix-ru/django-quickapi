@@ -103,20 +103,32 @@ def _get_json_response(ctx={}):
     response.write(result)
     return response
 
+def check_code(dic):
+    if not isinstance(dic['code'], int):
+        dic['code'] = int(dic['code'])
+    return dic
+
+def check_message(dic):
+    if dic['message'] is None:
+        dic['message'] = MESSAGES.get(dic['code'], ugettext('Undefined message'))
+    return dic
+
 def JSONResponse(**kwargs):
     dic = {
         'status': 200,
-        'message': MESSAGES[200],
+        'message': None,
         'data': {},
     }
     dic.update(kwargs)
+    dic = check_message(check_code(dic))
     return _get_json_response(dic)
 
 def JSONRedirect(**kwargs):
     dic = {
         'status': 301,
-        'message': MESSAGES[301],
+        'message': None,
         'data': { 'Location': '/' },
     }
     dic.update(kwargs)
+    dic = check_message(check_code(dic))
     return _get_json_response(dic)
