@@ -87,7 +87,7 @@ def api(request):
     ctx['site'] = Site.objects.get(id=settings.SITE_ID)
     
     ctx['methods'] = METHODS
-    return render_to_response('api.html', ctx,
+    return render_to_response('quickapi/index.html', ctx,
                             context_instance=RequestContext(request,))
 
 def run(request):
