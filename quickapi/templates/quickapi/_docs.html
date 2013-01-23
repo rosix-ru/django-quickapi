@@ -56,7 +56,7 @@ JSON_object = {
         <tr>
             <td>{{ forloop.counter }}</td>
             <td><strong>{{ name }}</strong></td>
-            <td>{{ method.doc|default:'' }}</td>
+            <td>{{ method.doc|default:''|linebreaks }}</td>
         </tr>
     {% endfor %}
     </table>

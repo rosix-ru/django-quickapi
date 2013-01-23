@@ -81,7 +81,17 @@ for key,val in QUICKAPI_DEFINED_METHODS.items():
 
 @csrf_exempt
 def api(request):
-    """ Распределяет запросы """
+    """ Распределяет запросы.
+        Структура запроса = {
+            'method': u'Имя вызываемого метода',
+            'kwargs': { Словарь параметров },
+            # Необязательные ключи могут браться из сессии, либо из
+            # заголовков запроса (например HTTP Basic Authorization).
+            # Список необязательные ключей:
+            'user': u'имя пользователя',
+            'pass': u'пароль пользователя',
+        }
+    """
     if request.is_ajax() or request.POST:
         try:
             return run(request)
@@ -96,7 +106,7 @@ def api(request):
                             context_instance=RequestContext(request,))
 
 def run(request):
-    """ Авторизирует пользователя и запускает методы """
+    """ Авторизует пользователя, если он не авторизован и запускает методы """
 
     is_authenticate = not request.user.is_anonymous()
 
@@ -140,12 +150,18 @@ def run(request):
     try:
         real_method = METHODS[method]['method']
     except Exception as e:
-        print e 
-        return JSONResponse(status=405, message=MESSAGES[405])
+        if settings.DEBUG:
+            msg = unicode(e)
+        else:
+            msg = MESSAGES[405]
+        print e
+        return JSONResponse(status=405, message=msg)
     try:
         return real_method(request, **kwargs)
-    except TypeError:
-        return JSONResponse(status=500, message=ugettext('Unexpected keyword argument(s)'))
     except Exception as e:
-        print e 
-        return JSONResponse(status=500, message=MESSAGES[500])
+        if settings.DEBUG:
+            msg = unicode(e)
+        else:
+            msg = MESSAGES[415]
+        print e
+        return JSONResponse(status=415, message=msg)
