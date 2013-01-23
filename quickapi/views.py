@@ -77,7 +77,7 @@ for key,val in QUICKAPI_DEFINED_METHODS.items():
             print e
             method = None
     if method:
-        METHODS[key] = { 'method': method, 'doc': method.__doc__ }
+        METHODS[key] = { 'method': method, 'doc': method.__doc__, 'name': key }
 
 @csrf_exempt
 def api(request):
@@ -101,7 +101,7 @@ def api(request):
     # Vars for docs
     ctx = {}
     ctx['site'] = Site.objects.get(id=settings.SITE_ID)
-    ctx['methods'] = METHODS
+    ctx['methods'] = METHODS.values()
     return render_to_response('quickapi/index.html', ctx,
                             context_instance=RequestContext(request,))
 

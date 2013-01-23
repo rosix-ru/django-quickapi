@@ -52,11 +52,11 @@ JSON_object = {
             <th>Название метода</th>
             <th>Описание использования</th>
         </tr>
-    {% for name, method in methods.items %}
+    {% for m in methods|dictsort:"name" %}
         <tr>
             <td>{{ forloop.counter }}</td>
-            <td><strong>{{ name }}</strong></td>
-            <td>{{ method.doc|default:''|linebreaks }}</td>
+            <td><strong>{{ m.name }}</strong></td>
+            <td>{{ m.doc|default:''|linebreaks }}</td>
         </tr>
     {% endfor %}
     </table>
