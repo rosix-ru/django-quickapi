@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-01-20 00:47+1100\n"
-"PO-Revision-Date: 2013-01-20 00:47+1100\n"
+"POT-Creation-Date: 2013-01-23 11:43+1100\n"
+"PO-Revision-Date: 2013-01-23 11:43+1100\n"
 "Last-Translator: Grigoriy Kramarenko <root@rosix.ru>\n"
 "Language-Team: \n"
 "Language: RU\n"
@@ -18,62 +18,226 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
 
-#: http.py:78
-msgid "OK"
-msgstr ""
+#: http.py:72
+msgid "Continue"
+msgstr "Продолжить"
 
-#: http.py:79
+#: http.py:73
+msgid "Switching Protocols"
+msgstr "Переключение протоколов"
+
+#: http.py:74
+msgid "Processing"
+msgstr "Идёт обработка"
+
+#: http.py:76
+msgid "OK"
+msgstr "Хорошо"
+
+#: http.py:77
 msgid "Created"
 msgstr "Создано"
 
-#: http.py:80
+#: http.py:78
 msgid "Accepted"
 msgstr "Принято"
 
+#: http.py:79
+msgid "Non-Authoritative Information"
+msgstr "Информация не авторитетна"
+
+#: http.py:80
+msgid "No Content"
+msgstr "Нет содержимого"
+
 #: http.py:81
+msgid "Reset Content"
+msgstr "Сбросить содержимое"
+
+#: http.py:82
+msgid "Partial Content"
+msgstr "Частичное содержимое"
+
+#: http.py:83
+msgid "Multi-Status"
+msgstr "Многостатусный"
+
+#: http.py:84
+msgid "IM Used"
+msgstr "Использовано IM"
+
+#: http.py:86
+msgid "Multiple Choices"
+msgstr "Множество выборов"
+
+#: http.py:87
 msgid "Moved Permanently"
 msgstr "Перемещено навсегда"
 
-#: http.py:82
-msgid "Moved Temporarily"
-msgstr "Перемещено временно"
+#: http.py:88
+msgid "Found"
+msgstr "Найдено"
 
-#: http.py:83
+#: http.py:89
+msgid "See Other"
+msgstr "Смотреть другое"
+
+#: http.py:90
+msgid "Not Modified"
+msgstr "Не изменялось"
+
+#: http.py:91
+msgid "Use Proxy"
+msgstr "Использовать прокси"
+
+#: http.py:92
+msgid "Temporary Redirect"
+msgstr "Временное перенаправление"
+
+#: http.py:94
 msgid "Bad Request"
 msgstr "Плохой запрос"
 
-#: http.py:84
+#: http.py:95
 msgid "Unauthorized"
 msgstr "Не авторизован"
 
-#: http.py:85
+#: http.py:96
 msgid "Payment Required"
 msgstr "Требуется оплата"
 
-#: http.py:86
+#: http.py:97
 msgid "Forbidden"
 msgstr "Запрещено"
 
-#: http.py:87
+#: http.py:98
 msgid "Not Found"
 msgstr "Не найдено"
 
-#: http.py:88
+#: http.py:99
 msgid "Method Not Allowed"
 msgstr "Метод не доступен"
 
-#: http.py:89
+#: http.py:100
 msgid "Not Acceptable"
 msgstr "Не приемлемо"
 
-#: http.py:90
+#: http.py:101
+msgid "Proxy Authentication Required"
+msgstr "Необходима аутентификация прокси"
+
+#: http.py:102
+msgid "Request Timeout"
+msgstr "Истекло время ожидания"
+
+#: http.py:103
+msgid "Conflict"
+msgstr "Конфликт"
+
+#: http.py:104
+msgid "Gone"
+msgstr "Удалён"
+
+#: http.py:105
+msgid "Length Required"
+msgstr "Необходима длина"
+
+#: http.py:106
+msgid "Precondition Failed"
+msgstr "Условие ложно"
+
+#: http.py:107
+msgid "Request Entity Too Large"
+msgstr "Размер запроса слишком велик"
+
+#: http.py:108
+msgid "Request-URI Too Large"
+msgstr "Запрашиваемый URI слишком длинный"
+
+#: http.py:109
+msgid "Unsupported Media Type"
+msgstr "Неподдерживаемый тип данных"
+
+#: http.py:110
+msgid "Requested Range Not Satisfiable"
+msgstr "Запрашиваемый диапазон не достижим"
+
+#: http.py:111
+msgid "Expectation Failed"
+msgstr "Ожидаемое неприемлемо"
+
+#: http.py:112
+msgid "Unprocessable Entity"
+msgstr "Необрабатываемый экземпляр"
+
+#: http.py:113
+msgid "Locked"
+msgstr "Заблокировано"
+
+#: http.py:114
+msgid "Failed Dependency"
+msgstr "Невыполненная зависимость"
+
+#: http.py:115
+msgid "Unordered Collection"
+msgstr "Неупорядоченный набор"
+
+#: http.py:116
+msgid "Upgrade Required"
+msgstr "Необходимо обновление"
+
+#: http.py:117
+msgid "Retry With"
+msgstr "Повторить с"
+
+#: http.py:118
+msgid "Unrecoverable Error"
+msgstr "Некорректируемая ошибка"
+
+#: http.py:120
 msgid "Internal Server Error"
 msgstr "Внутренняя ошибка сервера"
 
-#: http.py:113
+#: http.py:121
+msgid "Not Implemented"
+msgstr "Не реализовано"
+
+#: http.py:122
+msgid "Bad Gateway"
+msgstr "Плохой, ошибочный шлюз"
+
+#: http.py:123
+msgid "Service Unavailable"
+msgstr "Сервис недоступен"
+
+#: http.py:124
+msgid "Gateway Timeout"
+msgstr "Шлюз не отвечает"
+
+#: http.py:125
+msgid "HTTP Version Not Supported"
+msgstr "Версия HTTP не поддерживается"
+
+#: http.py:126
+msgid "Variant Also Negotiates"
+msgstr "Вариант тоже проводит согласование"
+
+#: http.py:127
+msgid "Insufficient Storage"
+msgstr "Переполнение хранилища"
+
+#: http.py:128
+msgid "Loop Detected"
+msgstr "Обнаружена петля"
+
+#: http.py:129
+msgid "Bandwidth Limit Exceeded"
+msgstr "Исчерпана пропускная ширина канала"
+
+#: http.py:130
+msgid "Not Extended"
+msgstr "не расширено"
+
+#: http.py:153
 msgid "Undefined message"
 msgstr "Неопределённое сообщение"
-
-#: views.py:148
-msgid "Unexpected keyword argument(s)"
-msgstr "Неожиданный ключ аргумента(ов)"
