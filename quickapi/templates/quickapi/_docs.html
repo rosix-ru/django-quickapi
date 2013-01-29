@@ -4,12 +4,21 @@
 <pre>
 data = {
         'method': &lt;method_name&gt;,
-        'kwargs': { 'key': &lt;param1&gt;, 'key2': &lt;param2&gt;, ... },
+        'kwargs': { 'key': &lt;param1&gt;, 'key2': &lt;param2&gt;,
+                    'key3': [ &lt;param3_1&gt;, &lt;param3_2&gt;, &lt;param3_3&gt; ],
+                    ... },
         'username': &lt;login_name&gt;,
         'password': &lt;password&gt;,
 }</pre>
 <i>Либо они передаются непосредственно в POST запросе, причём параметры 
-авторизации везде необязательны.</i>
+авторизации везде необязательны. Пример для jQuery:</i>
+<pre>
+$.post('/api/', {
+        'method': &lt;method_name&gt;,
+        'key': &lt;param1&gt;, 'key2': &lt;param2&gt;,
+        'key3': [ &lt;param3_1&gt;, &lt;param3_2&gt;, &lt;param3_3&gt; ]
+}, function() {});</pre>
+<i>Ключ "key3" в этом случае jQuery автоматически изменит на "key3[]".</i>
 <hr>
 <i>Пример в Python с HTTP Basic авторизацией:</i>
 <pre>

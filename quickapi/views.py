@@ -124,7 +124,12 @@ def run(request):
 
     if 'method' in request.POST:
         method = request.POST.get('method', 'quickapi.test')
-        kwargs = request.POST.get('kwargs', {})
+        kwargs = {}
+        for key in request.POST.keys():
+            if '[]' in key:
+                kwargs[key.replace('[]','')] = request.POST.getlist(key)
+            elif key not in ('method','username','password'):
+                kwargs[key] = request.POST.get(key)
         if not is_authenticate:
             username, password = _auth(request.POST)
     elif request.method == 'POST':
