@@ -2,7 +2,7 @@
     <legend>Запросы</legend>
     <i>Пераметры запросов могут передаваться в едином JSON-объекте посредством POST:</i>
 <pre>
-data = {
+jsonData = {
         'method': &lt;method_name&gt;,
         'kwargs': { 'key': &lt;param1&gt;, 'key2': &lt;param2&gt;,
                     'key3': [ &lt;param3_1&gt;, &lt;param3_2&gt;, &lt;param3_3&gt; ],
@@ -11,14 +11,29 @@ data = {
         'password': &lt;password&gt;,
 }</pre>
 <i>Либо они передаются непосредственно в POST запросе, причём параметры 
-авторизации везде необязательны. Пример для jQuery:</i>
+авторизации везде необязательны.</i>
+<i>Пример* для jQuery:</i>
 <pre>
 $.post('/api/', {
         'method': &lt;method_name&gt;,
         'key': &lt;param1&gt;, 'key2': &lt;param2&gt;,
         'key3': [ &lt;param3_1&gt;, &lt;param3_2&gt;, &lt;param3_3&gt; ]
 }, function() {});</pre>
-<i>Ключ "key3" в этом случае jQuery автоматически изменит на "key3[]".</i>
+<i>Ключ "key3" в этом случае jQuery автоматически изменит на "key3[]".<br>
+* В данном варианте можно передавать только списки и простые значения.<br>
+Пример** для jQuery:</i>
+<pre>
+$.post('/api/',
+    { jsonData: JSON.stringify({
+        'method': &lt;method_name&gt;,
+        'kwargs': { 'key': &lt;param1&gt;, 'key2': &lt;param2&gt;,
+                    'key3': [ &lt;param3_1&gt;, &lt;param3_2&gt;, &lt;param3_3&gt; ],
+                    ... },
+        })
+    }, function() {});</pre>
+<i>Для правильной сериализации дат в JSON лучше использовать специальный
+<a href="http://code.google.com/p/jquery-json/">плагин jQuery</a>.<br>
+** В данном варианте можно передавать любые сериализуемые объекты.</i>
 <hr>
 <i>Пример в Python с HTTP Basic авторизацией:</i>
 <pre>

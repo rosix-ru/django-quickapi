@@ -134,14 +134,15 @@ def run(request):
             username, password = _auth(request.POST)
     elif request.method == 'POST':
         try:
-            post = simplejson.loads(request.POST.keys()[0])
-            method = post.get('method', 'quickapi.test')
-            kwargs = post.get('kwargs', {})
-            if not is_authenticate:
-                username, password = _auth(post)
+            json = simplejson.loads(request.POST.get('jsonData', request.POST.keys()[0]))
+            method = json.get('method', 'quickapi.test')
+            kwargs = json.get('kwargs', {})
         except Exception as e:
             print e
             return JSONResponse(status=400, message=unicode(e))
+        else:
+            if not is_authenticate:
+                username, password = _auth(json)
     else:
         return JSONResponse(status=400, message=MESSAGES[400])
 
