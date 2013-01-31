@@ -122,21 +122,25 @@ def run(request):
         else:
             return None, None
 
+    def _get_kwargs(post):
+        kwargs = {}
+        for key in post.keys():
+            if '[]' in key and post is request.POST:
+                kwargs[key.replace('[]','')] = post.getlist(key)
+            elif key not in ('method','username','password'):
+                kwargs[key] = post.get(key)
+        return kwargs
+
     if 'method' in request.POST:
         method = request.POST.get('method', 'quickapi.test')
-        kwargs = {}
-        for key in request.POST.keys():
-            if '[]' in key:
-                kwargs[key.replace('[]','')] = request.POST.getlist(key)
-            elif key not in ('method','username','password'):
-                kwargs[key] = request.POST.get(key)
+        kwargs = _get_kwargs(request.POST)
         if not is_authenticate:
             username, password = _auth(request.POST)
     elif request.method == 'POST':
         try:
             json = simplejson.loads(request.POST.get('jsonData', request.POST.keys()[0]))
             method = json.get('method', 'quickapi.test')
-            kwargs = json.get('kwargs', {})
+            kwargs = json.get('kwargs', _get_kwargs(json))
         except Exception as e:
             print e
             return JSONResponse(status=400, message=unicode(e))
