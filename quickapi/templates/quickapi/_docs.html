@@ -79,8 +79,8 @@ JSON_object = {
     {% for m in methods|dictsort:"name" %}
         <tr>
             <td>{{ forloop.counter }}</td>
-            <td><strong>{{ m.name }}</strong></td>
-            <td>{{ m.doc|default:''|linebreaks }}</td>
+            <td><p><strong>{{ m.name }}</strong></p></td>
+            <td>{{ m.doc|safe }}</td>
         </tr>
     {% endfor %}
     </table>

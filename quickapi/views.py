@@ -45,6 +45,16 @@ from django.contrib.auth import authenticate, login
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.sites.models import Site
 from django.conf import settings
+from django.contrib.markup.templatetags.markup import markdown
+
+try:
+    # Проверка установленного в системе markdown.
+    markdown('*test*')
+except:
+    markdown = lambda x: x
+    BIT = '<br>'
+else:
+    BIT = '\n'
 
 from http import JSONResponse, MESSAGES
 from conf import QUICKAPI_DEFINED_METHODS
@@ -62,25 +72,39 @@ def test(request):
     }
     return JSONResponse(data=data)
 
-METHODS = {}
-for key,val in QUICKAPI_DEFINED_METHODS.items():
-    try:
-        method = __import__(val, fromlist=[''])
-    except ImportError:
+def drop_space(doc):
+    """ Удаление начальных и конечных пробелов в документации.
+        Обратное слияние строк в текст зависит от наличия markdown
+        в системе.
+    """
+    return BIT.join([ x.strip() for x in doc.split('\n')])
+
+def get_methods(dic=QUICKAPI_DEFINED_METHODS):
+    """ Преобразует словарь заданных строками методов, реальными
+        объектами функций.
+    """
+    methods = {}
+    for key,val in dic.items():
         try:
-            L = val.split('.')
-            _method = L[-1]
-            _module = '.'.join(L[:-1])
-            module = __import__(_module, fromlist=[''])
-            method = getattr(module, _method)
-        except ImportError as e:
-            print e
-            method = None
-    if method:
-        METHODS[key] = { 'method': method, 'doc': method.__doc__, 'name': key }
+            method = __import__(val, fromlist=[''])
+        except ImportError:
+            try:
+                L = val.split('.')
+                _method = L[-1]
+                _module = '.'.join(L[:-1])
+                module = __import__(_module, fromlist=[''])
+                method = getattr(module, _method)
+            except ImportError as e:
+                print e
+                method = None
+        if method:
+            methods[key] = { 'method': method, 'doc': markdown(drop_space(method.__doc__)), 'name': key }
+    return methods
+
+METHODS = get_methods()
 
 @csrf_exempt
-def api(request):
+def api(request, dict_methods=None):
     """ Распределяет запросы.
         Структура запроса = {
             'method': u'Имя вызываемого метода',
@@ -91,21 +115,30 @@ def api(request):
             'user': u'имя пользователя',
             'pass': u'пароль пользователя',
         }
+        Параметр "dict_methods" может использоваться сторонними приложениями
+        для организации определённых наборов методов API.
+        По-умолчанию словарь методов определяется в переменной
+        settings.QUICKAPI_DEFINED_METHODS главного проекта.
     """
+    if dict_methods is None:
+        methods = METHODS
+    else:
+        methods = get_methods(dict_methods)
+
     if request.is_ajax() or request.POST:
         try:
-            return run(request)
+            return run(request, methods)
         except Exception as e:
             print e
             return JSONResponse(status=500, message=unicode(e))
     # Vars for docs
     ctx = {}
     ctx['site'] = Site.objects.get(id=settings.SITE_ID)
-    ctx['methods'] = METHODS.values()
+    ctx['methods'] = methods.values()
     return render_to_response('quickapi/index.html', ctx,
                             context_instance=RequestContext(request,))
 
-def run(request):
+def run(request, methods):
     """ Авторизует пользователя, если он не авторизован и запускает методы """
 
     is_authenticate = not request.user.is_anonymous()
@@ -158,7 +191,7 @@ def run(request):
             return JSONResponse(status=401, message=MESSAGES[401])
 
     try:
-        real_method = METHODS[method]['method']
+        real_method = methods[method]['method']
     except Exception as e:
         if settings.DEBUG:
             msg = unicode(e)
