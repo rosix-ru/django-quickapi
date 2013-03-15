@@ -13,7 +13,7 @@ setup(
     long_description=README,
     author='Grigoriy Kramarenko',
     author_email='root@rosix.ru',
-    url='http://develop.rosix.ru/django-quickapi/',
+    url='https://bitbucket.org/djbaldey/django-quickapi/',
     license='GNU General Public License v3 or later (GPLv3+)',
     platforms='any',
     zip_safe=False,

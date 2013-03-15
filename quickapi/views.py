@@ -46,6 +46,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.sites.models import Site
 from django.conf import settings
 from django.contrib.markup.templatetags.markup import markdown
+import traceback
 
 try:
     # Проверка установленного в системе markdown.
@@ -194,17 +195,17 @@ def run(request, methods):
         real_method = methods[method]['method']
     except Exception as e:
         if settings.DEBUG:
-            msg = unicode(e)
+            msg = unicode(traceback.format_exc(e))
+            print msg
         else:
             msg = MESSAGES[405]
-        print e
         return JSONResponse(status=405, message=msg)
     try:
         return real_method(request, **kwargs)
     except Exception as e:
         if settings.DEBUG:
-            msg = unicode(e)
+            msg = unicode(traceback.format_exc(e))
+            print msg
         else:
             msg = MESSAGES[415]
-        print e
         return JSONResponse(status=415, message=msg)
