@@ -66,6 +66,7 @@ from django.utils.translation import ugettext
 from django.http import HttpResponse
 from django.core.serializers.json import DjangoJSONEncoder
 from django.utils import simplejson
+from conf import QUICKAPI_INDENT
 
 MESSAGES = {
 #1xx
@@ -133,7 +134,7 @@ MESSAGES = {
 def _get_json_response(ctx={}):
     result = simplejson.dumps(ctx, ensure_ascii=False, 
                             cls=DjangoJSONEncoder,
-                            indent=4,
+                            indent=QUICKAPI_INDENT,
                         ).encode('utf-8', 'ignore')
     response = HttpResponse(mimetype="application/json",
         content_type="application/json")
