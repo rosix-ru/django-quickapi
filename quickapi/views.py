@@ -77,8 +77,26 @@ def drop_space(doc):
     """ Удаление начальных и конечных пробелов в документации.
         Обратное слияние строк в текст зависит от наличия markdown
         в системе.
+        
+        Выравнивает весь код по первой его строке.
     """
-    return BIT.join([ x.strip() for x in doc.split('\n')])
+    L = []
+    cut = 0
+    for s in doc.split('\n'):
+        # Если начинается код
+        if s.strip().startswith('`'):
+            cut = len(s[:s.find('`')]) # только выставляем обрезку
+        # Если заканчивается код
+        if s.strip().endswith('`'):
+            L.append(s[cut:])          # то записываем,
+            cut = 0                    # сбрасываем обрезку
+            continue                   # и прерываем цикл
+        # Теперь записываем
+        if cut:
+            L.append(s[cut:])          # с обрезкой
+        else:
+            L.append(s.strip())        # или полностью очищенную строку
+    return BIT.join(L)
 
 def get_methods(dic=QUICKAPI_DEFINED_METHODS):
     """ Преобразует словарь заданных строками методов, реальными
