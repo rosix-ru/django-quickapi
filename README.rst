@@ -3,11 +3,11 @@ Django QuickAPI is an easy way to setup mechanism calls for Django projects.
 Installation
 ------------
 
-- From pypi_:
+- From pypi_::
 
         $ pip install django-quickapi
 
-- Or:
+- Or::
 
         $ easy_install django-quickapi
 
@@ -21,7 +21,7 @@ Application Setup
             'quickapi'
         )
 
-- Add URLs entries:
+- Add URLs entries::
 
         urlpatterns = patterns('',
             ...
@@ -29,11 +29,11 @@ Application Setup
             ...
         )
 
-- Test address in browser:
+- Test address in browser::
 
         '/api/test/'
 
-- Create your function in views:
+- Create your function in views::
 
         from quickapi.http import JSONResponse, JSONRedirect
         from quickapi.decorators import login_required, api_required
@@ -45,7 +45,7 @@ Application Setup
             data = {'list': [1,2,3,4,5]}
             return JSONResponse(data=data)
 
-- Register your function in settings:
+- Register your function in settings::
 
         QUICKAPI_DEFINED_METHODS = {
             'mymethod': 'project.app.views.api_mymethod',
