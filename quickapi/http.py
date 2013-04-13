@@ -64,9 +64,10 @@ outdict = {
 """
 from django.utils.translation import ugettext
 from django.http import HttpResponse
-from django.core.serializers.json import DjangoJSONEncoder
 from django.utils import simplejson
 from conf import QUICKAPI_INDENT
+
+import datetime, decimal
 
 MESSAGES = {
 #1xx
@@ -130,6 +131,33 @@ MESSAGES = {
     509: ugettext('Bandwidth Limit Exceeded'),
     510: ugettext('Not Extended'),
 }
+
+class DjangoJSONEncoder(simplejson.JSONEncoder):
+    """
+    JSONEncoder subclass that knows how to encode date/time and decimal types.
+    """
+    def default(self, o):
+        # See "Date Time String Format" in the ECMA-262 specification.
+        if isinstance(o, datetime.datetime):
+            r = o.isoformat()
+            if o.microsecond:
+                r = r[:23] + r[26:]
+            if r.endswith('+00:00'):
+                r = r[:-6] + 'Z'
+            return r
+        elif isinstance(o, datetime.date):
+            return o.isoformat()
+        elif isinstance(o, datetime.time):
+            if is_aware(o):
+                raise ValueError("JSON can't represent timezone-aware times.")
+            r = o.isoformat()
+            if o.microsecond:
+                r = r[:12]
+            return r
+        elif isinstance(o, decimal.Decimal):
+            return str(o)
+        else:
+            return super(DjangoJSONEncoder, self).default(o)
 
 def _get_json_response(ctx={}):
     result = simplejson.dumps(ctx, ensure_ascii=False, 

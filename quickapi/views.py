@@ -117,13 +117,17 @@ def get_methods(dic=QUICKAPI_DEFINED_METHODS):
                 print e
                 method = None
         if method:
-            methods[key] = { 'method': method, 'doc': markdown(drop_space(method.__doc__)), 'name': key }
+            methods[key] = {
+                'method': method,
+                'doc': markdown(drop_space(method.__doc__)),
+                'name': key
+            }
     return methods
 
 METHODS = get_methods()
 
 @csrf_exempt
-def api(request, dict_methods=None):
+def index(request, dict_methods=None):
     """ Распределяет запросы.
         Структура запроса = {
             'method': u'Имя вызываемого метода',
@@ -156,6 +160,9 @@ def api(request, dict_methods=None):
     ctx['methods'] = methods.values()
     return render_to_response('quickapi/index.html', ctx,
                             context_instance=RequestContext(request,))
+
+# Older
+api = index
 
 def run(request, methods):
     """ Авторизует пользователя, если он не авторизован и запускает методы """

@@ -36,12 +36,9 @@
 #   <http://www.gnu.org/licenses/>.
 ###############################################################################
 """
-from django.conf.urls.defaults import *
-import datetime
+from django.conf.urls import *
 
-import views
-
-urlpatterns = patterns('',
-    url(r'^$', views.api, name='quickapi'),
-    url(r'^test/$', views.test, name='quickapi_test'),
+urlpatterns = patterns('quickapi.views',
+    url(r'^$',      'index', name='index'),
+    url(r'^test/$', 'test',  name='test'),
 )
