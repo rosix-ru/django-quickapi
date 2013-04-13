@@ -39,6 +39,6 @@
 from django.conf.urls import *
 
 urlpatterns = patterns('quickapi.views',
-    url(r'^$',      'index', name='index'),
-    url(r'^test/$', 'test',  name='test'),
+    url(r'^$',      'index', name='quickapi_index'),
+    url(r'^test/$', 'test',  name='quickapi_test'),
 )
