@@ -4,7 +4,7 @@ import quickapi
 
 def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
-README = read('README.md')
+README = read('README.rst')
 
 setup(
     name='django-quickapi',
@@ -21,7 +21,7 @@ setup(
     include_package_data = True,
     install_requires=[],
     classifiers=[
-        'Development Status :: 3 - Alpha',
+        'Development Status :: 4 - Beta',
         'Environment :: Web Environment',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)',
