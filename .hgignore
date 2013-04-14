@@ -7,7 +7,7 @@
 \.7z$
 \.sqlite$
 \.db$
-^static/.*$
+^wiki/.*$
 ^media/.*\.sql$
 ^media/.*\.log$
 ^media/.*\.txt$

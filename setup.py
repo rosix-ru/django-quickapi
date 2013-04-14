@@ -3,14 +3,16 @@ import os
 import quickapi
 
 def read(fname):
-    return open(os.path.join(os.path.dirname(__file__), fname)).read()
-README = read('README.rst')
+    try:
+        return open(os.path.join(os.path.dirname(__file__), fname)).read()
+    except:
+        return ''
 
 setup(
     name='django-quickapi',
     version=quickapi.__version__,
     description='The Django-application for the fast organization API.',
-    long_description=README,
+    long_description=read('README.md'),
     author='Grigoriy Kramarenko',
     author_email='root@rosix.ru',
     url='https://bitbucket.org/djbaldey/django-quickapi/',
