@@ -58,7 +58,7 @@ else:
     BIT = '\n'
 
 from http import JSONResponse, MESSAGES
-from conf import QUICKAPI_DEFINED_METHODS
+from conf import QUICKAPI_DEFINED_METHODS, QUICKAPI_ONLY_AUTHORIZED_USERS
 
 @csrf_exempt
 def test(request):
@@ -213,7 +213,7 @@ def run(request, methods):
         user = authenticate(username=username, password=password)
         if user is not None and user.is_active:
             login(request, user)
-        else:
+        elif QUICKAPI_ONLY_AUTHORIZED_USERS:
             return JSONResponse(status=401, message=MESSAGES[401])
 
     try:
