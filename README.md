@@ -8,7 +8,7 @@ The API is built on the RPC scheme: one address - many methods.
 
 **Wiki**
 
-See https://bitbucket.org/djbaldey/django-quickapi/wiki/
+See https://bitbucket.org/rosix/django-quickapi/wiki/
 
 **Notes**
 

@@ -15,7 +15,7 @@ setup(
     long_description=read('README.md'),
     author='Grigoriy Kramarenko',
     author_email='root@rosix.ru',
-    url='https://bitbucket.org/djbaldey/django-quickapi/',
+    url='https://bitbucket.org/rosix/django-quickapi/',
     license='GNU General Public License v3 or later (GPLv3+)',
     platforms='any',
     zip_safe=False,
