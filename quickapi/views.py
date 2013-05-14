@@ -45,16 +45,16 @@ from django.contrib.auth import authenticate, login
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.sites.models import Site
 from django.conf import settings
-from django.contrib.markup.templatetags.markup import markdown
 import traceback
 
 try:
     # Проверка установленного в системе markdown.
-    markdown('*test*')
+    from markdown import markdown as _markdown
 except:
     markdown = lambda x: x
     BIT = '<br>'
 else:
+    markdown = lambda x: _markdown(x.decode('utf-8'))
     BIT = '\n'
 
 from http import JSONResponse, MESSAGES
@@ -84,7 +84,7 @@ def drop_space(doc):
     cut = 0
     for s in doc.split('\n'):
         # Если начинается код
-        if s.strip().startswith('`'):
+        if s.strip(' ').startswith('`'):
             cut = len(s[:s.find('`')]) # только выставляем обрезку
         # Если заканчивается код
         if s.strip().endswith('`'):
@@ -95,7 +95,7 @@ def drop_space(doc):
         if cut:
             L.append(s[cut:])          # с обрезкой
         else:
-            L.append(s.strip())        # или полностью очищенную строку
+            L.append(s.strip(' '))     # или полностью очищенную строку
     return BIT.join(L)
 
 def get_methods(dic=QUICKAPI_DEFINED_METHODS):
@@ -117,9 +117,10 @@ def get_methods(dic=QUICKAPI_DEFINED_METHODS):
                 print e
                 method = None
         if method:
+            text = drop_space(method.__doc__)
             methods[key] = {
                 'method': method,
-                'doc': markdown(drop_space(method.__doc__)),
+                'doc': markdown(text),
                 'name': key
             }
     return methods
