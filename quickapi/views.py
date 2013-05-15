@@ -44,7 +44,7 @@ from django.utils import simplejson
 from django.contrib.auth import authenticate, login
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.sites.models import Site
-from django.conf import settings
+from django.utils.termcolors import colorize
 import traceback
 
 try:
@@ -58,7 +58,8 @@ else:
     BIT = '\n'
 
 from http import JSONResponse, MESSAGES
-from conf import QUICKAPI_DEFINED_METHODS, QUICKAPI_ONLY_AUTHORIZED_USERS
+from conf import QUICKAPI_DEFINED_METHODS, QUICKAPI_ONLY_AUTHORIZED_USERS,\
+                 QUICKAPI_DEBUG, SITE_ID
 
 @csrf_exempt
 def test(request):
@@ -114,7 +115,7 @@ def get_methods(dic=QUICKAPI_DEFINED_METHODS):
                 module = __import__(_module, fromlist=[''])
                 method = getattr(module, _method)
             except ImportError as e:
-                print e
+                print colorize(unicode(e), fg='red')
                 method = None
         if method:
             text = drop_space(method.__doc__)
@@ -144,20 +145,27 @@ def index(request, dict_methods=None):
         По-умолчанию словарь методов определяется в переменной
         settings.QUICKAPI_DEFINED_METHODS главного проекта.
     """
+    if QUICKAPI_DEBUG:
+        p = '\nQUICKAPI:'
+        print colorize(p, fg='blue')
+        p = '\trequest.is_ajax()\t== %s' % request.is_ajax()
+        print colorize(p, fg='blue')
+
     if dict_methods is None:
         methods = METHODS
     else:
         methods = get_methods(dict_methods)
 
-    if request.is_ajax() or request.POST:
+    if request.is_ajax() or request.method == 'POST':
         try:
             return run(request, methods)
         except Exception as e:
-            print e
+            print colorize(unicode(e), fg='red')
             return JSONResponse(status=500, message=unicode(e))
+
     # Vars for docs
     ctx = {}
-    ctx['site'] = Site.objects.get(id=settings.SITE_ID)
+    ctx['site'] = Site.objects.get(id=SITE_ID)
     ctx['methods'] = methods.values()
     return render_to_response('quickapi/index.html', ctx,
                             context_instance=RequestContext(request,))
@@ -169,6 +177,9 @@ def run(request, methods):
     """ Авторизует пользователя, если он не авторизован и запускает методы """
 
     is_authenticate = not request.user.is_anonymous()
+    if QUICKAPI_DEBUG:
+        p = '\trun as user\t\t== %s' % request.user
+        print colorize(p, fg='blue')
 
     def _auth(post):
         if request.META.has_key('HTTP_AUTHORIZATION'):
@@ -202,7 +213,10 @@ def run(request, methods):
             method = json.get('method', 'quickapi.test')
             kwargs = json.get('kwargs', _get_kwargs(json))
         except Exception as e:
-            print e
+            p = '\t%s' % e
+            print colorize(p, fg='red')
+            p = '\trequest.POST\t\t== %s' % request.POST
+            print colorize(p, fg='red')
             return JSONResponse(status=400, message=unicode(e))
         else:
             if not is_authenticate:
@@ -217,10 +231,14 @@ def run(request, methods):
         elif QUICKAPI_ONLY_AUTHORIZED_USERS:
             return JSONResponse(status=401, message=MESSAGES[401])
 
+    if QUICKAPI_DEBUG:
+        p = '\tlogin user\t\t== %s' % request.user
+        print colorize(p, fg='blue')
+
     try:
         real_method = methods[method]['method']
     except Exception as e:
-        if settings.DEBUG:
+        if QUICKAPI_DEBUG:
             msg = unicode(traceback.format_exc(e))
             print msg
         else:
@@ -229,7 +247,7 @@ def run(request, methods):
     try:
         return real_method(request, **kwargs)
     except Exception as e:
-        if settings.DEBUG:
+        if QUICKAPI_DEBUG:
             msg = unicode(traceback.format_exc(e))
             print msg
         else:
