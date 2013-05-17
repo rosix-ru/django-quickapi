@@ -40,7 +40,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.utils.translation import ugettext
 from django.template import RequestContext
 from django.shortcuts import render_to_response
-from django.utils import simplejson
+import json as jsonlib
 from django.contrib.auth import authenticate, login
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.sites.models import Site
@@ -54,7 +54,7 @@ except:
     markdown = lambda x: x
     BIT = '<br>'
 else:
-    markdown = lambda x: _markdown(x.decode('utf-8'))
+    markdown = lambda x: _markdown(x)
     BIT = '\n'
 
 from http import JSONResponse, MESSAGES
@@ -119,11 +119,15 @@ def get_methods(dic=QUICKAPI_DEFINED_METHODS):
                 method = None
         if method:
             text = drop_space(method.__doc__)
-            methods[key] = {
-                'method': method,
-                'doc': markdown(text),
-                'name': key
-            }
+            try:
+                text = markdown(text.decode('utf-8'))
+            except UnicodeDecodeError:
+                try:
+                    text = markdown(text)
+                except:
+                    pass
+            methods[key] = {'method': method, 'doc': text, 'name': key}
+
     return methods
 
 METHODS = get_methods()
@@ -209,7 +213,7 @@ def run(request, methods):
             username, password = _auth(request.POST)
     elif request.method == 'POST':
         try:
-            json = simplejson.loads(request.POST.get('jsonData', request.POST.keys()[0]))
+            json = jsonlib.loads(request.POST.get('jsonData', request.POST.keys()[0]))
             method = json.get('method', 'quickapi.test')
             kwargs = json.get('kwargs', _get_kwargs(json))
         except Exception as e:

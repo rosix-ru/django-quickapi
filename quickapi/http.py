@@ -64,7 +64,8 @@ outdict = {
 """
 from django.utils.translation import ugettext
 from django.http import HttpResponse
-from django.utils import simplejson
+import json as jsonlib
+from django.utils.functional import Promise
 from conf import QUICKAPI_INDENT
 
 import datetime, decimal
@@ -132,13 +133,15 @@ MESSAGES = {
     510: ugettext('Not Extended'),
 }
 
-class DjangoJSONEncoder(simplejson.JSONEncoder):
+class DjangoJSONEncoder(jsonlib.JSONEncoder):
     """
     JSONEncoder subclass that knows how to encode date/time and decimal types.
     """
     def default(self, o):
+        if isinstance(o, Promise):
+            return unicode(o)
         # See "Date Time String Format" in the ECMA-262 specification.
-        if isinstance(o, datetime.datetime):
+        elif isinstance(o, datetime.datetime):
             r = o.isoformat()
             if o.microsecond:
                 r = r[:23] + r[26:]
@@ -160,7 +163,7 @@ class DjangoJSONEncoder(simplejson.JSONEncoder):
             return super(DjangoJSONEncoder, self).default(o)
 
 def _get_json_response(ctx={}):
-    result = simplejson.dumps(ctx, ensure_ascii=False, 
+    result = jsonlib.dumps(ctx, ensure_ascii=False, 
                             cls=DjangoJSONEncoder,
                             indent=QUICKAPI_INDENT,
                         ).encode('utf-8', 'ignore')
