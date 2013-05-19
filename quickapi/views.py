@@ -220,7 +220,7 @@ def run(request, methods):
             p = '\t%s' % e
             print colorize(p, fg='red')
             p = '\trequest.POST\t\t== %s' % request.POST
-            print colorize(p, fg='red')
+            print colorize(p, fg='blue')
             return JSONResponse(status=400, message=unicode(e))
         else:
             if not is_authenticate:
