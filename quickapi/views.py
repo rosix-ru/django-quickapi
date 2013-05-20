@@ -59,7 +59,7 @@ else:
 
 from http import JSONResponse, MESSAGES
 from conf import QUICKAPI_DEFINED_METHODS, QUICKAPI_ONLY_AUTHORIZED_USERS,\
-                 QUICKAPI_DEBUG, SITE_ID
+                 QUICKAPI_DEBUG, DEBUG, SITE_ID
 
 @csrf_exempt
 def test(request):
@@ -217,10 +217,14 @@ def run(request, methods):
             method = json.get('method', 'quickapi.test')
             kwargs = json.get('kwargs', _get_kwargs(json))
         except Exception as e:
-            p = '\t%s' % e
-            print colorize(p, fg='red')
-            p = '\trequest.POST\t\t== %s' % request.POST
-            print colorize(p, fg='blue')
+            pe = '\t%s' % e
+            ppost = '\trequest.POST\t\t== %s' % request.POST
+            if QUICKAPI_DEBUG:
+                print colorize(pe, fg='red')
+                print colorize(ppost, fg='blue')
+            else:
+                print pe
+                print ppost
             return JSONResponse(status=400, message=unicode(e))
         else:
             if not is_authenticate:
@@ -242,7 +246,7 @@ def run(request, methods):
     try:
         real_method = methods[method]['method']
     except Exception as e:
-        if QUICKAPI_DEBUG:
+        if DEBUG:
             msg = unicode(traceback.format_exc(e))
             print msg
         else:
@@ -251,7 +255,7 @@ def run(request, methods):
     try:
         return real_method(request, **kwargs)
     except Exception as e:
-        if QUICKAPI_DEBUG:
+        if DEBUG:
             msg = unicode(traceback.format_exc(e))
             print msg
         else:
