@@ -45,6 +45,7 @@ from django.contrib.auth import authenticate, login
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.sites.models import Site
 from django.utils.termcolors import colorize
+from django.core.mail import mail_admins
 import traceback
 
 try:
@@ -246,8 +247,8 @@ def run(request, methods):
     try:
         real_method = methods[method]['method']
     except Exception as e:
+        msg = unicode(traceback.format_exc(e))
         if DEBUG:
-            msg = unicode(traceback.format_exc(e))
             print msg
         else:
             msg = MESSAGES[405]
@@ -255,9 +256,10 @@ def run(request, methods):
     try:
         return real_method(request, **kwargs)
     except Exception as e:
+        msg = unicode(traceback.format_exc(e))
         if DEBUG:
-            msg = unicode(traceback.format_exc(e))
             print msg
         else:
-            msg = MESSAGES[415]
-        return JSONResponse(status=415, message=msg)
+            mail_admins('QuickAPI method error', msg +'\n\n'+ unicode(request))
+            msg = MESSAGES[500]
+        return JSONResponse(status=500, message=msg)
