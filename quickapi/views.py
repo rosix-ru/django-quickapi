@@ -165,7 +165,8 @@ def index(request, dict_methods=None):
         try:
             return run(request, methods)
         except Exception as e:
-            print colorize(unicode(e), fg='red')
+            if QUICKAPI_DEBUG:
+                print colorize(unicode(e), fg='red')
             return JSONResponse(status=500, message=unicode(e))
 
     # Vars for docs
@@ -231,14 +232,14 @@ def run(request, methods):
             if not is_authenticate:
                 username, password = _auth(json)
     else:
-        return JSONResponse(status=400, message=MESSAGES[400])
+        return JSONResponse(status=400)
 
     if not is_authenticate:
         user = authenticate(username=username, password=password)
         if user is not None and user.is_active:
             login(request, user)
         elif QUICKAPI_ONLY_AUTHORIZED_USERS:
-            return JSONResponse(status=401, message=MESSAGES[401])
+            return JSONResponse(status=401)
 
     if QUICKAPI_DEBUG:
         p = '\tlogin user\t\t== %s' % request.user
