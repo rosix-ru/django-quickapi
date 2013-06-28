@@ -163,10 +163,14 @@ class DjangoJSONEncoder(jsonlib.JSONEncoder):
             return super(DjangoJSONEncoder, self).default(o)
 
 def _get_json_response(ctx={}):
-    result = jsonlib.dumps(ctx, ensure_ascii=False, 
+    result = jsonlib.dumps(ctx, ensure_ascii=True, 
                             cls=DjangoJSONEncoder,
                             indent=QUICKAPI_INDENT,
-                        ).encode('utf-8', 'ignore')
+                        )
+    try:
+        result = result.encode('utf-8')
+    except:
+        pass
     response = HttpResponse(mimetype="application/json",
         content_type="application/json")
     if len(result)>512:
