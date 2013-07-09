@@ -37,10 +37,11 @@ $.post('/api/',
 <hr>
 <i>Пример в Python с HTTP Basic авторизацией:</i>
 <pre>
-import urllib2, json, base64
+import urllib2, urllib, json, base64
 url = 'https://{{ request.get_host }}/api/'
 data = {'method':"get_orders_id", 'kwargs':{'date':'2012-01-01', 'state': 4 },}
-req = urllib2.Request(url, data=json.dumps(data),
+data = urllib.urlencode({'jsonData':json.dumps(data)})
+req = urllib2.Request(url, data=data,
     headers={
         'Authorization': 'Basic ' + base64.b64encode('%s:%s' % ('login', 'passwd'))
     }
@@ -50,10 +51,11 @@ print r.read()</pre>
 <hr>
 <i>Пример в Python без использования HTTP авторизации:</i>
 <pre>
-import urllib2, json
+import urllib2, urllib, json
 url = 'https://{{ request.get_host }}/api/'
 data = {'username':'login','password':'passwd','method':"get_orders_id", 'kwargs':{'date': '2012-01-01', 'state':2 }, }
-r = urllib2.urlopen(url, data=json.dumps(data))
+data = urllib.urlencode({'jsonData':json.dumps(data)})
+r = urllib2.urlopen(url, data=data)
 print r.read()</pre>
 </div>
 <hr>
