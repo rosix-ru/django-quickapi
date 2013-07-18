@@ -261,6 +261,16 @@ def run(request, methods):
         if DEBUG:
             print msg
         else:
-            mail_admins('QuickAPI method error', msg +'\n\n'+ unicode(request))
-            msg = MESSAGES[500]
-        return JSONResponse(status=500, message=msg)
+            try:
+                msg = msg.decode('utf-8')
+            except:
+                pass
+            mail_admins(u'QuickAPI method error', msg +'\n\n'+ unicode(request))
+        try:
+            return JSONResponse(status=500, message=str(e).decode('utf-8'))
+        except:
+            try:
+                return JSONResponse(status=500, message=unicode(e))
+            except:
+                pass
+            return JSONResponse(status=500, message=MESSAGES[500])
