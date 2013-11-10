@@ -38,7 +38,7 @@ $.post('/api/',
 <i>Пример в Python с HTTP Basic авторизацией:</i>
 <pre>
 import urllib2, urllib, json, base64
-url = 'https://{{ request.get_host }}/api/'
+url = 'https://{{ request.get_host|default:'localhost' }}/api/'
 data = {'method':"get_orders_id", 'kwargs':{'date':'2012-01-01', 'state': 4 },}
 data = urllib.urlencode({'jsonData':json.dumps(data)})
 req = urllib2.Request(url, data=data,
@@ -52,7 +52,7 @@ print r.read()</pre>
 <i>Пример в Python без использования HTTP авторизации:</i>
 <pre>
 import urllib2, urllib, json
-url = 'https://{{ request.get_host }}/api/'
+url = 'https://{{ request.get_host|default:'localhost' }}/api/'
 data = {'username':'login','password':'passwd','method':"get_orders_id", 'kwargs':{'date': '2012-01-01', 'state':2 }, }
 data = urllib.urlencode({'jsonData':json.dumps(data)})
 r = urllib2.urlopen(url, data=data)

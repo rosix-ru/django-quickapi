@@ -36,17 +36,20 @@
 #   <http://www.gnu.org/licenses/>.
 ###############################################################################
 """
-from django.utils.translation import ugettext_lazy as _
-from django.utils.translation import ugettext
-from django.template import RequestContext
-from django.shortcuts import render_to_response
-import json as jsonlib
 from django.contrib.auth import authenticate, login
-from django.views.decorators.csrf import csrf_exempt
-from django.contrib.sites.models import Site
-from django.utils.termcolors import colorize
 from django.core.mail import mail_admins
-import traceback
+from django.shortcuts import render_to_response
+from django.template import RequestContext
+from django.views.decorators.csrf import csrf_exempt
+from django.utils import timezone
+from django.utils.termcolors import colorize
+from django.utils.translation import ugettext, ugettext_lazy as _
+
+from quickapi.http import JSONResponse, MESSAGES
+from quickapi.conf import (settings, QUICKAPI_DEFINED_METHODS,
+    QUICKAPI_ONLY_AUTHORIZED_USERS, QUICKAPI_DEBUG, DEBUG, SITE_ID)
+
+import traceback, json as jsonlib, decimal
 
 try:
     # Проверка установленного в системе markdown.
@@ -58,9 +61,11 @@ else:
     markdown = lambda x: _markdown(x)
     BIT = '\n'
 
-from http import JSONResponse, MESSAGES
-from conf import QUICKAPI_DEFINED_METHODS, QUICKAPI_ONLY_AUTHORIZED_USERS,\
-                 QUICKAPI_DEBUG, DEBUG, SITE_ID
+if 'django.contrib.sites' in settings.INSTALLED_APPS:
+    from django.contrib.sites.models import Site
+    site = Site.objects.get(id=SITE_ID)
+else:
+    site = None
 
 @csrf_exempt
 def test(request):
@@ -68,8 +73,10 @@ def test(request):
     data = {
         'integer': 9999,
         'float': 9999.999,
+        'decimal': decimal.Decimal('9999.999'),
         'boolean': True,
         'string': 'String',
+        'datetime': timezone.now(),
         'list': [9999, True, 'String'],
         'dict': {'a': 1, 'b': 2, 'c': 3}
     }
@@ -171,7 +178,7 @@ def index(request, dict_methods=None):
 
     # Vars for docs
     ctx = {}
-    ctx['site'] = Site.objects.get(id=SITE_ID)
+    ctx['site'] = site
     ctx['methods'] = methods.values()
     return render_to_response('quickapi/index.html', ctx,
                             context_instance=RequestContext(request,))
@@ -243,6 +250,8 @@ def run(request, methods):
 
     if QUICKAPI_DEBUG:
         p = '\tlogin user\t\t== %s' % request.user
+        print colorize(p, fg='blue')
+        p = '\tmethod\t\t\t== %s' % method
         print colorize(p, fg='blue')
 
     try:

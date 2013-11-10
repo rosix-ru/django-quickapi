@@ -62,13 +62,14 @@ outdict = {
     'data': { 'Location': '/accounts/login/', },
 }
 """
-from django.utils.translation import ugettext
 from django.http import HttpResponse
-import json as jsonlib
 from django.utils.functional import Promise
-from conf import QUICKAPI_INDENT
+from django.utils.translation import ugettext
+from django.utils.timezone import is_aware
 
-import datetime, decimal
+from quickapi.conf import QUICKAPI_INDENT
+
+import datetime, decimal, json as jsonlib
 
 MESSAGES = {
 #1xx
@@ -133,15 +134,14 @@ MESSAGES = {
     510: ugettext('Not Extended'),
 }
 
-class DjangoJSONEncoder(jsonlib.JSONEncoder):
+class JSONEncoder(jsonlib.JSONEncoder):
     """
-    JSONEncoder subclass that knows how to encode date/time and decimal types.
+    JSONEncoder subclass that knows how to encode date/time, decimal
+    types and Lazy objects.
     """
     def default(self, o):
-        if isinstance(o, Promise):
-            return unicode(o)
         # See "Date Time String Format" in the ECMA-262 specification.
-        elif isinstance(o, datetime.datetime):
+        if isinstance(o, datetime.datetime):
             r = o.isoformat()
             if o.microsecond:
                 r = r[:23] + r[26:]
@@ -158,9 +158,13 @@ class DjangoJSONEncoder(jsonlib.JSONEncoder):
                 r = r[:12]
             return r
         elif isinstance(o, decimal.Decimal):
-            return str(o)
+            return float(o)
+        elif isinstance(o, Promise):
+            return unicode(o)
         else:
-            return super(DjangoJSONEncoder, self).default(o)
+            return super(JSONEncoder, self).default(o)
+
+DjangoJSONEncoder = JSONEncoder
 
 def _get_json_response(ctx={}):
     result = jsonlib.dumps(ctx, ensure_ascii=True, 
