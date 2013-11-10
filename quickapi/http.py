@@ -62,6 +62,7 @@ outdict = {
     'data': { 'Location': '/accounts/login/', },
 }
 """
+from django.conf import settings
 from django.http import HttpResponse
 from django.utils.functional import Promise
 from django.utils.translation import ugettext
@@ -172,11 +173,12 @@ def _get_json_response(ctx={}):
                             indent=QUICKAPI_INDENT,
                         )
     try:
-        result = result.encode('utf-8')
+        result = result.encode(settings.DEFAULT_CHARSET)
     except:
         pass
-    response = HttpResponse(mimetype="application/json",
-        content_type="application/json")
+    content_type = "%s; charset=%s" % ("application/json",
+                    settings.DEFAULT_CHARSET)
+    response = HttpResponse(content_type=content_type)
     if len(result)>512:
         response['Content-encoding'] = 'deflate'
         result = result.encode('zlib')
