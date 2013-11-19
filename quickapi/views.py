@@ -43,7 +43,8 @@ from django.template import RequestContext
 from django.views.decorators.csrf import csrf_exempt
 from django.utils import timezone
 from django.utils.termcolors import colorize
-from django.utils.translation import ugettext, ugettext_lazy as _
+from django.utils import translation
+from django.utils.translation import ugettext_lazy as _
 
 from quickapi.http import JSONResponse, MESSAGES
 from quickapi.conf import (settings, QUICKAPI_DEFINED_METHODS,
@@ -66,6 +67,18 @@ if 'django.contrib.sites' in settings.INSTALLED_APPS:
     site = Site.objects.get(id=SITE_ID)
 else:
     site = None
+
+def switch_language(request):
+    old_language = translation.get_language()
+    new_language = None
+    if getattr(settings, 'LANGUAGES', None) and \
+    'django.middleware.locale.LocaleMiddleware' in settings.MIDDLEWARE_CLASSES:
+        try:
+            new_language = translation.activate(request.LANGUAGE_CODE)
+        except:
+            translation.activate(old_language)
+    return old_language, new_language
+
 
 @csrf_exempt
 def test(request):
@@ -157,6 +170,9 @@ def index(request, dict_methods=None):
         По-умолчанию словарь методов определяется в переменной
         settings.QUICKAPI_DEFINED_METHODS главного проекта.
     """
+
+    switch_language(request)
+
     if QUICKAPI_DEBUG:
         p = '\nQUICKAPI:'
         print colorize(p, fg='blue')
@@ -188,6 +204,8 @@ api = index
 
 def run(request, methods):
     """ Авторизует пользователя, если он не авторизован и запускает методы """
+
+    switch_language(request)
 
     is_authenticate = not request.user.is_anonymous()
     if QUICKAPI_DEBUG:

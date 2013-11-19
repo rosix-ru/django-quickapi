@@ -65,7 +65,7 @@ outdict = {
 from django.conf import settings
 from django.http import HttpResponse
 from django.utils.functional import Promise
-from django.utils.translation import ugettext
+from django.utils.translation import ugettext_lazy as _
 from django.utils.timezone import is_aware
 
 from quickapi.conf import QUICKAPI_INDENT
@@ -74,65 +74,65 @@ import datetime, decimal, json as jsonlib
 
 MESSAGES = {
 #1xx
-    100: ugettext('Continue'),
-    101: ugettext('Switching Protocols'),
-    102: ugettext('Processing'),
+    100: _('Continue'),
+    101: _('Switching Protocols'),
+    102: _('Processing'),
 #2xx
-    200: ugettext('OK'),
-    201: ugettext('Created'),
-    202: ugettext('Accepted'),
-    203: ugettext('Non-Authoritative Information'),
-    204: ugettext('No Content'),
-    205: ugettext('Reset Content'),
-    206: ugettext('Partial Content'),
-    207: ugettext('Multi-Status'),
-    226: ugettext('IM Used'),
+    200: _('OK'),
+    201: _('Created'),
+    202: _('Accepted'),
+    203: _('Non-Authoritative Information'),
+    204: _('No Content'),
+    205: _('Reset Content'),
+    206: _('Partial Content'),
+    207: _('Multi-Status'),
+    226: _('IM Used'),
 #3xx
-    300: ugettext('Multiple Choices'),
-    301: ugettext('Moved Permanently'),
-    302: ugettext('Found'),
-    303: ugettext('See Other'),
-    304: ugettext('Not Modified'),
-    305: ugettext('Use Proxy'),
-    307: ugettext('Temporary Redirect'),
+    300: _('Multiple Choices'),
+    301: _('Moved Permanently'),
+    302: _('Found'),
+    303: _('See Other'),
+    304: _('Not Modified'),
+    305: _('Use Proxy'),
+    307: _('Temporary Redirect'),
 #4xx
-    400: ugettext('Bad Request'),
-    401: ugettext('Unauthorized'),
-    402: ugettext('Payment Required'),
-    403: ugettext('Forbidden'),
-    404: ugettext('Not Found'),
-    405: ugettext('Method Not Allowed'),
-    406: ugettext('Not Acceptable'),
-    407: ugettext('Proxy Authentication Required'),
-    408: ugettext('Request Timeout'),
-    409: ugettext('Conflict'),
-    410: ugettext('Gone'),
-    411: ugettext('Length Required'),
-    412: ugettext('Precondition Failed'),
-    413: ugettext('Request Entity Too Large'),
-    414: ugettext('Request-URI Too Large'),
-    415: ugettext('Unsupported Media Type'),
-    416: ugettext('Requested Range Not Satisfiable'),
-    417: ugettext('Expectation Failed'),
-    422: ugettext('Unprocessable Entity'),
-    423: ugettext('Locked'),
-    424: ugettext('Failed Dependency'),
-    425: ugettext('Unordered Collection'),
-    426: ugettext('Upgrade Required'),
-    449: ugettext('Retry With'),
-    456: ugettext('Unrecoverable Error'),
+    400: _('Bad Request'),
+    401: _('Unauthorized'),
+    402: _('Payment Required'),
+    403: _('Forbidden'),
+    404: _('Not Found'),
+    405: _('Method Not Allowed'),
+    406: _('Not Acceptable'),
+    407: _('Proxy Authentication Required'),
+    408: _('Request Timeout'),
+    409: _('Conflict'),
+    410: _('Gone'),
+    411: _('Length Required'),
+    412: _('Precondition Failed'),
+    413: _('Request Entity Too Large'),
+    414: _('Request-URI Too Large'),
+    415: _('Unsupported Media Type'),
+    416: _('Requested Range Not Satisfiable'),
+    417: _('Expectation Failed'),
+    422: _('Unprocessable Entity'),
+    423: _('Locked'),
+    424: _('Failed Dependency'),
+    425: _('Unordered Collection'),
+    426: _('Upgrade Required'),
+    449: _('Retry With'),
+    456: _('Unrecoverable Error'),
 # 5xx
-    500: ugettext('Internal Server Error'),
-    501: ugettext('Not Implemented'),
-    502: ugettext('Bad Gateway'),
-    503: ugettext('Service Unavailable'),
-    504: ugettext('Gateway Timeout'),
-    505: ugettext('HTTP Version Not Supported'),
-    506: ugettext('Variant Also Negotiates'),
-    507: ugettext('Insufficient Storage'),
-    508: ugettext('Loop Detected'),
-    509: ugettext('Bandwidth Limit Exceeded'),
-    510: ugettext('Not Extended'),
+    500: _('Internal Server Error'),
+    501: _('Not Implemented'),
+    502: _('Bad Gateway'),
+    503: _('Service Unavailable'),
+    504: _('Gateway Timeout'),
+    505: _('HTTP Version Not Supported'),
+    506: _('Variant Also Negotiates'),
+    507: _('Insufficient Storage'),
+    508: _('Loop Detected'),
+    509: _('Bandwidth Limit Exceeded'),
+    510: _('Not Extended'),
 }
 
 class JSONEncoder(jsonlib.JSONEncoder):
@@ -192,7 +192,7 @@ def check_status(dic):
 
 def check_message(dic):
     if dic['message'] is None:
-        dic['message'] = MESSAGES.get(dic['status'], ugettext('Undefined message'))
+        dic['message'] = MESSAGES.get(dic['status'], _('Undefined message'))
     return dic
 
 def JSONResponse(data={}, message=None, status=200, **kwargs):
