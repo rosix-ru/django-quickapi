@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-24 18:12+1100\n"
+"POT-Creation-Date: 2013-11-24 19:36+1100\n"
 "PO-Revision-Date: 2013-01-23 11:43+1100\n"
 "Last-Translator: Grigoriy Kramarenko <root@rosix.ru>\n"
 "Language-Team: \n"
@@ -282,35 +282,35 @@ msgstr ""
 "Так, например, если объект запроса хранит сессию пользователя, то "
 "авторизация происходит по этим данным."
 
-#: templates/quickapi/_requests.html:20
-msgid "Parameters, you can pass directly into the POST-query."
-msgstr "Параметры можно передавать непосредственно в POST-запросе."
-
-#: templates/quickapi/_requests.html:23 templates/quickapi/_requests.html:36
-#: templates/quickapi/_requests.html:52 templates/quickapi/_requests.html:67
+#: templates/quickapi/_requests.html:23 templates/quickapi/_requests.html:37
+#: templates/quickapi/_requests.html:53 templates/quickapi/_requests.html:68
 msgid "Example"
 msgstr "Пример"
 
-#: templates/quickapi/_requests.html:23 templates/quickapi/_requests.html:36
-#: templates/quickapi/_requests.html:52 templates/quickapi/_requests.html:67
+#: templates/quickapi/_requests.html:23 templates/quickapi/_requests.html:37
+#: templates/quickapi/_requests.html:53 templates/quickapi/_requests.html:68
 msgid "for"
 msgstr "для"
 
-#: templates/quickapi/_requests.html:32
+#: templates/quickapi/_requests.html:24
+msgid "Parameters, you can pass directly into the POST-query."
+msgstr "Параметры можно передавать непосредственно в POST-запросе."
+
+#: templates/quickapi/_requests.html:33
 msgid "In this variant, you can only pass lists and simple values."
 msgstr "В этом варианте можно передавать только простые списки и значения."
 
-#: templates/quickapi/_requests.html:33
+#: templates/quickapi/_requests.html:34
 msgid ""
 "Key \"key3\" in this case, jQuery will automatically change to \"key3[]\"."
 msgstr ""
 "Ключ \"key3\" в этом случае, jQuery автоматически заменит на \"key3[]\"."
 
-#: templates/quickapi/_requests.html:48
+#: templates/quickapi/_requests.html:49
 msgid "In this variant, you can transfer any serializable objects."
 msgstr "В этом варианте можно передавать любые сериализуемые объекты."
 
-#: templates/quickapi/_requests.html:49
+#: templates/quickapi/_requests.html:50
 msgid ""
 "To properly serialize dates in JSON is better to use special <a href="
 "\"http://code.google.com/p/jquery-json/\">jQuery plugin</a>."
@@ -318,11 +318,11 @@ msgstr ""
 "Для правильной сериализации дат в JSON лучше использовать специальный <a "
 "href=\"http://code.google.com/p/jquery-json/\">плагин jQuery</a>."
 
-#: templates/quickapi/_requests.html:52
+#: templates/quickapi/_requests.html:53
 msgid "with HTTP Basic authorization"
 msgstr "с HTTP Basic авторизацией:"
 
-#: templates/quickapi/_requests.html:67
+#: templates/quickapi/_requests.html:68
 msgid "without HTTP Basic authorization"
 msgstr "без HTTP Basic авторизации:"
 
@@ -336,7 +336,7 @@ msgstr "Коды HTTP, имеющие смысл."
 
 #: templates/quickapi/_responses.html:7
 msgid "The string message to the user (localization support)"
-msgstr "Строка сообщения для мользователя (с поддержкой локализации)"
+msgstr "Строка сообщения для пользователя (с поддержкой локализации)"
 
 #: templates/quickapi/_responses.html:8
 msgid "Nested object JSON"
