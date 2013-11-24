@@ -12,5 +12,5 @@ See https://bitbucket.org/rosix/django-quickapi/wiki/
 
 **Notes**
 
-*This is application tested on Django 1.4/1.5*
+*This is application tested on Django 1.4,1.5 and 1.6
 
