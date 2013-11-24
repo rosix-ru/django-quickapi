@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-24 19:36+1100\n"
+"POT-Creation-Date: 2013-11-24 19:56+1100\n"
 "PO-Revision-Date: 2013-01-23 11:43+1100\n"
 "Last-Translator: Grigoriy Kramarenko <root@rosix.ru>\n"
 "Language-Team: \n"
@@ -267,8 +267,8 @@ msgid "Requests"
 msgstr "Запросы"
 
 #: templates/quickapi/_requests.html:5
-msgid "Query parameters can be transmitted in a single JSON object via POST:"
-msgstr "Параметры запроса можно передать в одном JSON-объекте через POST:"
+msgid "Query parameters can be transmitted in a single JSON object via POST"
+msgstr "Параметры запроса можно передать в одном JSON-объекте через POST"
 
 #: templates/quickapi/_requests.html:18
 msgid "Authorization settings everywhere are optional."
@@ -320,11 +320,11 @@ msgstr ""
 
 #: templates/quickapi/_requests.html:53
 msgid "with HTTP Basic authorization"
-msgstr "с HTTP Basic авторизацией:"
+msgstr "с HTTP Basic авторизацией"
 
 #: templates/quickapi/_requests.html:68
 msgid "without HTTP Basic authorization"
-msgstr "без HTTP Basic авторизации:"
+msgstr "без HTTP Basic авторизации"
 
 #: templates/quickapi/_responses.html:3 templates/quickapi/base.html:56
 msgid "Responses"

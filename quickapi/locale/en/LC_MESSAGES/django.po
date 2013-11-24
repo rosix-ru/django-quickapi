@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-24 18:12+1100\n"
+"POT-Creation-Date: 2013-11-24 19:56+1100\n"
 "PO-Revision-Date: 2013-01-23 11:43+1100\n"
 "Last-Translator: Grigoriy Kramarenko <root@rosix.ru>\n"
 "Language: EN\n"
@@ -264,7 +264,7 @@ msgid "Requests"
 msgstr ""
 
 #: templates/quickapi/_requests.html:5
-msgid "Query parameters can be transmitted in a single JSON object via POST:"
+msgid "Query parameters can be transmitted in a single JSON object via POST"
 msgstr ""
 
 #: templates/quickapi/_requests.html:18
@@ -277,44 +277,44 @@ msgid ""
 "authentication occurs on these data."
 msgstr ""
 
-#: templates/quickapi/_requests.html:20
-msgid "Parameters, you can pass directly into the POST-query."
-msgstr ""
-
-#: templates/quickapi/_requests.html:23 templates/quickapi/_requests.html:36
-#: templates/quickapi/_requests.html:52 templates/quickapi/_requests.html:67
+#: templates/quickapi/_requests.html:23 templates/quickapi/_requests.html:37
+#: templates/quickapi/_requests.html:53 templates/quickapi/_requests.html:68
 msgid "Example"
 msgstr ""
 
-#: templates/quickapi/_requests.html:23 templates/quickapi/_requests.html:36
-#: templates/quickapi/_requests.html:52 templates/quickapi/_requests.html:67
+#: templates/quickapi/_requests.html:23 templates/quickapi/_requests.html:37
+#: templates/quickapi/_requests.html:53 templates/quickapi/_requests.html:68
 msgid "for"
 msgstr ""
 
-#: templates/quickapi/_requests.html:32
-msgid "In this variant, you can only pass lists and simple values."
+#: templates/quickapi/_requests.html:24
+msgid "Parameters, you can pass directly into the POST-query."
 msgstr ""
 
 #: templates/quickapi/_requests.html:33
+msgid "In this variant, you can only pass lists and simple values."
+msgstr ""
+
+#: templates/quickapi/_requests.html:34
 msgid ""
 "Key \"key3\" in this case, jQuery will automatically change to \"key3[]\"."
 msgstr ""
 
-#: templates/quickapi/_requests.html:48
+#: templates/quickapi/_requests.html:49
 msgid "In this variant, you can transfer any serializable objects."
 msgstr ""
 
-#: templates/quickapi/_requests.html:49
+#: templates/quickapi/_requests.html:50
 msgid ""
 "To properly serialize dates in JSON is better to use special <a href="
 "\"http://code.google.com/p/jquery-json/\">jQuery plugin</a>."
 msgstr ""
 
-#: templates/quickapi/_requests.html:52
+#: templates/quickapi/_requests.html:53
 msgid "with HTTP Basic authorization"
 msgstr ""
 
-#: templates/quickapi/_requests.html:67
+#: templates/quickapi/_requests.html:68
 msgid "without HTTP Basic authorization"
 msgstr ""
 
