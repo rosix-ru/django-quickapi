@@ -1,0 +1,125 @@
+{% load i18n l10n %}{% load url from future %}<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE|default:"ru" }}" {% if LANGUAGE_BIDI %}dir="rtl"{% endif %}>
+<head>
+    <title>{% block title %}{% trans 'API documentation' %}{% endblock %}</title>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- START: block style -->
+    {% block style %}
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="http://getbootstrap.com/dist/css/bootstrap.min.css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+
+    <style type="text/css">
+        #requests, #responses, #methods {
+            margin-top: 60px;
+        }
+        code {
+            display: block;
+            white-space: pre-wrap;
+        }
+    </style>
+    {% endblock %}
+    <!-- END: block style -->
+
+    <!-- START: block extrastyle -->
+    {% block extrastyle %}{% endblock %}
+    <!-- END: block extrastyle -->
+</head>
+
+
+<body>
+    <!-- START: block navbar -->
+    {% block navbar %}
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">{% trans 'Toggle navigation' %}</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">{% block navbar_brand %}{% trans 'API documentation' %}{% endblock %}</a>
+        </div>
+        <div class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li><a href="#requests"><span class="glyphicon glyphicon-arrow-up"></span> {% trans 'Requests' %}</a></li>
+            <li><a href="#responses"><span class="glyphicon glyphicon-arrow-down"></span> {% trans 'Responses' %}</a></li>
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                  <span class="glyphicon glyphicon-retweet"></span> {% trans 'Methods' %} <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a href="#methods">{% trans 'All methods' %}</a></li>
+                    <li class="divider"></li>
+                {% for m in methods|dictsort:"name" %}
+                    <li><a href="#method-{{ m.name }}">{{ m.name }}</a></li>
+                {% endfor %}
+                </ul>
+            </li>
+            {% block navbar_project %}<li>
+                <a href="{% block navbar_project_url %}/{% endblock %}">
+                    {% block navbar_project_label %}
+                    <span class="glyphicon glyphicon-home"></span> {% trans 'Project' %}
+                    {% endblock %}
+                </a>
+            </li>{% endblock %}
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+    {% endblock %}
+    <!-- END: block navbar -->
+
+    <!-- START: block container -->
+    {% block container %}
+    <div class="container">
+        <!-- START: block content -->
+        {% block content %}
+            <!-- START: block requests -->
+            {% block requests %}
+                {% include "quickapi/_requests.html" %}
+            {% endblock %}
+            <!-- END: block requests -->
+
+            <!-- START: block responses -->
+            {% block responses %}
+                {% include "quickapi/_responses.html" %}
+            {% endblock %}
+            <!-- END: block responses -->
+
+            <!-- START: block methods -->
+            {% block methods %}
+                {% include "quickapi/_methods.html" %}
+            {% endblock %}
+            <!-- END: block requests -->
+        {% endblock %}
+        <!-- END: block content -->
+    </div><!-- /.container -->
+    {% endblock %}
+    <!-- END: block container -->
+
+    <!-- START: block js -->
+    {% block js %}
+    <!-- Bootstrap -->
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://code.jquery.com/jquery.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
+    {% endblock %}
+
+    <!-- START: block extrajs -->
+    {% block extrajs %}{% endblock %}
+    <!-- END: block extrajs -->
+
+</body>
+</html>

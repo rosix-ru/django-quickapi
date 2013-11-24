@@ -1,0 +1,77 @@
+{% load i18n %}
+
+<div id="requests">
+    <legend><h1>{% trans 'Requests' %}</h1></legend>
+    <h4>{% trans 'Query parameters can be transmitted in a single JSON object via POST:' %}</h4>
+<pre>
+jsonData = {
+        'method': &lt;method_name&gt;,
+        'kwargs': { 'key': &lt;param1&gt;, 'key2': &lt;param2&gt;,
+                    'key3': [ &lt;param3_1&gt;, &lt;param3_2&gt;, &lt;param3_3&gt; ],
+                    ... },
+        'username': &lt;login_name&gt;,
+        'password': &lt;password&gt;,
+}
+</pre>
+
+    <blockquote>
+        <small>{% trans 'Authorization settings everywhere are optional.'%}
+            {% trans 'For example, if the request object stores a user session, then authentication occurs on these data.' %}
+        </small>
+    </blockquote>
+
+    <h4>{% trans 'Example' %} 1 {% trans 'for' %} jQuery:</h4>
+    <small class="text-muted">{% trans 'Parameters, you can pass directly into the POST-query.' %}</small>
+<pre>
+$.post('/api/', {
+        'method': &lt;method_name&gt;,
+        'key': &lt;param1&gt;, 'key2': &lt;param2&gt;,
+        'key3': [ &lt;param3_1&gt;, &lt;param3_2&gt;, &lt;param3_3&gt; ]
+}, function() {});
+</pre>
+    <blockquote>
+        <small>{% trans 'In this variant, you can only pass lists and simple values.' %}</small>
+        <small>{% trans 'Key "key3" in this case, jQuery will automatically change to "key3[]".' %}</small>
+    </blockquote>
+
+    <h4>{% trans 'Example' %} 2 {% trans 'for' %} jQuery:</h4>
+<pre>
+$.post('/api/',
+    { jsonData: JSON.stringify({
+        'method': &lt;method_name&gt;,
+        'kwargs': { 'key': &lt;param1&gt;, 'key2': &lt;param2&gt;,
+                    'key3': [ &lt;param3_1&gt;, &lt;param3_2&gt;, &lt;param3_3&gt; ],
+                    ... },
+        })
+    }, function() {});
+</pre>
+    <blockquote>
+    <small>{% trans 'In this variant, you can transfer any serializable objects.' %}</small>
+        <small>{% trans 'To properly serialize dates in JSON is better to use special <a href="http://code.google.com/p/jquery-json/">jQuery plugin</a>.' %}</small>
+    </blockquote>
+
+    <h4>{% trans 'Example' %} 3 {% trans 'for' %} Python {% trans 'with HTTP Basic authorization' %}:</h4>
+<pre>
+import urllib2, urllib, json, base64
+url = 'https://{{ request.get_host|default:'localhost' }}/api/'
+data = {'method':"get_orders_id", 'kwargs':{'date':'2012-01-01', 'state': 4 },}
+data = urllib.urlencode({'jsonData':json.dumps(data)})
+req = urllib2.Request(url, data=data,
+    headers={
+        'Authorization': 'Basic ' + base64.b64encode('%s:%s' % ('login', 'passwd'))
+    }
+)
+r = urllib2.urlopen(req)
+print r.read()
+</pre>
+
+    <h4>{% trans 'Example' %} 4 {% trans 'for' %} Python {% trans 'without HTTP Basic authorization' %}:</h4>
+<pre>
+import urllib2, urllib, json
+url = 'https://{{ request.get_host|default:'localhost' }}/api/'
+data = {'username':'login','password':'passwd','method':"get_orders_id", 'kwargs':{'date': '2012-01-01', 'state':2 }, }
+data = urllib.urlencode({'jsonData':json.dumps(data)})
+r = urllib2.urlopen(url, data=data)
+print r.read()
+</pre>
+</div>

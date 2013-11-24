@@ -10,358 +10,348 @@ msgstr ""
 "POT-Creation-Date: 2013-11-24 18:12+1100\n"
 "PO-Revision-Date: 2013-01-23 11:43+1100\n"
 "Last-Translator: Grigoriy Kramarenko <root@rosix.ru>\n"
-"Language-Team: \n"
-"Language: RU\n"
+"Language: EN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
 
 #: http.py:77
 msgid "Continue"
-msgstr "Продолжить"
+msgstr ""
 
 #: http.py:78
 msgid "Switching Protocols"
-msgstr "Переключение протоколов"
+msgstr ""
 
 #: http.py:79
 msgid "Processing"
-msgstr "Идёт обработка"
+msgstr ""
 
 #: http.py:81
 msgid "OK"
-msgstr "Хорошо"
+msgstr ""
 
 #: http.py:82
 msgid "Created"
-msgstr "Создано"
+msgstr ""
 
 #: http.py:83
 msgid "Accepted"
-msgstr "Принято"
+msgstr ""
 
 #: http.py:84
 msgid "Non-Authoritative Information"
-msgstr "Информация не авторитетна"
+msgstr ""
 
 #: http.py:85
 msgid "No Content"
-msgstr "Нет содержимого"
+msgstr ""
 
 #: http.py:86
 msgid "Reset Content"
-msgstr "Сбросить содержимое"
+msgstr ""
 
 #: http.py:87
 msgid "Partial Content"
-msgstr "Частичное содержимое"
+msgstr ""
 
 #: http.py:88
 msgid "Multi-Status"
-msgstr "Многостатусный"
+msgstr ""
 
 #: http.py:89
 msgid "IM Used"
-msgstr "Использовано IM"
+msgstr ""
 
 #: http.py:91
 msgid "Multiple Choices"
-msgstr "Множество выборов"
+msgstr ""
 
 #: http.py:92
 msgid "Moved Permanently"
-msgstr "Перемещено навсегда"
+msgstr ""
 
 #: http.py:93
 msgid "Found"
-msgstr "Найдено"
+msgstr ""
 
 #: http.py:94
 msgid "See Other"
-msgstr "Смотреть другое"
+msgstr ""
 
 #: http.py:95
 msgid "Not Modified"
-msgstr "Не изменялось"
+msgstr ""
 
 #: http.py:96
 msgid "Use Proxy"
-msgstr "Использовать прокси"
+msgstr ""
 
 #: http.py:97
 msgid "Temporary Redirect"
-msgstr "Временное перенаправление"
+msgstr ""
 
 #: http.py:99
 msgid "Bad Request"
-msgstr "Плохой запрос"
+msgstr ""
 
 #: http.py:100
 msgid "Unauthorized"
-msgstr "Не авторизован"
+msgstr ""
 
 #: http.py:101
 msgid "Payment Required"
-msgstr "Требуется оплата"
+msgstr ""
 
 #: http.py:102
 msgid "Forbidden"
-msgstr "Запрещено"
+msgstr ""
 
 #: http.py:103
 msgid "Not Found"
-msgstr "Не найдено"
+msgstr ""
 
 #: http.py:104
 msgid "Method Not Allowed"
-msgstr "Метод не доступен"
+msgstr ""
 
 #: http.py:105
 msgid "Not Acceptable"
-msgstr "Не приемлемо"
+msgstr ""
 
 #: http.py:106
 msgid "Proxy Authentication Required"
-msgstr "Необходима аутентификация прокси"
+msgstr ""
 
 #: http.py:107
 msgid "Request Timeout"
-msgstr "Истекло время ожидания"
+msgstr ""
 
 #: http.py:108
 msgid "Conflict"
-msgstr "Конфликт"
+msgstr ""
 
 #: http.py:109
 msgid "Gone"
-msgstr "Удалён"
+msgstr ""
 
 #: http.py:110
 msgid "Length Required"
-msgstr "Необходима длина"
+msgstr ""
 
 #: http.py:111
 msgid "Precondition Failed"
-msgstr "Условие ложно"
+msgstr ""
 
 #: http.py:112
 msgid "Request Entity Too Large"
-msgstr "Размер запроса слишком велик"
+msgstr ""
 
 #: http.py:113
 msgid "Request-URI Too Large"
-msgstr "Запрашиваемый URI слишком длинный"
+msgstr ""
 
 #: http.py:114
 msgid "Unsupported Media Type"
-msgstr "Неподдерживаемый тип данных"
+msgstr ""
 
 #: http.py:115
 msgid "Requested Range Not Satisfiable"
-msgstr "Запрашиваемый диапазон не достижим"
+msgstr ""
 
 #: http.py:116
 msgid "Expectation Failed"
-msgstr "Ожидаемое неприемлемо"
+msgstr ""
 
 #: http.py:117
 msgid "Unprocessable Entity"
-msgstr "Необрабатываемый экземпляр"
+msgstr ""
 
 #: http.py:118
 msgid "Locked"
-msgstr "Заблокировано"
+msgstr ""
 
 #: http.py:119
 msgid "Failed Dependency"
-msgstr "Невыполненная зависимость"
+msgstr ""
 
 #: http.py:120
 msgid "Unordered Collection"
-msgstr "Неупорядоченный набор"
+msgstr ""
 
 #: http.py:121
 msgid "Upgrade Required"
-msgstr "Необходимо обновление"
+msgstr ""
 
 #: http.py:122
 msgid "Retry With"
-msgstr "Повторить с"
+msgstr ""
 
 #: http.py:123
 msgid "Unrecoverable Error"
-msgstr "Некорректируемая ошибка"
+msgstr ""
 
 #: http.py:125
 msgid "Internal Server Error"
-msgstr "Внутренняя ошибка сервера"
+msgstr ""
 
 #: http.py:126
 msgid "Not Implemented"
-msgstr "Не реализовано"
+msgstr ""
 
 #: http.py:127
 msgid "Bad Gateway"
-msgstr "Плохой, ошибочный шлюз"
+msgstr ""
 
 #: http.py:128
 msgid "Service Unavailable"
-msgstr "Сервис недоступен"
+msgstr ""
 
 #: http.py:129
 msgid "Gateway Timeout"
-msgstr "Шлюз не отвечает"
+msgstr ""
 
 #: http.py:130
 msgid "HTTP Version Not Supported"
-msgstr "Версия HTTP не поддерживается"
+msgstr ""
 
 #: http.py:131
 msgid "Variant Also Negotiates"
-msgstr "Вариант тоже проводит согласование"
+msgstr ""
 
 #: http.py:132
 msgid "Insufficient Storage"
-msgstr "Переполнение хранилища"
+msgstr ""
 
 #: http.py:133
 msgid "Loop Detected"
-msgstr "Обнаружена петля"
+msgstr ""
 
 #: http.py:134
 msgid "Bandwidth Limit Exceeded"
-msgstr "Исчерпана пропускная ширина канала"
+msgstr ""
 
 #: http.py:135
 msgid "Not Extended"
-msgstr "не расширено"
+msgstr ""
 
 #: http.py:195
 msgid "Undefined message"
-msgstr "Неопределённое сообщение"
+msgstr ""
 
 #: views.py:90
 msgid "String in your localization"
-msgstr "Строка в вашей локализации"
+msgstr ""
 
 #: templates/quickapi/_docs.html:3
 msgid "This template \"quickapi/_docs.html\" is deprecated!"
-msgstr "Этот шаблон \"quickapi/_docs.html\" устарел!"
+msgstr ""
 
 #: templates/quickapi/_methods.html:4 templates/quickapi/base.html:59
 msgid "Methods"
-msgstr "Методы"
+msgstr ""
 
 #: templates/quickapi/_methods.html:7
 msgid "Method name"
-msgstr "Имя метода"
+msgstr ""
 
 #: templates/quickapi/_methods.html:8
 msgid "Description for use"
-msgstr "Описание использования"
+msgstr ""
 
 #: templates/quickapi/_requests.html:4 templates/quickapi/base.html:55
 msgid "Requests"
-msgstr "Запросы"
+msgstr ""
 
 #: templates/quickapi/_requests.html:5
 msgid "Query parameters can be transmitted in a single JSON object via POST:"
-msgstr "Параметры запроса можно передать в одном JSON-объекте через POST:"
+msgstr ""
 
 #: templates/quickapi/_requests.html:18
 msgid "Authorization settings everywhere are optional."
-msgstr "Параметры авторизации везде являются необязательными."
+msgstr ""
 
 #: templates/quickapi/_requests.html:19
 msgid ""
 "For example, if the request object stores a user session, then "
 "authentication occurs on these data."
 msgstr ""
-"Так, например, если объект запроса хранит сессию пользователя, то "
-"авторизация происходит по этим данным."
 
 #: templates/quickapi/_requests.html:20
 msgid "Parameters, you can pass directly into the POST-query."
-msgstr "Параметры можно передавать непосредственно в POST-запросе."
+msgstr ""
 
 #: templates/quickapi/_requests.html:23 templates/quickapi/_requests.html:36
 #: templates/quickapi/_requests.html:52 templates/quickapi/_requests.html:67
 msgid "Example"
-msgstr "Пример"
+msgstr ""
 
 #: templates/quickapi/_requests.html:23 templates/quickapi/_requests.html:36
 #: templates/quickapi/_requests.html:52 templates/quickapi/_requests.html:67
 msgid "for"
-msgstr "для"
+msgstr ""
 
 #: templates/quickapi/_requests.html:32
 msgid "In this variant, you can only pass lists and simple values."
-msgstr "В этом варианте можно передавать только простые списки и значения."
+msgstr ""
 
 #: templates/quickapi/_requests.html:33
 msgid ""
 "Key \"key3\" in this case, jQuery will automatically change to \"key3[]\"."
 msgstr ""
-"Ключ \"key3\" в этом случае, jQuery автоматически заменит на \"key3[]\"."
 
 #: templates/quickapi/_requests.html:48
 msgid "In this variant, you can transfer any serializable objects."
-msgstr "В этом варианте можно передавать любые сериализуемые объекты."
+msgstr ""
 
 #: templates/quickapi/_requests.html:49
 msgid ""
 "To properly serialize dates in JSON is better to use special <a href="
 "\"http://code.google.com/p/jquery-json/\">jQuery plugin</a>."
 msgstr ""
-"Для правильной сериализации дат в JSON лучше использовать специальный <a "
-"href=\"http://code.google.com/p/jquery-json/\">плагин jQuery</a>."
 
 #: templates/quickapi/_requests.html:52
 msgid "with HTTP Basic authorization"
-msgstr "с HTTP Basic авторизацией:"
+msgstr ""
 
 #: templates/quickapi/_requests.html:67
 msgid "without HTTP Basic authorization"
-msgstr "без HTTP Basic авторизации:"
+msgstr ""
 
 #: templates/quickapi/_responses.html:3 templates/quickapi/base.html:56
 msgid "Responses"
-msgstr "Ответы"
+msgstr ""
 
 #: templates/quickapi/_responses.html:6
 msgid "HTTP codes, with the meaning."
-msgstr "Коды HTTP, имеющие смысл."
+msgstr ""
 
 #: templates/quickapi/_responses.html:7
 msgid "The string message to the user (localization support)"
-msgstr "Строка сообщения для мользователя (с поддержкой локализации)"
+msgstr ""
 
 #: templates/quickapi/_responses.html:8
 msgid "Nested object JSON"
-msgstr "Вложенный объект JSON"
+msgstr ""
 
 #: templates/quickapi/_responses.html:11
 msgid ""
 "The type and structure of nested object depend on the method to call (see "
 "documentation below)."
 msgstr ""
-"Тип и структура вложенного объекта зависят от вызываемого метода (см. "
-"документацию ниже)."
 
 #: templates/quickapi/base.html:4 templates/quickapi/base.html.py:51
 msgid "API documentation"
-msgstr "Документация API"
+msgstr ""
 
 #: templates/quickapi/base.html:46
 msgid "Toggle navigation"
-msgstr "Переключение навигации"
+msgstr ""
 
 #: templates/quickapi/base.html:62
 msgid "All methods"
-msgstr "Все методы"
+msgstr ""
 
 #: templates/quickapi/base.html:72
 msgid "Project"
-msgstr "Проект"
+msgstr ""

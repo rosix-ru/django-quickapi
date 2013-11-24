@@ -1,0 +1,14 @@
+{% load i18n %}
+<div id="responses">
+    <legend><h1>{% trans 'Responses' %}</h1></legend>
+<pre>
+response = {
+    'status': 200, // {% trans 'HTTP codes, with the meaning.' %}
+    'message': '{% trans 'The string message to the user (localization support)' %}',
+    'data': &lt;{% trans 'Nested object JSON' %}&gt;,
+}
+</pre>
+    <blockquote><small>{% trans 'The type and structure of nested object depend on the method to call (see documentation below).' %}</small></blockquote>
+</div>
+
+

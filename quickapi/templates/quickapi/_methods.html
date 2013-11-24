@@ -1,0 +1,18 @@
+{% load i18n %}
+
+<div id="methods">
+    <legend><h1>{% trans 'Methods' %}</h1></legend>
+    <table class="table table-condensed table-bordered table-striped">
+        <tr>
+            <th>{% trans 'Method name' %}</th>
+            <th>{% trans 'Description for use' %}</th>
+        </tr>
+    {% for m in methods|dictsort:"name" %}
+        <tr id="method-{{ m.name }}">
+            <td><p><strong>{{ m.name }}</strong></p></td>
+            <td>{{ m.doc|safe }}</td>
+        </tr>
+    {% endfor %}
+    </table>
+</div>
+

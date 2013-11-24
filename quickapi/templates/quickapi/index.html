@@ -1,14 +1,1 @@
-<html>
-{% load i18n %}
-
-<header>
-    <legend>API - набор методов, предоставляемых сервисом.</legend>
-</header>
-<a href="/">На главную</a>
-
-{% block content %}
-{% include "quickapi/_docs.html" %}
-{% endblock %}
-
-<a href="/">На главную</a>
-</html>
+{% extends 'quickapi/base.html' %}

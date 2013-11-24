@@ -79,7 +79,6 @@ def switch_language(request):
             translation.activate(old_language)
     return old_language, new_language
 
-
 @csrf_exempt
 def test(request):
     """ Тестовый ответ """
@@ -88,7 +87,7 @@ def test(request):
         'float': 9999.999,
         'decimal': decimal.Decimal('9999.999'),
         'boolean': True,
-        'string': 'String',
+        'string': _('String in your localization'),
         'datetime': timezone.now(),
         'list': [9999, True, 'String'],
         'dict': {'a': 1, 'b': 2, 'c': 3}
@@ -154,7 +153,7 @@ def get_methods(dic=QUICKAPI_DEFINED_METHODS):
 METHODS = get_methods()
 
 @csrf_exempt
-def index(request, dict_methods=None):
+def index(request, dict_methods=None, methods=None):
     """ Распределяет запросы.
         Структура запроса = {
             'method': u'Имя вызываемого метода',
@@ -165,9 +164,12 @@ def index(request, dict_methods=None):
             'user': u'имя пользователя',
             'pass': u'пароль пользователя',
         }
-        Параметр "dict_methods" может использоваться сторонними приложениями
-        для организации определённых наборов методов API.
-        По-умолчанию словарь методов определяется в переменной
+        Параметры "dict_methods" или "methods" могут использоваться
+        сторонними приложениями для организации определённых наборов
+        методов API.
+        Заметьте, что параметр "dict_methods" является устаревшим и
+        пока остаётся для совместимости. 
+        По-умолчанию словарь методов может определяться в переменной
         settings.QUICKAPI_DEFINED_METHODS главного проекта.
     """
 
@@ -179,10 +181,11 @@ def index(request, dict_methods=None):
         p = '\trequest.is_ajax()\t== %s' % request.is_ajax()
         print colorize(p, fg='blue')
 
-    if dict_methods is None:
-        methods = METHODS
-    else:
-        methods = get_methods(dict_methods)
+    if not methods:
+        if dict_methods is None:
+            methods = METHODS
+        else:
+            methods = get_methods(dict_methods)
 
     if request.is_ajax() or request.method == 'POST':
         try:
