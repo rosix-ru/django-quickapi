@@ -9,7 +9,8 @@
     <!-- START: block style -->
     {% block style %}
     <!-- Bootstrap -->
-    <link rel="stylesheet" href="{{ STATIC_URL}}quickapi/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ STATIC_URL}}css/bootstrap/3.0.3/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ STATIC_URL}}css/bootstrap/3.0.3/bootstrap-theme.min.css">
 
     <style type="text/css">
         #requests, #responses, #methods {
@@ -105,9 +106,9 @@
     {% block js %}
     <!-- Bootstrap -->
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="{{ STATIC_URL}}quickapi/js/jquery.min.js"></script>
+    <script src="{{ STATIC_URL}}js/jquery/2.0.3/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="{{ STATIC_URL}}quickapi/js/bootstrap.min.js"></script>
+    <script src="{{ STATIC_URL}}js/bootstrap/3.0.3/bootstrap.min.js"></script>
     {% endblock %}
 
     <!-- START: block extrajs -->
