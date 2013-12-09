@@ -81,16 +81,34 @@ def switch_language(request):
 
 @csrf_exempt
 def test(request):
-    """ Тестовый ответ """
+    """ *Test response*
+
+        ##### REQUEST
+        Without params.
+
+        ##### RESPONSE
+        Format **"data"**:
+        `{
+            'REMOTE_ADDR': '127.0.0.1' || null,
+            'REMOTE_HOST': 'example.org' || null,
+            'default language': 'en',
+            'request language': 'ru',
+            'string': 'String in your localization',
+            'datetime': '2013-01-01T00:00:00.000Z',
+            'is_authenticate': true,
+        }`
+    """
+
+    default_language, request_language = switch_language(request)
+
     data = {
-        'integer': 9999,
-        'float': 9999.999,
-        'decimal': decimal.Decimal('9999.999'),
-        'boolean': True,
+        'REMOTE_ADDR': request.META.get("HTTP_X_REAL_IP", request.META.get("REMOTE_ADDR", None)),
+        'REMOTE_HOST': request.META.get("REMOTE_HOST", None),
+        'default language': default_language,
+        'request language': request_language,
         'string': _('String in your localization'),
         'datetime': timezone.now(),
-        'list': [9999, True, 'String'],
-        'dict': {'a': 1, 'b': 2, 'c': 3}
+        'is_authenticate': not request.user.is_anonymous(),
     }
     return JSONResponse(data=data)
 
@@ -119,6 +137,19 @@ def drop_space(doc):
             L.append(s.strip(' '))     # или полностью очищенную строку
     return BIT.join(L)
 
+def get_doc(method):
+    text = drop_space(method.__doc__)
+    try:
+        text = markdown(text.decode('utf-8'))
+    except UnicodeDecodeError:
+        try:
+            text = markdown(text)
+        except:
+            pass
+    return text
+
+TEST_METHOD_DOC = get_doc(test)
+
 def get_methods(dic=QUICKAPI_DEFINED_METHODS):
     """ Преобразует словарь заданных строками методов, реальными
         объектами функций.
@@ -138,15 +169,11 @@ def get_methods(dic=QUICKAPI_DEFINED_METHODS):
                 print colorize(unicode(e), fg='red')
                 method = None
         if method:
-            text = drop_space(method.__doc__)
-            try:
-                text = markdown(text.decode('utf-8'))
-            except UnicodeDecodeError:
-                try:
-                    text = markdown(text)
-                except:
-                    pass
-            methods[key] = {'method': method, 'doc': text, 'name': key}
+            methods[key] = {
+                'method': method,
+                'doc': get_doc(method),
+                'name': key
+            }
 
     return methods
 
@@ -199,6 +226,8 @@ def index(request, dict_methods=None, methods=None):
     ctx = {}
     ctx['site'] = site
     ctx['methods'] = methods.values()
+    ctx['test_method_doc'] = TEST_METHOD_DOC if not 'quickapi.test' in methods else None
+
     return render_to_response('quickapi/index.html', ctx,
                             context_instance=RequestContext(request,))
 
@@ -266,7 +295,7 @@ def run(request, methods):
         user = authenticate(username=username, password=password)
         if user is not None and user.is_active:
             login(request, user)
-        elif QUICKAPI_ONLY_AUTHORIZED_USERS:
+        elif QUICKAPI_ONLY_AUTHORIZED_USERS and method != 'quickapi.test':
             return JSONResponse(status=401)
 
     if QUICKAPI_DEBUG:
@@ -275,15 +304,24 @@ def run(request, methods):
         p = '\tmethod\t\t\t== %s' % method
         print colorize(p, fg='blue')
 
-    try:
-        real_method = methods[method]['method']
-    except Exception as e:
-        msg = traceback.format_exc(e)
+    if method in methods:
+        try:
+            real_method = methods[method]['method']
+        except Exception as e:
+            msg = traceback.format_exc(e)
+            if DEBUG:
+                print msg
+            else:
+                msg = MESSAGES[405]
+            return JSONResponse(status=405, message=msg)
+    elif method == 'quickapi.test':
+        real_method = test
+    else:
+        msg = _('Method `%s` does not exist') % method
         if DEBUG:
             print msg
-        else:
-            msg = MESSAGES[405]
         return JSONResponse(status=405, message=msg)
+
     try:
         return real_method(request, **kwargs)
     except Exception as e:

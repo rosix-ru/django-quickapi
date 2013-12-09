@@ -7,8 +7,14 @@
             <th>{% trans 'Method name' %}</th>
             <th>{% trans 'Description for use' %}</th>
         </tr>
+    {% if test_method_doc %}
+        <tr id="method-quickapitest">
+            <td><p><strong>quickapi.test</strong></p></td>
+            <td>{{ test_method_doc|safe }}</td>
+        </tr>
+    {% endif %}
     {% for m in methods|dictsort:"name" %}
-        <tr id="method-{{ m.name }}">
+        <tr id="method-{{ m.name|slugify }}">
             <td><p><strong>{{ m.name }}</strong></p></td>
             <td>{{ m.doc|safe }}</td>
         </tr>

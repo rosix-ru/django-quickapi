@@ -55,8 +55,11 @@
                 <ul class="dropdown-menu">
                     <li><a href="#methods">{% trans 'All methods' %}</a></li>
                     <li class="divider"></li>
+                {% if test_method_doc %}
+                    <li><a href="#method-quickapitest">quickapi.test</a></li>
+                {% endif %}
                 {% for m in methods|dictsort:"name" %}
-                    <li><a href="#method-{{ m.name }}">{{ m.name }}</a></li>
+                    <li><a href="#method-{{ m.name|slugify }}">{{ m.name }}</a></li>
                 {% endfor %}
                 </ul>
             </li>

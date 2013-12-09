@@ -38,7 +38,7 @@
 """
 from django.conf import settings
 
-methods = { 'test': 'quickapi.views.test' }
+methods = { 'quickapi.test': 'quickapi.views.test' }
 
 SITE_ID = settings.SITE_ID
 DEBUG   = settings.DEBUG
