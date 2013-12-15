@@ -48,7 +48,8 @@ from django.utils.translation import ugettext_lazy as _
 
 from quickapi.http import JSONResponse, MESSAGES
 from quickapi.conf import (settings, QUICKAPI_DEFINED_METHODS,
-    QUICKAPI_ONLY_AUTHORIZED_USERS, QUICKAPI_DEBUG, DEBUG, SITE_ID)
+    QUICKAPI_ONLY_AUTHORIZED_USERS, QUICKAPI_DEBUG, DEBUG, SITE_ID,
+    QUICKAPI_SWITCH_LANGUAGE, QUICKAPI_SWITCH_LANGUAGE_AUTO)
 
 import traceback, json as jsonlib, decimal
 
@@ -68,15 +69,33 @@ if 'django.contrib.sites' in settings.INSTALLED_APPS:
 else:
     site = None
 
-def switch_language(request):
+def switch_language(request, code=None):
+    """
+    Переключает язык для приложения, если такое переключение не
+    запрещено в настройках.
+    """
     old_language = translation.get_language()
+
+    if not QUICKAPI_SWITCH_LANGUAGE and not code:
+        # Disabled switching for quickapi only
+        return old_language, None
+
     new_language = None
-    if getattr(settings, 'LANGUAGES', None) and \
-    'django.middleware.locale.LocaleMiddleware' in settings.MIDDLEWARE_CLASSES:
+
+    if code:
+        new_language = code
+    elif 'language' in request.POST:
+        new_language = request.POST.get('language')
+    elif QUICKAPI_SWITCH_LANGUAGE_AUTO and hasattr(request, 'LANGUAGE_CODE'):
+        new_language = request.LANGUAGE_CODE
+
+    if new_language:
         try:
-            new_language = translation.activate(request.LANGUAGE_CODE)
+            new_language = translation.activate(new_language)
         except:
             translation.activate(old_language)
+            new_language = None
+
     return old_language, new_language
 
 @csrf_exempt
