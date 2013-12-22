@@ -53,16 +53,6 @@ from quickapi.conf import (settings, QUICKAPI_DEFINED_METHODS,
 
 import traceback, json as jsonlib, decimal
 
-try:
-    # Проверка установленного в системе markdown.
-    from markdown import markdown as _markdown
-except:
-    markdown = lambda x: x
-    BIT = '<br>'
-else:
-    markdown = lambda x: _markdown(x)
-    BIT = '\n'
-
 if 'django.contrib.sites' in settings.INSTALLED_APPS:
     from django.contrib.sites.models import Site
     site = Site.objects.get(id=SITE_ID)
@@ -117,61 +107,24 @@ def test(request):
     }
     return JSONResponse(data=data)
 
-test.__doc__ = _(
-""" *Test response*
+test.__doc__ = _("""
+*Test response*
 
-    #### Request parameters
-    Nothing
+#### Request parameters
+Nothing
 
-    #### Returned object
-    `{
-        'REMOTE_ADDR': '127.0.0.1' || null,
-        'REMOTE_HOST': 'example.org' || null,
-        'default language': 'en',
-        'request language': 'ru',
-        'string': 'String in your localization',
-        'datetime': '2013-01-01T00:00:00.000Z',
-        'is_authenticate': true,
-    }`
+#### Returned object
+`{
+    'REMOTE_ADDR': '127.0.0.1' || null,
+    'REMOTE_HOST': 'example.org' || null,
+    'default language': 'en',
+    'request language': 'ru',
+    'string': 'String in your localization',
+    'datetime': '2013-01-01T00:00:00.000Z',
+    'is_authenticate': true,
+}`
 """)
 
-def drop_space(doc):
-    """ Удаление начальных и конечных пробелов в документации.
-        Обратное слияние строк в текст зависит от наличия markdown
-        в системе.
-        
-        Выравнивает весь код по первой его строке.
-    """
-    L = []
-    cut = 0
-    for s in doc.split('\n'):
-        # Если начинается код
-        if s.strip(' ').startswith('`'):
-            cut = len(s[:s.find('`')]) # только выставляем обрезку
-        # Если заканчивается код
-        if s.strip().endswith('`'):
-            L.append(s[cut:])          # то записываем,
-            cut = 0                    # сбрасываем обрезку
-            continue                   # и прерываем цикл
-        # Теперь записываем
-        if cut:
-            L.append(s[cut:])          # с обрезкой
-        else:
-            L.append(s.strip(' '))     # или полностью очищенную строку
-    return BIT.join(L)
-
-def get_doc(method):
-    text = drop_space(method.__doc__)
-    try:
-        text = markdown(text.decode('utf-8'))
-    except:
-        try:
-            text = markdown(text)
-        except:
-            pass
-    return text
-
-TEST_METHOD_DOC = lambda: get_doc(test)
 
 def get_methods(dic=QUICKAPI_DEFINED_METHODS):
     """ Преобразует словарь заданных строками методов, реальными
@@ -194,8 +147,8 @@ def get_methods(dic=QUICKAPI_DEFINED_METHODS):
         if method:
             methods[key] = {
                 'method': method,
-                'doc': lambda: get_doc(method),
-                'name': key
+                'doc':    method.__doc__,
+                'name':   key,
             }
 
     return methods
@@ -249,7 +202,7 @@ def index(request, dict_methods=None, methods=None):
     ctx = {}
     ctx['site'] = site
     ctx['methods'] = methods.values()
-    ctx['test_method_doc'] = TEST_METHOD_DOC if not 'quickapi.test' in methods else None
+    ctx['test_method_doc'] = test.__doc__ if not 'quickapi.test' in methods else None
 
     return render_to_response('quickapi/index.html', ctx,
                             context_instance=RequestContext(request,))
