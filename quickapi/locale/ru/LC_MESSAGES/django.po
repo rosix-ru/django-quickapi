@@ -5,13 +5,13 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 0.1\n"
+"Project-Id-Version: QUICKAPI\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-24 19:56+1100\n"
+"POT-Creation-Date: 2013-12-22 13:56+1100\n"
 "PO-Revision-Date: 2013-01-23 11:43+1100\n"
 "Last-Translator: Grigoriy Kramarenko <root@rosix.ru>\n"
 "Language-Team: \n"
-"Language: RU\n"
+"Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -242,15 +242,54 @@ msgstr "не расширено"
 msgid "Undefined message"
 msgstr "Неопределённое сообщение"
 
-#: views.py:90
+#: views.py:114
 msgid "String in your localization"
 msgstr "Строка в вашей локализации"
+
+#: views.py:121
+msgid ""
+" *Test response*\n"
+"\n"
+"    #### Request parameters\n"
+"    Nothing\n"
+"\n"
+"    #### Returned object\n"
+"    `{\n"
+"        'REMOTE_ADDR': '127.0.0.1' || null,\n"
+"        'REMOTE_HOST': 'example.org' || null,\n"
+"        'default language': 'en',\n"
+"        'request language': 'ru',\n"
+"        'string': 'String in your localization',\n"
+"        'datetime': '2013-01-01T00:00:00.000Z',\n"
+"        'is_authenticate': true,\n"
+"    }`\n"
+msgstr ""
+" *Тестовый ответ*\n"
+"\n"
+"    #### Параметры запроса\n"
+"    Пусто\n"
+"\n"
+"    #### Возвращаемый объект\n"
+"    `{\n"
+"        'REMOTE_ADDR': '127.0.0.1' || null,\n"
+"        'REMOTE_HOST': 'example.org' || null,\n"
+"        'default language': 'en',\n"
+"        'request language': 'ru',\n"
+"        'string': 'String in your localization',\n"
+"        'datetime': '2013-01-01T00:00:00.000Z',\n"
+"        'is_authenticate': true,\n"
+"    }`\n"
+
+#: views.py:348
+#, python-format
+msgid "Method `%s` does not exist"
+msgstr "Метод `%s` не существует"
 
 #: templates/quickapi/_docs.html:3
 msgid "This template \"quickapi/_docs.html\" is deprecated!"
 msgstr "Этот шаблон \"quickapi/_docs.html\" устарел!"
 
-#: templates/quickapi/_methods.html:4 templates/quickapi/base.html:59
+#: templates/quickapi/_methods.html:4 templates/quickapi/base.html:56
 msgid "Methods"
 msgstr "Методы"
 
@@ -262,7 +301,7 @@ msgstr "Имя метода"
 msgid "Description for use"
 msgstr "Описание использования"
 
-#: templates/quickapi/_requests.html:4 templates/quickapi/base.html:55
+#: templates/quickapi/_requests.html:4 templates/quickapi/base.html:52
 msgid "Requests"
 msgstr "Запросы"
 
@@ -326,7 +365,7 @@ msgstr "с HTTP Basic авторизацией"
 msgid "without HTTP Basic authorization"
 msgstr "без HTTP Basic авторизации"
 
-#: templates/quickapi/_responses.html:3 templates/quickapi/base.html:56
+#: templates/quickapi/_responses.html:3 templates/quickapi/base.html:53
 msgid "Responses"
 msgstr "Ответы"
 
@@ -350,15 +389,15 @@ msgstr ""
 "Тип и структура вложенного объекта зависят от вызываемого метода (см. "
 "документацию ниже)."
 
-#: templates/quickapi/base.html:4 templates/quickapi/base.html.py:51
+#: templates/quickapi/base.html:4 templates/quickapi/base.html.py:47
 msgid "API documentation"
 msgstr "Документация API"
 
-#: templates/quickapi/base.html:46
+#: templates/quickapi/base.html:40
 msgid "Toggle navigation"
 msgstr "Переключение навигации"
 
-#: templates/quickapi/base.html:62
+#: templates/quickapi/base.html:59
 msgid "All methods"
 msgstr "Все методы"
 

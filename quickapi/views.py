@@ -100,22 +100,8 @@ def switch_language(request, code=None):
 
 @csrf_exempt
 def test(request):
-    """ *Test response*
-
-        ##### REQUEST
-        Without params.
-
-        ##### RESPONSE
-        Format **"data"**:
-        `{
-            'REMOTE_ADDR': '127.0.0.1' || null,
-            'REMOTE_HOST': 'example.org' || null,
-            'default language': 'en',
-            'request language': 'ru',
-            'string': 'String in your localization',
-            'datetime': '2013-01-01T00:00:00.000Z',
-            'is_authenticate': true,
-        }`
+    """
+    Test response
     """
 
     default_language, request_language = switch_language(request)
@@ -130,6 +116,24 @@ def test(request):
         'is_authenticate': not request.user.is_anonymous(),
     }
     return JSONResponse(data=data)
+
+test.__doc__ = _(
+""" *Test response*
+
+    #### Request parameters
+    Nothing
+
+    #### Returned object
+    `{
+        'REMOTE_ADDR': '127.0.0.1' || null,
+        'REMOTE_HOST': 'example.org' || null,
+        'default language': 'en',
+        'request language': 'ru',
+        'string': 'String in your localization',
+        'datetime': '2013-01-01T00:00:00.000Z',
+        'is_authenticate': true,
+    }`
+""")
 
 def drop_space(doc):
     """ Удаление начальных и конечных пробелов в документации.
@@ -160,14 +164,14 @@ def get_doc(method):
     text = drop_space(method.__doc__)
     try:
         text = markdown(text.decode('utf-8'))
-    except UnicodeDecodeError:
+    except:
         try:
             text = markdown(text)
         except:
             pass
     return text
 
-TEST_METHOD_DOC = get_doc(test)
+TEST_METHOD_DOC = lambda: get_doc(test)
 
 def get_methods(dic=QUICKAPI_DEFINED_METHODS):
     """ Преобразует словарь заданных строками методов, реальными
@@ -190,7 +194,7 @@ def get_methods(dic=QUICKAPI_DEFINED_METHODS):
         if method:
             methods[key] = {
                 'method': method,
-                'doc': get_doc(method),
+                'doc': lambda: get_doc(method),
                 'name': key
             }
 
