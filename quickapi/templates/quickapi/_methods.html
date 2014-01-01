@@ -13,7 +13,7 @@
             <td>{{ test_method_doc|formatdoc|safe }}</td>
         </tr>
     {% endif %}
-    {% for m in methods|dictsort:"name" %}
+    {% for m in methods %}
         <tr id="method-{{ m.name|slugify }}">
             <td><p><strong>{{ m.name }}</strong></p></td>
             <td>{{ m.doc|formatdoc|safe }}</td>

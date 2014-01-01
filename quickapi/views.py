@@ -68,7 +68,7 @@ def switch_language(request, code=None):
 
     if not QUICKAPI_SWITCH_LANGUAGE and not code:
         # Disabled switching for quickapi only
-        return old_language, None
+        return settings.LANGUAGE_CODE, old_language
 
     new_language = None
 
@@ -125,13 +125,83 @@ Nothing
 }`
 """)
 
-
-def get_methods(dic=QUICKAPI_DEFINED_METHODS):
-    """ Преобразует словарь заданных строками методов, реальными
-        объектами функций.
+class Collection(object):
     """
-    methods = {}
-    for key,val in dic.items():
+    Класс, реализующий отсортированный словарь методов
+    """
+
+    def __init__(self):
+        self._COLLECTION = {}
+        self._CHAIN      = []
+
+    def __bool__(self):
+        return bool(self._CHAIN)
+
+    def __len__(self):
+        return len(self._CHAIN)
+
+    def __setitem__(self, name, value):
+        self._COLLECTION[name] = value
+        if not name in self._CHAIN:
+            self._CHAIN.append(name)
+
+    def __setattr__(self, name, value):
+        if name in ('_COLLECTION', '_CHAIN'):
+            return super(Collection, self).__setattr__(name, value)
+        self.__setitem__(name, value)
+
+    def __getitem__(self, name):
+        return self._COLLECTION[name]
+
+    def __contains__(self, name):
+        return name in self._COLLECTION
+
+    def __getattr__(self, name):
+        if name in ('_COLLECTION', '_CHAIN'):
+            return super(Collection, self).__getattr__(name, value)
+        return self.__getitem__(name)
+
+    def __delitem__(self, name):
+        del self._COLLECTION[name]
+        del self._CHAIN[self._CHAIN.index(name)]
+
+    def __delattr__(self, name):
+        if name in ('_COLLECTION', '_CHAIN'):
+            raise AttributeError('Is internal attribute')
+        self.__delitem__(name)
+
+    def items(self):
+        return [(name, self._COLLECTION[name]) for name in self._CHAIN]
+
+    def keys(self):
+        return self._CHAIN
+
+    def values(self):
+        return [self._COLLECTION[name] for name in self._CHAIN]
+
+    def sort(self):
+        self._CHAIN.sort()
+
+def get_methods(list_or_dict=QUICKAPI_DEFINED_METHODS, sort=False):
+    """ Преобразует словарь или список заданных строками методов,
+        реальными объектами функций.
+        Форматы list_or_dict:
+        (('',''),('',''))
+        либо
+        [['',''],['','']]
+        либо
+        {'':'', '':''}
+    """
+    collection = Collection()
+
+    if isinstance(list_or_dict, (list, tuple)):
+        seq = list_or_dict
+    elif isinstance(list_or_dict, dict):
+        sort = True
+        seq = list_or_dict.items()
+    else:
+        raise ValueError('Parameter must be sequence or dictionary')
+    for key,val in seq:
         try:
             method = __import__(val, fromlist=[''])
         except ImportError:
@@ -142,21 +212,27 @@ def get_methods(dic=QUICKAPI_DEFINED_METHODS):
                 module = __import__(_module, fromlist=[''])
                 method = getattr(module, _method)
             except ImportError as e:
-                print colorize(unicode(e), fg='red')
+                if QUICKAPI_DEBUG:
+                    print colorize(unicode(e), fg='red')
+                else:
+                    print e
                 method = None
         if method:
-            methods[key] = {
+            collection[key] = {
                 'method': method,
                 'doc':    method.__doc__,
                 'name':   key,
             }
 
-    return methods
+    if sort:
+        collection.sort()
+
+    return collection
 
 METHODS = get_methods()
 
 @csrf_exempt
-def index(request, dict_methods=None, methods=None):
+def index(request, methods=METHODS):
     """ Распределяет запросы.
         Структура запроса = {
             'method': u'Имя вызываемого метода',
@@ -167,11 +243,9 @@ def index(request, dict_methods=None, methods=None):
             'user': u'имя пользователя',
             'pass': u'пароль пользователя',
         }
-        Параметры "dict_methods" или "methods" могут использоваться
-        сторонними приложениями для организации определённых наборов
-        методов API.
-        Заметьте, что параметр "dict_methods" является устаревшим и
-        пока остаётся для совместимости. 
+        Параметр "methods" может использоваться сторонними приложениями
+        для организации определённых наборов методов API.
+
         По-умолчанию словарь методов может определяться в переменной
         settings.QUICKAPI_DEFINED_METHODS главного проекта.
     """
@@ -183,12 +257,6 @@ def index(request, dict_methods=None, methods=None):
         print colorize(p, fg='blue')
         p = '\trequest.is_ajax()\t== %s' % request.is_ajax()
         print colorize(p, fg='blue')
-
-    if not methods:
-        if dict_methods is None:
-            methods = METHODS
-        else:
-            methods = get_methods(dict_methods)
 
     if request.is_ajax() or request.method == 'POST':
         try:
@@ -215,7 +283,7 @@ def run(request, methods):
 
     switch_language(request)
 
-    is_authenticate = not request.user.is_anonymous()
+    is_authenticate = request.user.is_authenticated()
     if QUICKAPI_DEBUG:
         p = '\trun as user\t\t== %s' % request.user
         print colorize(p, fg='blue')

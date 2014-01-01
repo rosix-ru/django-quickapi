@@ -61,7 +61,7 @@
                 {% if test_method_doc %}
                     <li><a href="#method-quickapitest">quickapi.test</a></li>
                 {% endif %}
-                {% for m in methods|dictsort:"name" %}
+                {% for m in methods %}
                     <li><a href="#method-{{ m.name|slugify }}">{{ m.name }}</a></li>
                 {% endfor %}
                 </ul>

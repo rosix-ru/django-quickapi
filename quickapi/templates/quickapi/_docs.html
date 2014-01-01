@@ -81,7 +81,7 @@ JSON_object = {
             <th>Название метода</th>
             <th>Описание использования</th>
         </tr>
-    {% for m in methods|dictsort:"name" %}
+    {% for m in methods %}
         <tr>
             <td>{{ forloop.counter }}</td>
             <td><p><strong>{{ m.name }}</strong></p></td>
