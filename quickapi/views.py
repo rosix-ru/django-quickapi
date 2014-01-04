@@ -103,7 +103,7 @@ def test(request):
         'request language': request_language,
         'string': _('String in your localization'),
         'datetime': timezone.now(),
-        'is_authenticate': not request.user.is_anonymous(),
+        'is_authenticated': request.user.is_authenticated(),
     }
     return JSONResponse(data=data)
 
@@ -121,7 +121,7 @@ Nothing
     'request language': 'ru',
     'string': 'String in your localization',
     'datetime': '2013-01-01T00:00:00.000Z',
-    'is_authenticate': true,
+    'is_authenticated': true,
 }`
 """)
 
