@@ -167,7 +167,7 @@ class JSONEncoder(jsonlib.JSONEncoder):
 
 DjangoJSONEncoder = JSONEncoder
 
-def _get_json_response(ctx={}):
+def _get_json_response(ctx=None):
     result = jsonlib.dumps(ctx, ensure_ascii=True, 
                             cls=DjangoJSONEncoder,
                             indent=QUICKAPI_INDENT,
@@ -195,7 +195,7 @@ def check_message(dic):
         dic['message'] = MESSAGES.get(dic['status'], _('Undefined message'))
     return dic
 
-def JSONResponse(data={}, message=None, status=200, **kwargs):
+def JSONResponse(data=None, message=None, status=200, **kwargs):
     dic = {
         'status': status,
         'message': message,
