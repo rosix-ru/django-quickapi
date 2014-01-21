@@ -202,21 +202,24 @@ def get_methods(list_or_dict=QUICKAPI_DEFINED_METHODS, sort=False):
     else:
         raise ValueError('Parameter must be sequence or dictionary')
     for key,val in seq:
-        try:
-            method = __import__(val, fromlist=[''])
-        except ImportError:
+        if isinstance(val, (str, unicode)):
             try:
-                L = val.split('.')
-                _method = L[-1]
-                _module = '.'.join(L[:-1])
-                module = __import__(_module, fromlist=[''])
-                method = getattr(module, _method)
-            except ImportError as e:
-                if QUICKAPI_DEBUG:
-                    print colorize(unicode(e), fg='red')
-                else:
-                    print e
-                method = None
+                method = __import__(val, fromlist=[''])
+            except ImportError:
+                try:
+                    L = val.split('.')
+                    _method = L[-1]
+                    _module = '.'.join(L[:-1])
+                    module = __import__(_module, fromlist=[''])
+                    method = getattr(module, _method)
+                except ImportError as e:
+                    if QUICKAPI_DEBUG:
+                        print colorize(unicode(e), fg='red')
+                    else:
+                        print e
+                    method = None
+        else:
+            method = val
         if method:
             collection[key] = {
                 'method': method,
