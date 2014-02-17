@@ -114,7 +114,11 @@ test.__doc__ = _("""
 Nothing
 
 #### Returned object
-`{
+
+```
+#!javascript
+
+{
     'REMOTE_ADDR': '127.0.0.1' || null,
     'REMOTE_HOST': 'example.org' || null,
     'default language': 'en',
@@ -122,7 +126,8 @@ Nothing
     'string': 'String in your localization',
     'datetime': '2013-01-01T00:00:00.000Z',
     'is_authenticated': true,
-}`
+}
+```
 """)
 
 class Collection(object):

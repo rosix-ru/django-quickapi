@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: QUICKAPI\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-01 16:45+1100\n"
+"POT-Creation-Date: 2014-02-11 03:13+1100\n"
 "PO-Revision-Date: 2013-01-23 11:43+1100\n"
 "Last-Translator: Grigoriy Kramarenko <root@rosix.ru>\n"
 "Language-Team: \n"
@@ -255,7 +255,11 @@ msgid ""
 "Nothing\n"
 "\n"
 "#### Returned object\n"
-"`{\n"
+"\n"
+"```\n"
+"#!javascript\n"
+"\n"
+"{\n"
 "    'REMOTE_ADDR': '127.0.0.1' || null,\n"
 "    'REMOTE_HOST': 'example.org' || null,\n"
 "    'default language': 'en',\n"
@@ -263,7 +267,8 @@ msgid ""
 "    'string': 'String in your localization',\n"
 "    'datetime': '2013-01-01T00:00:00.000Z',\n"
 "    'is_authenticated': true,\n"
-"}`\n"
+"}\n"
+"```\n"
 msgstr ""
 "\n"
 "*Тестовый ответ*\n"
@@ -272,7 +277,11 @@ msgstr ""
 "Пусто\n"
 "\n"
 "#### Возвращаемый объект\n"
-"`{\n"
+"\n"
+"```\n"
+"#!javascript\n"
+"\n"
+"{\n"
 "    'REMOTE_ADDR': '127.0.0.1' || null,\n"
 "    'REMOTE_HOST': 'example.org' || null,\n"
 "    'default language': 'en',\n"
@@ -280,9 +289,10 @@ msgstr ""
 "    'string': 'Строка в вашей локализации',\n"
 "    'datetime': '2013-01-01T00:00:00.000Z',\n"
 "    'is_authenticated': true,\n"
-"}`\n"
+"}\n"
+"```\n"
 
-#: views.py:362
+#: views.py:372
 #, python-format
 msgid "Method `%s` does not exist"
 msgstr "Метод `%s` не существует"
@@ -291,7 +301,7 @@ msgstr "Метод `%s` не существует"
 msgid "This template \"quickapi/_docs.html\" is deprecated!"
 msgstr "Этот шаблон \"quickapi/_docs.html\" устарел!"
 
-#: templates/quickapi/_methods.html:4 templates/quickapi/base.html:56
+#: templates/quickapi/_methods.html:4 templates/quickapi/base.html:65
 msgid "Methods"
 msgstr "Методы"
 
@@ -303,7 +313,7 @@ msgstr "Имя метода"
 msgid "Description for use"
 msgstr "Описание использования"
 
-#: templates/quickapi/_requests.html:4 templates/quickapi/base.html:52
+#: templates/quickapi/_requests.html:4 templates/quickapi/base.html:61
 msgid "Requests"
 msgstr "Запросы"
 
@@ -324,12 +334,12 @@ msgstr ""
 "авторизация происходит по этим данным."
 
 #: templates/quickapi/_requests.html:23 templates/quickapi/_requests.html:37
-#: templates/quickapi/_requests.html:53 templates/quickapi/_requests.html:68
+#: templates/quickapi/_requests.html:54 templates/quickapi/_requests.html:68
 msgid "Example"
 msgstr "Пример"
 
 #: templates/quickapi/_requests.html:23 templates/quickapi/_requests.html:37
-#: templates/quickapi/_requests.html:53 templates/quickapi/_requests.html:68
+#: templates/quickapi/_requests.html:54 templates/quickapi/_requests.html:68
 msgid "for"
 msgstr "для"
 
@@ -347,11 +357,11 @@ msgid ""
 msgstr ""
 "Ключ \"key3\" в этом случае, jQuery автоматически заменит на \"key3[]\"."
 
-#: templates/quickapi/_requests.html:49
+#: templates/quickapi/_requests.html:50
 msgid "In this variant, you can transfer any serializable objects."
 msgstr "В этом варианте можно передавать любые сериализуемые объекты."
 
-#: templates/quickapi/_requests.html:50
+#: templates/quickapi/_requests.html:51
 msgid ""
 "To properly serialize dates in JSON is better to use special <a href="
 "\"http://code.google.com/p/jquery-json/\">jQuery plugin</a>."
@@ -359,7 +369,7 @@ msgstr ""
 "Для правильной сериализации дат в JSON лучше использовать специальный <a "
 "href=\"http://code.google.com/p/jquery-json/\">плагин jQuery</a>."
 
-#: templates/quickapi/_requests.html:53
+#: templates/quickapi/_requests.html:54
 msgid "with HTTP Basic authorization"
 msgstr "с HTTP Basic авторизацией"
 
@@ -367,23 +377,11 @@ msgstr "с HTTP Basic авторизацией"
 msgid "without HTTP Basic authorization"
 msgstr "без HTTP Basic авторизации"
 
-#: templates/quickapi/_responses.html:3 templates/quickapi/base.html:53
+#: templates/quickapi/_responses.html:3 templates/quickapi/base.html:62
 msgid "Responses"
 msgstr "Ответы"
 
-#: templates/quickapi/_responses.html:6
-msgid "HTTP codes, with the meaning."
-msgstr "Коды HTTP, имеющие смысл."
-
-#: templates/quickapi/_responses.html:7
-msgid "The string message to the user (localization support)"
-msgstr "Строка сообщения для пользователя (с поддержкой локализации)"
-
-#: templates/quickapi/_responses.html:8
-msgid "Nested object JSON"
-msgstr "Вложенный объект JSON"
-
-#: templates/quickapi/_responses.html:11
+#: templates/quickapi/_responses.html:12
 msgid ""
 "The type and structure of nested object depend on the method to call (see "
 "documentation below)."
@@ -391,18 +389,27 @@ msgstr ""
 "Тип и структура вложенного объекта зависят от вызываемого метода (см. "
 "документацию ниже)."
 
-#: templates/quickapi/base.html:4 templates/quickapi/base.html.py:47
+#: templates/quickapi/base.html:4 templates/quickapi/base.html.py:56
 msgid "API documentation"
 msgstr "Документация API"
 
-#: templates/quickapi/base.html:40
+#: templates/quickapi/base.html:49
 msgid "Toggle navigation"
 msgstr "Переключение навигации"
 
-#: templates/quickapi/base.html:59
+#: templates/quickapi/base.html:68
 msgid "All methods"
 msgstr "Все методы"
 
-#: templates/quickapi/base.html:72
+#: templates/quickapi/base.html:81
 msgid "Project"
 msgstr "Проект"
+
+#~ msgid "HTTP codes, with the meaning."
+#~ msgstr "Коды HTTP, имеющие смысл."
+
+#~ msgid "The string message to the user (localization support)"
+#~ msgstr "Строка сообщения для пользователя (с поддержкой локализации)"
+
+#~ msgid "Nested object JSON"
+#~ msgstr "Вложенный объект JSON"
