@@ -140,7 +140,6 @@ def highlight_prepare(text):
             MARK.append(s)
         else:
             TEXT.append(s)
-            print '\n'.join(TEXT)
 
     # Если что то осталось в markdown
     if markdown_support and MARK:
