@@ -167,15 +167,17 @@ class JSONEncoder(jsonlib.JSONEncoder):
 
 DjangoJSONEncoder = JSONEncoder
 
-def _get_json_response(ctx=None):
-    result = jsonlib.dumps(ctx, ensure_ascii=True, 
-                            cls=DjangoJSONEncoder,
-                            indent=QUICKAPI_INDENT,
-                        )
-    try:
-        result = result.encode(settings.DEFAULT_CHARSET)
-    except:
-        pass
+def tojson(ctx, indent=None, encode_after=True):
+    result = jsonlib.dumps(ctx, ensure_ascii=True, cls=JSONEncoder, indent=indent)
+    if encode_after:
+        try:
+            result = result.encode(settings.DEFAULT_CHARSET)
+        except:
+            pass
+    return result
+
+def get_json_response(ctx=None):
+    result = tojson(ctx, indent=QUICKAPI_INDENT)
     content_type = "%s; charset=%s" % ("application/json",
                     settings.DEFAULT_CHARSET)
     response = HttpResponse(content_type=content_type)
@@ -184,6 +186,9 @@ def _get_json_response(ctx=None):
         result = result.encode('zlib')
     response.write(result)
     return response
+
+# compatibility older
+_get_json_response = get_json_response
 
 def check_status(dic):
     if not isinstance(dic['status'], int):
@@ -203,7 +208,7 @@ def JSONResponse(data=None, message=None, status=200, **kwargs):
     }
     dic.update(kwargs)
     dic = check_message(check_status(dic))
-    return _get_json_response(dic)
+    return get_json_response(dic)
 
 def JSONRedirect(location='/', message=None, status=301, **kwargs):
     dic = {
@@ -213,4 +218,4 @@ def JSONRedirect(location='/', message=None, status=301, **kwargs):
     }
     dic.update(kwargs)
     dic = check_message(check_status(dic))
-    return _get_json_response(dic)
+    return get_json_response(dic)
