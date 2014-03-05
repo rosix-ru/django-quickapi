@@ -123,7 +123,7 @@ def highlight_prepare(text):
                 code = ''
             # Добавляем код в текст
             TEXT.append(code)
-            CODE = None
+            CODE = []
             lexer = None
         # Если это первая строка кода
         elif start_code:
