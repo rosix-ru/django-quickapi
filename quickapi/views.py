@@ -360,7 +360,7 @@ def run(request, methods):
         try:
             real_method = methods[method]['method']
         except Exception as e:
-            msg = traceback.format_exc(e)
+            msg = traceback.format_exc()
             if DEBUG:
                 print msg
             else:
@@ -377,7 +377,7 @@ def run(request, methods):
     try:
         return real_method(request, **kwargs)
     except Exception as e:
-        msg = traceback.format_exc(e)
+        msg = traceback.format_exc()
         if DEBUG:
             print msg
         else:
