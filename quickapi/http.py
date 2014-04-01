@@ -144,7 +144,6 @@ class JSONEncoder(jsonlib.JSONEncoder):
         # See "Date Time String Format" in the ECMA-262 specification.
         if isinstance(o, datetime.datetime):
             r = o.isoformat()
-            r = r.replace(' ', 'T')
             if o.microsecond:
                 r = r[:23] + r[26:]
             if r.endswith('+00:00'):
