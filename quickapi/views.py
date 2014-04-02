@@ -46,7 +46,7 @@ from django.utils.termcolors import colorize
 from django.utils import translation
 from django.utils.translation import ugettext_lazy as _
 
-from quickapi.http import JSONResponse, MESSAGES
+from quickapi.http import JSONResponse, JSONRedirect, MESSAGES
 from quickapi.conf import (settings, QUICKAPI_DEFINED_METHODS,
     QUICKAPI_ONLY_AUTHORIZED_USERS, QUICKAPI_DEBUG, DEBUG, SITE_ID,
     QUICKAPI_SWITCH_LANGUAGE, QUICKAPI_SWITCH_LANGUAGE_AUTO)
@@ -64,12 +64,12 @@ def switch_language(request, code=None):
     Переключает язык для приложения, если такое переключение не
     запрещено в настройках.
     """
-    old_language = translation.get_language()
 
     if not QUICKAPI_SWITCH_LANGUAGE and not code:
         # Disabled switching for quickapi only
-        return settings.LANGUAGE_CODE, old_language
+        return settings.LANGUAGE_CODE, None
 
+    old_language = translation.get_language()
     new_language = None
 
     if code:
@@ -81,7 +81,7 @@ def switch_language(request, code=None):
 
     if new_language:
         try:
-            new_language = translation.activate(new_language)
+            translation.activate(new_language)
         except:
             translation.activate(old_language)
             new_language = None
@@ -89,18 +89,24 @@ def switch_language(request, code=None):
     return old_language, new_language
 
 @csrf_exempt
-def test(request):
+def test(request, code=200, redirect='/'):
     """
     Test response
     """
 
-    default_language, request_language = switch_language(request)
+    if code in (301, 302):
+        return JSONRedirect(location=redirect, status=code,
+                message=_('Test response. Redirect to %s.') % redirect)
+    elif code == 400:
+        return JSONResponse(status=400, message=_('Test response. Error 400.'))
+    elif code == 500:
+        return JSONResponse(status=500, message=_('Test response. Error 500.'))
 
     data = {
         'REMOTE_ADDR': request.META.get("HTTP_X_REAL_IP", request.META.get("REMOTE_ADDR", None)),
         'REMOTE_HOST': request.META.get("REMOTE_HOST", None),
-        'default language': default_language,
-        'request language': request_language,
+        'default language': settings.LANGUAGE_CODE,
+        'request language': request.POST.get('language', getattr(request, 'LANGUAGE_CODE', None)),
         'string': _('String in your localization'),
         'datetime': timezone.now(),
         'is_authenticated': request.user.is_authenticated(),
@@ -288,8 +294,6 @@ api = index
 
 def run(request, methods):
     """ Авторизует пользователя, если он не авторизован и запускает методы """
-
-    switch_language(request)
 
     is_authenticate = request.user.is_authenticated()
     if QUICKAPI_DEBUG:
