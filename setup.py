@@ -12,7 +12,6 @@ setup(
     name='django-quickapi',
     version=quickapi.__version__,
     description='The Django-application for the fast organization API.',
-    long_description=read('README.md'),
     author='Grigoriy Kramarenko',
     author_email='root@rosix.ru',
     url='https://bitbucket.org/rosix/django-quickapi/',
