@@ -287,7 +287,7 @@ def index(request, methods=METHODS):
         p = '\trequest.is_ajax()\t== %s' % request.is_ajax()
         print(colorize(p, fg='blue'))
 
-    if request.is_ajax() or request.method == 'POST':
+    if request.is_ajax() and request.method == 'POST':
         try:
             return run(request, methods)
         except Exception as e:
@@ -347,7 +347,7 @@ def run(request, methods):
             username, password = _auth(request.POST)
     elif request.method == 'POST':
         try:
-            json = jsonlib.loads(request.POST.get('jsonData', request.POST.keys()[0]))
+            json = jsonlib.loads(request.POST.get('jsonData', list(request.POST.keys())[0]))
             method = json.get('method', 'quickapi.test')
             kwargs = json.get('kwargs', _get_kwargs(json))
         except Exception as e:
