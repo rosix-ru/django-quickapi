@@ -1,4 +1,26 @@
 # -*- coding: utf-8 -*-
+#
+#  quickapi/views.py
+#  
+#  Copyright 2012 Grigoriy Kramarenko <root@rosix.ru>
+#  
+#  This program is free software; you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation; either version 3 of the License, or
+#  (at your option) any later version.
+#  
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#  
+#  You should have received a copy of the GNU General Public License
+#  along with this program; if not, write to the Free Software
+#  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+#  MA 02110-1301, USA.
+#  
+#  
+#  
 from __future__ import unicode_literals, print_function
 from django.utils.encoding import smart_text
 from django.utils import six
@@ -12,6 +34,7 @@ from django.utils.termcolors import colorize
 from django.utils import translation
 from django.utils.translation import ugettext_lazy as _
 
+from quickapi.utils import apidoc_lazy, string_lazy
 from quickapi.http import JSONResponse, JSONRedirect, MESSAGES
 from quickapi.conf import (settings, DEBUG, SITE_ID,
     QUICKAPI_DEFINED_METHODS,
@@ -106,14 +129,10 @@ def test(request, code=200, redirect='/'):
         }
     return JSONResponse(data=data)
 
-test.__doc__ = _("""
-*Test response*
-
-#### Request parameters
-Nothing
-
-#### Returned object
-
+test.__doc__ = apidoc_lazy(
+    header=_("""*Test response*"""),
+    data=string_lazy(
+"""
 ```
 #!javascript
 
@@ -124,7 +143,7 @@ Nothing
     "request language": "ru",
     "is_authenticated": true,
     "types": {
-        "string": "String in your localization",
+        "string": "%s",
         "datetime": "2014-01-01T00:00:00.000Z",
         "date": "2014-01-01",
         "time": "00:00:00.000",
@@ -144,12 +163,11 @@ Nothing
         "QUICKAPI_SWITCH_LANGUAGE": true,
         "QUICKAPI_ENSURE_ASCII": false
     }
-    
 }
 ```
-
-*In debug mode shows the settings. Here are the default.*
-""")
+""", _('String in your localization')),
+    footer=_('*In debug mode shows the settings. Here are the default.*')
+)
 
 class Collection(object):
     """

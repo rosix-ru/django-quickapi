@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 #
-#  quickapi/urls.py
+#  quickapi/utils.py
 #  
-#  Copyright 2012 Grigoriy Kramarenko <root@rosix.ru>
+#  Copyright 2014 Grigoriy Kramarenko <root@rosix.ru>
 #  
 #  This program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -22,10 +22,43 @@
 #  
 #  
 from __future__ import unicode_literals
-from django.conf.urls import *
 
-urlpatterns = patterns('quickapi.views',
-    url(r'^$',      'index', name='quickapi'),
-    url(r'^$',      'index', name='quickapi_index'),
-    url(r'^test/$', 'test',  name='quickapi_test'),
-)
+from django.utils import six
+from django.utils.translation import lazy, ugettext_lazy as _
+
+
+def _apidoc_lazy(header, params=_('Nothing'), data='', footer=''):
+    """
+    Returns formatted documentation by generic template.
+    """
+
+    template = _("""
+%(header)s
+
+#### Request parameters
+
+%(params)s
+
+#### Returned object
+
+%(data)s
+
+%(footer)s
+
+""")
+    return template % {'header':header, 'params':params, 'data':data, 'footer':footer}
+
+apidoc_lazy = lazy(_apidoc_lazy, six.text_type)
+
+def _combine_string(string, args=None):
+    """
+    Combines a template string with the passed arguments
+    """
+    if args is None:
+        return string
+    return string % args
+
+string_lazy = lazy(_combine_string, six.text_type)
+
+
+

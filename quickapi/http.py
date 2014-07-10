@@ -1,4 +1,26 @@
 # -*- coding: utf-8 -*-
+#
+#  quickapi/http.py
+#  
+#  Copyright 2012 Grigoriy Kramarenko <root@rosix.ru>
+#  
+#  This program is free software; you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation; either version 3 of the License, or
+#  (at your option) any later version.
+#  
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#  
+#  You should have received a copy of the GNU General Public License
+#  along with this program; if not, write to the Free Software
+#  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+#  MA 02110-1301, USA.
+#  
+#  
+#  
 from __future__ import unicode_literals
 from django.utils.encoding import smart_text
 from django.utils import six
@@ -81,6 +103,7 @@ class JSONEncoder(jsonlib.JSONEncoder):
     """
     JSONEncoder subclass that knows how to encode date/time, decimal
     types and Lazy objects.
+    Almost like in Django, but with additions.
     """
     def default(self, o):
         # See "Date Time String Format" in the ECMA-262 specification.
@@ -110,14 +133,21 @@ class JSONEncoder(jsonlib.JSONEncoder):
         else:
             return super(JSONEncoder, self).default(o)
 
+# compatibility older
 DjangoJSONEncoder = JSONEncoder
 
 def tojson(ctx, indent=None):
+    """
+    Convert context to JSON.
+    """
     result = jsonlib.dumps(ctx, ensure_ascii=QUICKAPI_ENSURE_ASCII, cls=JSONEncoder, indent=indent)
     result = result.encode(settings.DEFAULT_CHARSET)
     return result
 
 def get_json_response(ctx=None):
+    """
+    Building JSON response.
+    """
     result = tojson(ctx, indent=QUICKAPI_INDENT)
     content_type = "%s; charset=%s" % ("application/json", settings.DEFAULT_CHARSET)
     response = HttpResponse(content_type=content_type)
@@ -141,6 +171,9 @@ def check_message(dic):
     return dic
 
 def JSONResponse(data=None, message=None, status=200, **kwargs):
+    """
+    Checks a context and returns full JSON response
+    """
     dic = {
         'status': status,
         'message': message,
@@ -151,6 +184,9 @@ def JSONResponse(data=None, message=None, status=200, **kwargs):
     return get_json_response(dic)
 
 def JSONRedirect(location='/', message=None, status=301, **kwargs):
+    """
+    Redirect to page for this API.
+    """
     dic = {
         'status': status,
         'message': message,
