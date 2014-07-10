@@ -3,7 +3,7 @@ include AUTHORS
 include INSTALL
 include LICENSE
 
-recursive-include reportapi *
+recursive-include quickapi *
 
 recursive-exclude * *.sqlite
 recursive-exclude * __pycache__
