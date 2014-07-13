@@ -1,41 +1,29 @@
 # -*- coding: utf-8 -*-
-"""
-###############################################################################
-# Copyright 2012 Grigoriy Kramarenko.
-###############################################################################
-# This file is part of QUICKAPI.
 #
-#    QUICKAPI is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU General Public License as published by
-#    the Free Software Foundation, either version 3 of the License, or
-#    (at your option) any later version.
-#
-#    QUICKAPI is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU General Public License for more details.
-#
-#    You should have received a copy of the GNU General Public License
-#    along with QUICKAPI.  If not, see <http://www.gnu.org/licenses/>.
-#
-# Этот файл — часть QUICKAPI.
-#
-#   QUICKAPI - свободная программа: вы можете перераспространять ее и/или
-#   изменять ее на условиях Стандартной общественной лицензии GNU в том виде,
-#   в каком она была опубликована Фондом свободного программного обеспечения;
-#   либо версии 3 лицензии, либо (по вашему выбору) любой более поздней
-#   версии.
-#
-#   QUICKAPI распространяется в надежде, что она будет полезной,
-#   но БЕЗО ВСЯКИХ ГАРАНТИЙ; даже без неявной гарантии ТОВАРНОГО ВИДА
-#   или ПРИГОДНОСТИ ДЛЯ ОПРЕДЕЛЕННЫХ ЦЕЛЕЙ. Подробнее см. в Стандартной
-#   общественной лицензии GNU.
-#
-#   Вы должны были получить копию Стандартной общественной лицензии GNU
-#   вместе с этой программой. Если это не так, см.
-#   <http://www.gnu.org/licenses/>.
-###############################################################################
-"""
+#  quickapi/views.py
+#  
+#  Copyright 2012 Grigoriy Kramarenko <root@rosix.ru>
+#  
+#  This program is free software; you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation; either version 3 of the License, or
+#  (at your option) any later version.
+#  
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#  
+#  You should have received a copy of the GNU General Public License
+#  along with this program; if not, write to the Free Software
+#  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+#  MA 02110-1301, USA.
+#  
+#  
+#  
+from __future__ import unicode_literals, print_function
+from django.utils.encoding import smart_text
+from django.utils import six
 from django.contrib.auth import authenticate, login
 from django.core.mail import mail_admins
 from django.shortcuts import render_to_response
@@ -46,12 +34,19 @@ from django.utils.termcolors import colorize
 from django.utils import translation
 from django.utils.translation import ugettext_lazy as _
 
+from quickapi.utils import apidoc_lazy, string_lazy
 from quickapi.http import JSONResponse, JSONRedirect, MESSAGES
-from quickapi.conf import (settings, QUICKAPI_DEFINED_METHODS,
-    QUICKAPI_ONLY_AUTHORIZED_USERS, QUICKAPI_DEBUG, DEBUG, SITE_ID,
-    QUICKAPI_SWITCH_LANGUAGE, QUICKAPI_SWITCH_LANGUAGE_AUTO)
+from quickapi.conf import (settings, DEBUG, SITE_ID,
+    QUICKAPI_DEFINED_METHODS,
+    QUICKAPI_ONLY_AUTHORIZED_USERS,
+    QUICKAPI_INDENT,
+    QUICKAPI_DEBUG,
+    QUICKAPI_SWITCH_LANGUAGE,
+    QUICKAPI_SWITCH_LANGUAGE_AUTO,
+    QUICKAPI_DECIMAL_LOCALE,
+    QUICKAPI_ENSURE_ASCII)
 
-import traceback, json as jsonlib, decimal
+import traceback, decimal, json as jsonlib, decimal
 
 if 'django.contrib.sites' in settings.INSTALLED_APPS:
     from django.contrib.sites.models import Site
@@ -102,39 +97,77 @@ def test(request, code=200, redirect='/'):
     elif code == 500:
         return JSONResponse(status=500, message=_('Test response. Error 500.'))
 
+    now = timezone.now()
+
     data = {
         'REMOTE_ADDR': request.META.get("HTTP_X_REAL_IP", request.META.get("REMOTE_ADDR", None)),
         'REMOTE_HOST': request.META.get("REMOTE_HOST", None),
         'default language': settings.LANGUAGE_CODE,
         'request language': request.POST.get('language', getattr(request, 'LANGUAGE_CODE', None)),
-        'string': _('String in your localization'),
-        'datetime': timezone.now(),
         'is_authenticated': request.user.is_authenticated(),
+        'types': {
+            'string': _('String in your localization'),
+            'datetime': now,
+            'date': now.date(),
+            'time': now.time(),
+            'decimal': decimal.Decimal('12345678.90'),
+            'float': 12345678.90,
+            'integer': 1234567890,
+        },
+        'settings': _('Hidden in not debug mode'),
     }
+    if settings.DEBUG:
+        data['settings'] = {
+            'QUICKAPI_DEFINED_METHODS': QUICKAPI_DEFINED_METHODS,
+            'QUICKAPI_ONLY_AUTHORIZED_USERS': QUICKAPI_ONLY_AUTHORIZED_USERS,
+            'QUICKAPI_INDENT': QUICKAPI_INDENT,
+            'QUICKAPI_DEBUG': QUICKAPI_DEBUG,
+            'QUICKAPI_SWITCH_LANGUAGE': QUICKAPI_SWITCH_LANGUAGE,
+            'QUICKAPI_SWITCH_LANGUAGE_AUTO': QUICKAPI_SWITCH_LANGUAGE_AUTO,
+            'QUICKAPI_DECIMAL_LOCALE': QUICKAPI_DECIMAL_LOCALE,
+            'QUICKAPI_ENSURE_ASCII': QUICKAPI_ENSURE_ASCII,
+        }
     return JSONResponse(data=data)
 
-test.__doc__ = _("""
-*Test response*
-
-#### Request parameters
-Nothing
-
-#### Returned object
-
+test.__doc__ = apidoc_lazy(
+    header=_("""*Test response*"""),
+    data=string_lazy(
+"""
 ```
 #!javascript
 
 {
-    'REMOTE_ADDR': '127.0.0.1' || null,
-    'REMOTE_HOST': 'example.org' || null,
-    'default language': 'en',
-    'request language': 'ru',
-    'string': 'String in your localization',
-    'datetime': '2013-01-01T00:00:00.000Z',
-    'is_authenticated': true,
+    "REMOTE_ADDR": "127.0.0.1" || null,
+    "REMOTE_HOST": "example.org" || null,
+    "default language": "en",
+    "request language": "ru",
+    "is_authenticated": true,
+    "types": {
+        "string": "%s",
+        "datetime": "2014-01-01T00:00:00.000Z",
+        "date": "2014-01-01",
+        "time": "00:00:00.000",
+        "decimal": "12345678.90",
+        "float": 12345678.9,
+        "integer": 1234567890,
+    },
+    "settings": {
+        "QUICKAPI_DEFINED_METHODS": {
+            "quickapi.test": "quickapi.views.test"
+        }, 
+        "QUICKAPI_INDENT": 2, 
+        "QUICKAPI_DECIMAL_LOCALE": false, 
+        "QUICKAPI_ONLY_AUTHORIZED_USERS": false, 
+        "QUICKAPI_DEBUG": false, 
+        "QUICKAPI_SWITCH_LANGUAGE_AUTO": true, 
+        "QUICKAPI_SWITCH_LANGUAGE": true,
+        "QUICKAPI_ENSURE_ASCII": false
+    }
 }
 ```
-""")
+""", _('String in your localization')),
+    footer=_('*In debug mode shows the settings. Here are the default.*')
+)
 
 class Collection(object):
     """
@@ -213,7 +246,7 @@ def get_methods(list_or_dict=QUICKAPI_DEFINED_METHODS, sort=False):
     else:
         raise ValueError('Parameter must be sequence or dictionary')
     for key,val in seq:
-        if isinstance(val, (str, unicode)):
+        if isinstance(val, six.string_types):
             try:
                 method = __import__(val, fromlist=[''])
             except ImportError:
@@ -225,9 +258,9 @@ def get_methods(list_or_dict=QUICKAPI_DEFINED_METHODS, sort=False):
                     method = getattr(module, _method)
                 except ImportError as e:
                     if QUICKAPI_DEBUG:
-                        print colorize(unicode(e), fg='red')
+                        print(colorize(smart_text(e), fg='red'))
                     else:
-                        print e
+                        print(e)
                     method = None
         else:
             method = val
@@ -268,17 +301,17 @@ def index(request, methods=METHODS):
 
     if QUICKAPI_DEBUG:
         p = '\nQUICKAPI:'
-        print colorize(p, fg='blue')
+        print(colorize(p, fg='blue'))
         p = '\trequest.is_ajax()\t== %s' % request.is_ajax()
-        print colorize(p, fg='blue')
+        print(colorize(p, fg='blue'))
 
-    if request.is_ajax() or request.method == 'POST':
+    if request.is_ajax() and request.method == 'POST':
         try:
             return run(request, methods)
         except Exception as e:
             if QUICKAPI_DEBUG:
-                print colorize(unicode(e), fg='red')
-            return JSONResponse(status=500, message=unicode(e))
+                print(colorize(smart_text(e), fg='red'))
+            return JSONResponse(status=500, message=smart_text(e))
 
     # Vars for docs
     ctx = {}
@@ -298,7 +331,7 @@ def run(request, methods):
     is_authenticate = request.user.is_authenticated()
     if QUICKAPI_DEBUG:
         p = '\trun as user\t\t== %s' % request.user
-        print colorize(p, fg='blue')
+        print(colorize(p, fg='blue'))
 
     def _auth(post):
         if request.META.has_key('HTTP_AUTHORIZATION'):
@@ -308,7 +341,11 @@ def run(request, methods):
         else:
             return post.get('username', None), post.get('password', None)
         if key.lower().count('basic'):
-            return key[6:].decode('base64').split(':')
+            if six.PY3:
+                b = bytes(key[6:], settings.DEFAULT_CHARSET).decode('base64_codec')
+            else:
+                b = bytes(key[6:]).decode('base64')
+            return smart_text(b).split(':')
         else:
             return None, None
 
@@ -328,19 +365,19 @@ def run(request, methods):
             username, password = _auth(request.POST)
     elif request.method == 'POST':
         try:
-            json = jsonlib.loads(request.POST.get('jsonData', request.POST.keys()[0]))
+            json = jsonlib.loads(request.POST.get('jsonData', list(request.POST.keys())[0]))
             method = json.get('method', 'quickapi.test')
             kwargs = json.get('kwargs', _get_kwargs(json))
         except Exception as e:
             pe = '\t%s' % e
             ppost = '\trequest.POST\t\t== %s' % request.POST
             if QUICKAPI_DEBUG:
-                print colorize(pe, fg='red')
-                print colorize(ppost, fg='blue')
+                print(colorize(pe, fg='red'))
+                print(colorize(ppost, fg='blue'))
             else:
-                print pe
-                print ppost
-            return JSONResponse(status=400, message=unicode(e))
+                print(pe)
+                print(ppost)
+            return JSONResponse(status=400, message=smart_text(e))
         else:
             if not is_authenticate:
                 username, password = _auth(json)
@@ -356,9 +393,9 @@ def run(request, methods):
 
     if QUICKAPI_DEBUG:
         p = '\tlogin user\t\t== %s' % request.user
-        print colorize(p, fg='blue')
+        print(colorize(p, fg='blue'))
         p = '\tmethod\t\t\t== %s' % method
-        print colorize(p, fg='blue')
+        print(colorize(p, fg='blue'))
 
     if method in methods:
         try:
@@ -366,7 +403,7 @@ def run(request, methods):
         except Exception as e:
             msg = traceback.format_exc()
             if DEBUG:
-                print msg
+                print(msg)
             else:
                 msg = MESSAGES[405]
             return JSONResponse(status=405, message=msg)
@@ -375,7 +412,7 @@ def run(request, methods):
     else:
         msg = _('Method `%s` does not exist') % method
         if DEBUG:
-            print msg
+            print(msg)
         return JSONResponse(status=405, message=msg)
 
     try:
@@ -383,18 +420,18 @@ def run(request, methods):
     except Exception as e:
         msg = traceback.format_exc()
         if DEBUG:
-            print msg
+            print(msg)
         else:
             try:
                 msg = msg.decode('utf-8')
             except:
                 pass
-            mail_admins(u'QuickAPI method error', msg +'\n\n'+ unicode(request))
+            mail_admins('QuickAPI method error', msg +'\n\n'+ smart_text(request))
         try:
             return JSONResponse(status=500, message=str(e).decode('utf-8'))
         except:
             try:
-                return JSONResponse(status=500, message=unicode(e))
+                return JSONResponse(status=500, message=smart_text(e))
             except:
                 pass
             return JSONResponse(status=500, message=MESSAGES[500])

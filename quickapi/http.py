@@ -1,76 +1,40 @@
 # -*- coding: utf-8 -*-
-"""
-###############################################################################
-# Copyright 2012 Grigoriy Kramarenko.
-###############################################################################
-# This file is part of QUICKAPI.
 #
-#    QUICKAPI is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU General Public License as published by
-#    the Free Software Foundation, either version 3 of the License, or
-#    (at your option) any later version.
-#
-#    QUICKAPI is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU General Public License for more details.
-#
-#    You should have received a copy of the GNU General Public License
-#    along with QUICKAPI.  If not, see <http://www.gnu.org/licenses/>.
-#
-# Этот файл — часть QUICKAPI.
-#
-#   QUICKAPI - свободная программа: вы можете перераспространять ее и/или
-#   изменять ее на условиях Стандартной общественной лицензии GNU в том виде,
-#   в каком она была опубликована Фондом свободного программного обеспечения;
-#   либо версии 3 лицензии, либо (по вашему выбору) любой более поздней
-#   версии.
-#
-#   QUICKAPI распространяется в надежде, что она будет полезной,
-#   но БЕЗО ВСЯКИХ ГАРАНТИЙ; даже без неявной гарантии ТОВАРНОГО ВИДА
-#   или ПРИГОДНОСТИ ДЛЯ ОПРЕДЕЛЕННЫХ ЦЕЛЕЙ. Подробнее см. в Стандартной
-#   общественной лицензии GNU.
-#
-#   Вы должны были получить копию Стандартной общественной лицензии GNU
-#   вместе с этой программой. Если это не так, см.
-#   <http://www.gnu.org/licenses/>.
-###############################################################################
-
-Структура ответа outdict = {
-    'status': 200, # коды HTTP, имеющие смысл.
-    'message': u'Строчное сообщение для пользователя',
-    'data': <Сериализованный объект JSON>,
-}
-
-Пример outdict при возврате единичной настройки пользователя:
-outdic = {
-    'status': 200,
-    'message': u'Количество объектов на одной странице',
-    'data': 25,
-}
-
-Пример outdict с переадресацией:
-outdic = {
-    'status': 303,
-    'message': u'Смотрите на другой странице',
-    'data': { 'Location': '/other-page/', },
-},
-либо:
-outdict = {
-    'status': 401,
-    'message': u'Пользователь не авторизован',
-    'data': { 'Location': '/accounts/login/', },
-}
-"""
+#  quickapi/http.py
+#  
+#  Copyright 2012 Grigoriy Kramarenko <root@rosix.ru>
+#  
+#  This program is free software; you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation; either version 3 of the License, or
+#  (at your option) any later version.
+#  
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#  
+#  You should have received a copy of the GNU General Public License
+#  along with this program; if not, write to the Free Software
+#  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+#  MA 02110-1301, USA.
+#  
+#  
+#  
+from __future__ import unicode_literals
+from django.utils.encoding import smart_text
+from django.utils import six
 from django.conf import settings
 from django.http import HttpResponse
 from django.utils.functional import Promise
 from django.utils.translation import ugettext_lazy as _
 from django.utils.timezone import is_aware
+from django.utils.formats import number_format
 
-from quickapi.conf import QUICKAPI_INDENT
+from quickapi.conf import (QUICKAPI_INDENT, QUICKAPI_DECIMAL_LOCALE,
+    QUICKAPI_ENSURE_ASCII)
 
-import datetime, decimal, json as jsonlib
+import datetime, decimal, zlib, json as jsonlib
 
 MESSAGES = {
 #1xx
@@ -139,6 +103,7 @@ class JSONEncoder(jsonlib.JSONEncoder):
     """
     JSONEncoder subclass that knows how to encode date/time, decimal
     types and Lazy objects.
+    Almost like in Django, but with additions.
     """
     def default(self, o):
         # See "Date Time String Format" in the ECMA-262 specification.
@@ -159,31 +124,36 @@ class JSONEncoder(jsonlib.JSONEncoder):
                 r = r[:12]
             return r
         elif isinstance(o, decimal.Decimal):
-            return float(o)
+            if QUICKAPI_DECIMAL_LOCALE:
+                return number_format(o, use_l10n=True, force_grouping=True)
+            else:
+                return str(o)
         elif isinstance(o, Promise):
-            return unicode(o)
+            return six.text_type(o)
         else:
             return super(JSONEncoder, self).default(o)
 
+# compatibility older
 DjangoJSONEncoder = JSONEncoder
 
-def tojson(ctx, indent=None, encode_after=True):
-    result = jsonlib.dumps(ctx, ensure_ascii=True, cls=JSONEncoder, indent=indent)
-    if encode_after:
-        try:
-            result = result.encode(settings.DEFAULT_CHARSET)
-        except:
-            pass
+def tojson(ctx, indent=None):
+    """
+    Convert context to JSON.
+    """
+    result = jsonlib.dumps(ctx, ensure_ascii=QUICKAPI_ENSURE_ASCII, cls=JSONEncoder, indent=indent)
+    result = result.encode(settings.DEFAULT_CHARSET)
     return result
 
 def get_json_response(ctx=None):
+    """
+    Building JSON response.
+    """
     result = tojson(ctx, indent=QUICKAPI_INDENT)
-    content_type = "%s; charset=%s" % ("application/json",
-                    settings.DEFAULT_CHARSET)
+    content_type = "%s; charset=%s" % ("application/json", settings.DEFAULT_CHARSET)
     response = HttpResponse(content_type=content_type)
     if len(result)>512:
         response['Content-encoding'] = 'deflate'
-        result = result.encode('zlib')
+        result = zlib.compress(result)
     response.write(result)
     return response
 
@@ -201,6 +171,9 @@ def check_message(dic):
     return dic
 
 def JSONResponse(data=None, message=None, status=200, **kwargs):
+    """
+    Checks a context and returns full JSON response
+    """
     dic = {
         'status': status,
         'message': message,
@@ -211,6 +184,9 @@ def JSONResponse(data=None, message=None, status=200, **kwargs):
     return get_json_response(dic)
 
 def JSONRedirect(location='/', message=None, status=301, **kwargs):
+    """
+    Redirect to page for this API.
+    """
     dic = {
         'status': status,
         'message': message,

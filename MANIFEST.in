@@ -1,5 +1,10 @@
-recursive-include quickapi *
-recursive-exclude quickapi *.pyc
-include LICENSE
+include README.rst
 include AUTHORS
-include README.md
+include INSTALL
+include LICENSE
+
+recursive-include quickapi *
+
+recursive-exclude * *.sqlite
+recursive-exclude * __pycache__
+recursive-exclude * *.py[co]

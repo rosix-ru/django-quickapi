@@ -1,5 +1,5 @@
 /**
- * jQuery QuickAPI plugin 0.1
+ * jQuery QuickAPI plugin 2.0
  *
  * @author Grigory Kramaranko, 2014
  * @license GNU General Public License 3 <http://www.gnu.org/licenses/>
@@ -9,23 +9,31 @@
 (function ($) {
     /* Общая функция для работы с django-quickapi */
     $.quickAPI = function(options) {
-        var options = options || { args: { method: "quickapi.test" }},
-            settings = {
+        var options = options || new Object();
+        
+        options.args = options.args || { method: "quickapi.test" };
+
+        var settings = {
                 type: options.type || "POST",
                 async: options.sync === true ? false : options.async === false ? false : true,
                 timeout: options.timeout || window.AJAX_TIMEOUT || 3000,
-                url: options.url || '/api/',
+                url: options.url || window.QUICKAPI_URL || '/api/',
                 data: {
-                    jsonData: $.toJSON(options.args || { method: "quickapi.test"}),
+                    jsonData: $.toJSON(options.args),
                     language: options.language || window.LANGUAGE_CODE,
                 },
                 dataType: 'json',
             },
             callback = options.callback || function(json, status, xhr) {},
-            handlerShowAlert = options.handlerShowAlert || window.handlerShowAlert ||
-                function(alertmessage, alertclass, alertcallback) {
-                    alert(alertmessage);
-                    if (alertcallback) { return alertcallback() };
+            showAlert = options.handlerShowAlert || window.handlerShowAlert ||
+                function(head, msg, cls, cb) {
+                    if ($.type(msg) == 'object') {
+                        msg = $.toJSON(msg)
+                            .replace(/\,\"/g, ', "')
+                            .replace(/\"\:/g, '": ');
+                    }
+                    alert(head +'\n'+ msg);
+                    if (cb) { return cb() };
                     return null;
                 },
             jqxhr = $.ajax(settings)
@@ -44,7 +52,7 @@
                         if (xhr.responseText) {
                             var msg = (xhr.responseText.length <= 255) ?
                                 xhr.responseText : xhr.responseText.substring(0, 255) + '...';
-                            handlerShowAlert(msg, 'alert-danger');
+                            showAlert("ERROR:", msg, 'alert-danger');
                         };
                     };
                 })
@@ -62,13 +70,13 @@
                             redirect = function() { window.location.replace(location) };
                         console.log("REDIRECT:" + location);
                         if (json.message) {
-                            handlerShowAlert(json.message, 'alert-danger', redirect);
+                            showAlert("REDIRECT:", json.message, 'alert-danger', redirect);
                         }
                         else { redirect() };
                     }
                     /* При ошибках извещаем пользователя полученным сообщением */
                     else if (json.status >=400) {
-                        handlerShowAlert(json.message, 'alert-danger');
+                        showAlert("ERROR:", json.message, 'alert-danger');
                     }
                     /* При нормальном возврате в debug-режиме выводим в консоль
                      * сообщение
@@ -80,6 +88,7 @@
                                 o = new Object;
                                 $.extend(true, o, json.data);
                                 console.log(o);
+                                showAlert('', o, 'alert-success');
                             };
                         };
                         return callback(json, status, xhr);

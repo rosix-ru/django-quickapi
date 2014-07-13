@@ -1,41 +1,27 @@
 # -*- coding: utf-8 -*-
-"""
-###############################################################################
-# Copyright 2012 Grigoriy Kramarenko.
-###############################################################################
-# This file is part of QUICKAPI.
 #
-#    QUICKAPI is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU General Public License as published by
-#    the Free Software Foundation, either version 3 of the License, or
-#    (at your option) any later version.
-#
-#    QUICKAPI is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU General Public License for more details.
-#
-#    You should have received a copy of the GNU General Public License
-#    along with QUICKAPI.  If not, see <http://www.gnu.org/licenses/>.
-#
-# Этот файл — часть QUICKAPI.
-#
-#   QUICKAPI - свободная программа: вы можете перераспространять ее и/или
-#   изменять ее на условиях Стандартной общественной лицензии GNU в том виде,
-#   в каком она была опубликована Фондом свободного программного обеспечения;
-#   либо версии 3 лицензии, либо (по вашему выбору) любой более поздней
-#   версии.
-#
-#   QUICKAPI распространяется в надежде, что она будет полезной,
-#   но БЕЗО ВСЯКИХ ГАРАНТИЙ; даже без неявной гарантии ТОВАРНОГО ВИДА
-#   или ПРИГОДНОСТИ ДЛЯ ОПРЕДЕЛЕННЫХ ЦЕЛЕЙ. Подробнее см. в Стандартной
-#   общественной лицензии GNU.
-#
-#   Вы должны были получить копию Стандартной общественной лицензии GNU
-#   вместе с этой программой. Если это не так, см.
-#   <http://www.gnu.org/licenses/>.
-###############################################################################
-"""
+#  quickapi/conf.py
+#  
+#  Copyright 2012 Grigoriy Kramarenko <root@rosix.ru>
+#  
+#  This program is free software; you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation; either version 3 of the License, or
+#  (at your option) any later version.
+#  
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#  
+#  You should have received a copy of the GNU General Public License
+#  along with this program; if not, write to the Free Software
+#  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+#  MA 02110-1301, USA.
+#  
+#  
+#  
+from __future__ import unicode_literals
 from django.conf import settings
 
 methods = { 'quickapi.test': 'quickapi.views.test' }
@@ -49,3 +35,5 @@ QUICKAPI_INDENT                = getattr(settings, 'QUICKAPI_INDENT', 2)
 QUICKAPI_DEBUG                 = getattr(settings, 'QUICKAPI_DEBUG', False)
 QUICKAPI_SWITCH_LANGUAGE       = getattr(settings, 'QUICKAPI_SWITCH_LANGUAGE', True)
 QUICKAPI_SWITCH_LANGUAGE_AUTO  = getattr(settings, 'QUICKAPI_SWITCH_LANGUAGE_AUTO', True)
+QUICKAPI_DECIMAL_LOCALE        = getattr(settings, 'QUICKAPI_DECIMAL_LOCALE', False)
+QUICKAPI_ENSURE_ASCII          = getattr(settings, 'QUICKAPI_ENSURE_ASCII', False)

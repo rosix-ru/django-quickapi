@@ -3,6 +3,7 @@
 import traceback
 import json, urllib2, base64
 
+DEBUG = True
 ########################################################################
 #                  Настройка адреса сервера API                        #
 ########################################################################
@@ -20,16 +21,16 @@ PASSWORD     = 'admin'
 # Простая авторизация, когда прямо в запросе указаны персональные данные. 
 # Это абсолютно рабочий метод, когда другие могут требовать специальных
 # настроек вэб-сервера
-SIMPLE_AUTH  = False
+SIMPLE_AUTH  = True
 
 # Принудительно устанавливать заголовок для Basic-авторизации, если не
 # рабоатет стандартный режим
-FORCE_BASIC_HEADERS = True
+FORCE_BASIC_HEADERS = False
 
 ########################################################################
 #                               КОД                                    #
 ########################################################################
-DEBUG = True
+
 class BaseAPI(object):
     version  = None
     hostname = HOST
@@ -130,8 +131,9 @@ class BaseAPI(object):
         opener = self.get_opener() # store
         #~ handler_debug(**opener.__dict__)
         try:
-            data = opener.open(request, timeout=self.timeout).read()
-            handler_debug(data)
+            response = opener.open(request, timeout=self.timeout)
+            data = response.read()
+            handler_debug(repr(data))
         except Exception as e:
             self.error = e
             print self.format_error
@@ -186,24 +188,27 @@ class Version(BaseAPI):
             print data.get('message')
         return data['data']
 
+api = Version()
+
 def handler_debug(*args, **kwargs):
     if DEBUG:
-        print '\nDEBUG >>>'
         for x in args:
             print x
         for k,v in kwargs.items():
             print k, '=', v
-        print '<<< DEBUG'
 
 def main(method=None, simple=False):
-    api = Version()
+    print 'DEBUG:', DEBUG
+    print 'SIMPLE_AUTH', SIMPLE_AUTH
+    print 'FORCE_BASIC_HEADERS', FORCE_BASIC_HEADERS
+
     if not simple:
-        print api.method(method or 'test')
+        print api.method(method or 'quickapi.test')
     else:
         url = api.url
         
-        data = {'username': USERNAME,'password':PASSWORD,
-                'method': method or 'test',
+        data = {'username': USERNAME, 'password': PASSWORD,
+                'method': method or 'quickapi.test',
                 'kwargs': {}, 
         }
         r = urllib2.Request(url, headers=api.headers)

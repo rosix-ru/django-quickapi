@@ -1,43 +1,30 @@
 # -*- coding: utf-8 -*-
-"""
-###############################################################################
-# Copyright 2012 Grigoriy Kramarenko.
-###############################################################################
-# This file is part of QUICKAPI.
 #
-#    QUICKAPI is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU General Public License as published by
-#    the Free Software Foundation, either version 3 of the License, or
-#    (at your option) any later version.
-#
-#    QUICKAPI is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU General Public License for more details.
-#
-#    You should have received a copy of the GNU General Public License
-#    along with QUICKAPI.  If not, see <http://www.gnu.org/licenses/>.
-#
-# Этот файл — часть QUICKAPI.
-#
-#   QUICKAPI - свободная программа: вы можете перераспространять ее и/или
-#   изменять ее на условиях Стандартной общественной лицензии GNU в том виде,
-#   в каком она была опубликована Фондом свободного программного обеспечения;
-#   либо версии 3 лицензии, либо (по вашему выбору) любой более поздней
-#   версии.
-#
-#   QUICKAPI распространяется в надежде, что она будет полезной,
-#   но БЕЗО ВСЯКИХ ГАРАНТИЙ; даже без неявной гарантии ТОВАРНОГО ВИДА
-#   или ПРИГОДНОСТИ ДЛЯ ОПРЕДЕЛЕННЫХ ЦЕЛЕЙ. Подробнее см. в Стандартной
-#   общественной лицензии GNU.
-#
-#   Вы должны были получить копию Стандартной общественной лицензии GNU
-#   вместе с этой программой. Если это не так, см.
-#   <http://www.gnu.org/licenses/>.
-###############################################################################
-"""
+#  quickapi/templatetags/quickapi.py
+#  
+#  Copyright 2012 Grigoriy Kramarenko <root@rosix.ru>
+#  
+#  This program is free software; you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation; either version 3 of the License, or
+#  (at your option) any later version.
+#  
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#  
+#  You should have received a copy of the GNU General Public License
+#  along with this program; if not, write to the Free Software
+#  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+#  MA 02110-1301, USA.
+#  
+#  
+#  
+from __future__ import unicode_literals
 from django import template
-from django.utils.encoding import smart_unicode
+from django.utils.encoding import smart_text
+
 register = template.Library()
 
 try:
@@ -155,7 +142,7 @@ def highlight_prepare(text):
 
 @register.filter
 def formatdoc(text):
-    text = drop_space(smart_unicode(text))
+    text = drop_space(smart_text(text))
     if highlight_support:
         text = highlight_prepare(text)
     elif markdown_support:
@@ -163,3 +150,4 @@ def formatdoc(text):
     else:
         '<br>'.join(text.split('\n'))
     return text
+
