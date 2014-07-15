@@ -305,7 +305,9 @@ def index(request, methods=METHODS):
         p = '\trequest.is_ajax()\t== %s' % request.is_ajax()
         print(colorize(p, fg='blue'))
 
-    if request.is_ajax() and request.method == 'POST':
+    # When accessed from third-party programs, such as Python,
+    # request.is_ajax() is equal to false
+    if request.is_ajax() or request.method == 'POST':
         try:
             return run(request, methods)
         except Exception as e:
