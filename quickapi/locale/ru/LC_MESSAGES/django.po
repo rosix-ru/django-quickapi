@@ -283,11 +283,11 @@ msgstr ""
 
 #: utils.py:71
 msgid "if success or"
-msgstr "если принято, иначе"
+msgstr "если успешно, иначе"
 
 #: utils.py:72
 msgid "if not success or"
-msgstr ""
+msgstr "если не успешно, иначе"
 
 #: utils.py:73
 msgid "if exists or"
