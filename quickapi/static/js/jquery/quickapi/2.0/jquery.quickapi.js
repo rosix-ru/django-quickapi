@@ -42,7 +42,7 @@
                     // Если есть переадресация, то выполняем её
                     if (xhr.getResponseHeader('Location')) {
                         var location = xhr.getResponseHeader('Location')
-                            .replace(/\/[#-\w]*$/, "/?")
+                            .replace(/\/[\#\-\w]*$/, "/?")
                             .replace(/\?.*$/, "?next=" + window.location.pathname);
                         window.location.replace(location);
                         console.log("REDIRECT:" + xhr.getResponseHeader('Location'));
@@ -65,7 +65,7 @@
                      */
                     if ((json.status >=300) && (json.status <400) && (json.data.Location != undefined)) {
                         var location = json.data.Location
-                            .replace(/\/[#-\w]*$/, "/?")
+                            .replace(/\/[\#\-\w]*$/, "/?")
                             .replace(/\?.*$/, "?next=" + window.location.pathname),
                             redirect = function() { window.location.replace(location) };
                         console.log("REDIRECT:" + location);
