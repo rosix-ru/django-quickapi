@@ -7,7 +7,31 @@
  */
 
 (function ($) {
-    /* Общая функция для работы с django-quickapi */
+    /* Общая функция для работы с django-quickapi
+     * 
+     * Использование:
+     * /все параметры необязательны и приведены здесь по-умолчанию/
+     * 
+     * $.quickAPI({
+     *   url: "/api/", 
+     *   args: {
+     *     method: "name_your_method",
+     *       kwargs: {
+     *         method_param1: "value",
+     *         ...
+     *      },
+     *   },
+     *   type: "POST",
+     *   sync: false,
+     *   async: true,
+     *   timeout: 3000,
+     *   language: 'ru',
+     *   log: undefined, // аргумент для console.log(...)
+     *   callback: function(json, status, xhr) {},
+     *   handlerShowAlert: function(head, msg, cls, cb) {//см. код ниже//},
+     * })
+     * 
+     */
     $.quickAPI = function(options) {
         var options = options || new Object();
         
