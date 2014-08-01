@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: QUICKAPI\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-07-10 17:30+1100\n"
+"POT-Creation-Date: 2014-07-24 12:01+1100\n"
 "PO-Revision-Date: 2013-01-23 11:43+1100\n"
 "Last-Translator: Grigoriy Kramarenko <root@rosix.ru>\n"
 "Language-Team: \n"
@@ -281,6 +281,34 @@ msgstr ""
 "%(footer)s\n"
 "\n"
 
+#: utils.py:71
+msgid "if success or"
+msgstr "если успешно, иначе"
+
+#: utils.py:72
+msgid "if not success or"
+msgstr "если не успешно, иначе"
+
+#: utils.py:73
+msgid "if exists or"
+msgstr "если существует, иначе"
+
+#: utils.py:74
+msgid "if not exists or"
+msgstr "если не существует, иначе"
+
+#: utils.py:82
+msgid "primary key"
+msgstr "первичный ключ"
+
+#: utils.py:82
+msgid "name of field"
+msgstr "имя поля"
+
+#: utils.py:82
+msgid "new value for field"
+msgstr "новое значение для поля"
+
 #: views.py:94
 #, python-format
 msgid "Test response. Redirect to %s."
@@ -310,7 +338,7 @@ msgstr "*Тестовый ответ*"
 msgid "*In debug mode shows the settings. Here are the default.*"
 msgstr "*В debug-режиме показывает настройки. Здесь приведены по-умолчанию.*"
 
-#: views.py:413
+#: views.py:415
 #, python-format
 msgid "Method `%s` does not exist"
 msgstr "Метод `%s` не существует"

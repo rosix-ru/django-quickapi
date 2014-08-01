@@ -7,7 +7,31 @@
  */
 
 (function ($) {
-    /* Общая функция для работы с django-quickapi */
+    /* Общая функция для работы с django-quickapi
+     * 
+     * Использование:
+     * /все параметры необязательны и приведены здесь по-умолчанию/
+     * 
+     * $.quickAPI({
+     *   url: "/api/", 
+     *   args: {
+     *     method: "name_your_method",
+     *       kwargs: {
+     *         method_param1: "value",
+     *         ...
+     *      },
+     *   },
+     *   type: "POST",
+     *   sync: false,
+     *   async: true,
+     *   timeout: 3000,
+     *   language: 'ru',
+     *   log: undefined, // аргумент для console.log(...)
+     *   callback: function(json, status, xhr) {},
+     *   handlerShowAlert: function(head, msg, cls, cb) {//см. код ниже//},
+     * })
+     * 
+     */
     $.quickAPI = function(options) {
         var options = options || new Object();
         
@@ -42,7 +66,7 @@
                     // Если есть переадресация, то выполняем её
                     if (xhr.getResponseHeader('Location')) {
                         var location = xhr.getResponseHeader('Location')
-                            .replace(/\/[#-\w]*$/, "/?")
+                            .replace(/\/[\#\-\w]*$/, "/?")
                             .replace(/\?.*$/, "?next=" + window.location.pathname);
                         window.location.replace(location);
                         console.log("REDIRECT:" + xhr.getResponseHeader('Location'));
@@ -65,7 +89,7 @@
                      */
                     if ((json.status >=300) && (json.status <400) && (json.data.Location != undefined)) {
                         var location = json.data.Location
-                            .replace(/\/[#-\w]*$/, "/?")
+                            .replace(/\/[\#\-\w]*$/, "/?")
                             .replace(/\?.*$/, "?next=" + window.location.pathname),
                             redirect = function() { window.location.replace(location) };
                         console.log("REDIRECT:" + location);
