@@ -69,11 +69,11 @@
                             .replace(/\/[\#\-\w]*$/, "/?")
                             .replace(/\?.*$/, "?next=" + window.location.pathname);
                         window.location.replace(location);
-                        console.log("REDIRECT:" + xhr.getResponseHeader('Location'));
+                        console.info("REDIRECT:" + xhr.getResponseHeader('Location'));
                     } else {
-                        // Иначе извещаем пользователя ответом и в консоль
-                        console.log("ERROR:" + xhr.responseText);
                         if (xhr.responseText) {
+                            // Иначе извещаем пользователя ответом и в консоль
+                            console.error("ERROR:" + xhr.responseText);
                             var msg = (xhr.responseText.length <= 255) ?
                                 xhr.responseText : xhr.responseText.substring(0, 255) + '...';
                             showAlert("ERROR:", msg, 'alert-danger');
@@ -82,7 +82,7 @@
                 })
                 // Обработка полученных данных
                 .done(function(json, status, xhr) {
-                    if (options.log && window.DEBUG) {console.log(options.log)};
+                    if (options.log && window.DEBUG) {console.debug(options.log)};
                     /* При переадресации нужно отобразить сообщение на некоторое время,
                      * а затем выполнить переход по ссылке, добавив GET-параметр для
                      * возврата на текущую страницу
@@ -92,7 +92,7 @@
                             .replace(/\/[\#\-\w]*$/, "/?")
                             .replace(/\?.*$/, "?next=" + window.location.pathname),
                             redirect = function() { window.location.replace(location) };
-                        console.log("REDIRECT:" + location);
+                        console.info("REDIRECT:" + location);
                         if (json.message) {
                             showAlert("REDIRECT:", json.message, 'alert-danger', redirect);
                         }
@@ -107,11 +107,11 @@
                      */
                     else {
                         if (window.DEBUG) {
-                            console.log($.toJSON(json.message));
+                            console.debug($.toJSON(json.message));
                             if (options.args.method == "quickapi.test") {
                                 o = new Object;
                                 $.extend(true, o, json.data);
-                                console.log(o);
+                                console.debug(o);
                                 showAlert('', o, 'alert-success');
                             };
                         };

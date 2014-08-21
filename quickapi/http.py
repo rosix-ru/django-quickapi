@@ -30,6 +30,7 @@ from django.utils.functional import Promise
 from django.utils.translation import ugettext_lazy as _
 from django.utils.timezone import is_aware
 from django.utils.formats import number_format
+from django.utils.cache import add_never_cache_headers
 
 from quickapi.conf import (QUICKAPI_INDENT, QUICKAPI_DECIMAL_LOCALE,
     QUICKAPI_ENSURE_ASCII)
@@ -151,6 +152,7 @@ def get_json_response(ctx=None):
     result = tojson(ctx, indent=QUICKAPI_INDENT)
     content_type = "%s; charset=%s" % ("application/json", settings.DEFAULT_CHARSET)
     response = HttpResponse(content_type=content_type)
+    add_never_cache_headers(response)
     if len(result)>512:
         response['Content-encoding'] = 'deflate'
         result = zlib.compress(result)
