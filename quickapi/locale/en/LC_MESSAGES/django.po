@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: QUICKAPI\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-12-22 13:40+1100\n"
+"POT-Creation-Date: 2014-09-25 13:13+1100\n"
 "PO-Revision-Date: 2013-01-23 11:43+1100\n"
 "Last-Translator: Grigoriy Kramarenko <root@rosix.ru>\n"
 "Language: en\n"
@@ -15,275 +15,328 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: http.py:77
+#: decorators.py:56
+msgid "API work only with POST method on AJAX."
+msgstr ""
+
+#: http.py:41
 msgid "Continue"
 msgstr ""
 
-#: http.py:78
+#: http.py:42
 msgid "Switching Protocols"
 msgstr ""
 
-#: http.py:79
+#: http.py:43
 msgid "Processing"
 msgstr ""
 
-#: http.py:81
+#: http.py:45
 msgid "OK"
 msgstr ""
 
-#: http.py:82
+#: http.py:46
 msgid "Created"
 msgstr ""
 
-#: http.py:83
+#: http.py:47
 msgid "Accepted"
 msgstr ""
 
-#: http.py:84
+#: http.py:48
 msgid "Non-Authoritative Information"
 msgstr ""
 
-#: http.py:85
+#: http.py:49
 msgid "No Content"
 msgstr ""
 
-#: http.py:86
+#: http.py:50
 msgid "Reset Content"
 msgstr ""
 
-#: http.py:87
+#: http.py:51
 msgid "Partial Content"
 msgstr ""
 
-#: http.py:88
+#: http.py:52
 msgid "Multi-Status"
 msgstr ""
 
-#: http.py:89
+#: http.py:53
 msgid "IM Used"
 msgstr ""
 
-#: http.py:91
+#: http.py:55
 msgid "Multiple Choices"
 msgstr ""
 
-#: http.py:92
+#: http.py:56
 msgid "Moved Permanently"
 msgstr ""
 
-#: http.py:93
+#: http.py:57
 msgid "Found"
 msgstr ""
 
-#: http.py:94
+#: http.py:58
 msgid "See Other"
 msgstr ""
 
-#: http.py:95
+#: http.py:59
 msgid "Not Modified"
 msgstr ""
 
-#: http.py:96
+#: http.py:60
 msgid "Use Proxy"
 msgstr ""
 
-#: http.py:97
+#: http.py:61
 msgid "Temporary Redirect"
 msgstr ""
 
-#: http.py:99
+#: http.py:63
 msgid "Bad Request"
 msgstr ""
 
-#: http.py:100
+#: http.py:64
 msgid "Unauthorized"
 msgstr ""
 
-#: http.py:101
+#: http.py:65
 msgid "Payment Required"
 msgstr ""
 
-#: http.py:102
+#: http.py:66
 msgid "Forbidden"
 msgstr ""
 
-#: http.py:103
+#: http.py:67
 msgid "Not Found"
 msgstr ""
 
-#: http.py:104
+#: http.py:68
 msgid "Method Not Allowed"
 msgstr ""
 
-#: http.py:105
+#: http.py:69
 msgid "Not Acceptable"
 msgstr ""
 
-#: http.py:106
+#: http.py:70
 msgid "Proxy Authentication Required"
 msgstr ""
 
-#: http.py:107
+#: http.py:71
 msgid "Request Timeout"
 msgstr ""
 
-#: http.py:108
+#: http.py:72
 msgid "Conflict"
 msgstr ""
 
-#: http.py:109
+#: http.py:73
 msgid "Gone"
 msgstr ""
 
-#: http.py:110
+#: http.py:74
 msgid "Length Required"
 msgstr ""
 
-#: http.py:111
+#: http.py:75
 msgid "Precondition Failed"
 msgstr ""
 
-#: http.py:112
+#: http.py:76
 msgid "Request Entity Too Large"
 msgstr ""
 
-#: http.py:113
+#: http.py:77
 msgid "Request-URI Too Large"
 msgstr ""
 
-#: http.py:114
+#: http.py:78
 msgid "Unsupported Media Type"
 msgstr ""
 
-#: http.py:115
+#: http.py:79
 msgid "Requested Range Not Satisfiable"
 msgstr ""
 
-#: http.py:116
+#: http.py:80
 msgid "Expectation Failed"
 msgstr ""
 
-#: http.py:117
+#: http.py:81
 msgid "Unprocessable Entity"
 msgstr ""
 
-#: http.py:118
+#: http.py:82
 msgid "Locked"
 msgstr ""
 
-#: http.py:119
+#: http.py:83
 msgid "Failed Dependency"
 msgstr ""
 
-#: http.py:120
+#: http.py:84
 msgid "Unordered Collection"
 msgstr ""
 
-#: http.py:121
+#: http.py:85
 msgid "Upgrade Required"
 msgstr ""
 
-#: http.py:122
+#: http.py:86
 msgid "Retry With"
 msgstr ""
 
-#: http.py:123
+#: http.py:87
 msgid "Unrecoverable Error"
 msgstr ""
 
-#: http.py:125
+#: http.py:89
 msgid "Internal Server Error"
 msgstr ""
 
-#: http.py:126
+#: http.py:90
 msgid "Not Implemented"
 msgstr ""
 
-#: http.py:127
+#: http.py:91
 msgid "Bad Gateway"
 msgstr ""
 
-#: http.py:128
+#: http.py:92
 msgid "Service Unavailable"
 msgstr ""
 
-#: http.py:129
+#: http.py:93
 msgid "Gateway Timeout"
 msgstr ""
 
-#: http.py:130
+#: http.py:94
 msgid "HTTP Version Not Supported"
 msgstr ""
 
-#: http.py:131
+#: http.py:95
 msgid "Variant Also Negotiates"
 msgstr ""
 
-#: http.py:132
+#: http.py:96
 msgid "Insufficient Storage"
 msgstr ""
 
-#: http.py:133
+#: http.py:97
 msgid "Loop Detected"
 msgstr ""
 
-#: http.py:134
+#: http.py:98
 msgid "Bandwidth Limit Exceeded"
 msgstr ""
 
-#: http.py:135
+#: http.py:99
 msgid "Not Extended"
 msgstr ""
 
-#: http.py:195
+#: http.py:171
 msgid "Undefined message"
 msgstr ""
 
-#: views.py:114
+#: utils.py:30
+msgid "Nothing"
+msgstr ""
+
+#: utils.py:35
+#, python-format
+msgid ""
+"\n"
+"%(header)s\n"
+"\n"
+"#### Request parameters\n"
+"\n"
+"%(params)s\n"
+"\n"
+"#### Returned object\n"
+"\n"
+"%(data)s\n"
+"\n"
+"%(footer)s\n"
+"\n"
+msgstr ""
+
+#: utils.py:71
+msgid "if success or"
+msgstr ""
+
+#: utils.py:72
+msgid "if not success or"
+msgstr ""
+
+#: utils.py:73
+msgid "if exists or"
+msgstr ""
+
+#: utils.py:74
+msgid "if not exists or"
+msgstr ""
+
+#: utils.py:82
+msgid "primary key"
+msgstr ""
+
+#: utils.py:82
+msgid "name of field"
+msgstr ""
+
+#: utils.py:82
+msgid "new value for field"
+msgstr ""
+
+#: views.py:96
+#, python-format
+msgid "Test response. Redirect to %s."
+msgstr ""
+
+#: views.py:98
+msgid "Test response. Error 400."
+msgstr ""
+
+#: views.py:100
+msgid "Test response. Error 500."
+msgstr ""
+
+#: views.py:111 views.py:170
 msgid "String in your localization"
 msgstr ""
 
-#: views.py:121
-msgid ""
-" *Test response*\n"
-"\n"
-"    #### Request parameters\n"
-"    Nothing\n"
-"\n"
-"    #### Returned object\n"
-"    `{\n"
-"        'REMOTE_ADDR': '127.0.0.1' || null,\n"
-"        'REMOTE_HOST': 'example.org' || null,\n"
-"        'default language': 'en',\n"
-"        'request language': 'ru',\n"
-"        'string': 'String in your localization',\n"
-"        'datetime': '2013-01-01T00:00:00.000Z',\n"
-"        'is_authenticate': true,\n"
-"    }`\n"
+#: views.py:119
+msgid "Hidden in not debug mode"
 msgstr ""
 
-#: views.py:343
+#: views.py:135
+msgid "*Test response*"
+msgstr ""
+
+#: views.py:171
+msgid "*In debug mode shows the settings. Here are the default.*"
+msgstr ""
+
+#: views.py:418
 #, python-format
 msgid "Method `%s` does not exist"
 msgstr ""
 
-#: templates/quickapi/_docs.html:3
-msgid "This template \"quickapi/_docs.html\" is deprecated!"
+#: views.py:430 views.py:441
+#, python-format
+msgid "QuickAPI method error %s"
 msgstr ""
 
-#: templates/quickapi/_methods.html:4 templates/quickapi/base.html:56
+#: templates/quickapi/_methods.html:4 templates/quickapi/base.html:57
 msgid "Methods"
 msgstr ""
 
-#: templates/quickapi/_methods.html:7
-msgid "Method name"
-msgstr ""
-
-#: templates/quickapi/_methods.html:8
-msgid "Description for use"
-msgstr ""
-
-#: templates/quickapi/_requests.html:4 templates/quickapi/base.html:52
+#: templates/quickapi/_requests.html:4 templates/quickapi/base.html:53
 msgid "Requests"
 msgstr ""
 
@@ -302,12 +355,12 @@ msgid ""
 msgstr ""
 
 #: templates/quickapi/_requests.html:23 templates/quickapi/_requests.html:37
-#: templates/quickapi/_requests.html:53 templates/quickapi/_requests.html:68
+#: templates/quickapi/_requests.html:54 templates/quickapi/_requests.html:68
 msgid "Example"
 msgstr ""
 
 #: templates/quickapi/_requests.html:23 templates/quickapi/_requests.html:37
-#: templates/quickapi/_requests.html:53 templates/quickapi/_requests.html:68
+#: templates/quickapi/_requests.html:54 templates/quickapi/_requests.html:68
 msgid "for"
 msgstr ""
 
@@ -324,17 +377,17 @@ msgid ""
 "Key \"key3\" in this case, jQuery will automatically change to \"key3[]\"."
 msgstr ""
 
-#: templates/quickapi/_requests.html:49
+#: templates/quickapi/_requests.html:50
 msgid "In this variant, you can transfer any serializable objects."
 msgstr ""
 
-#: templates/quickapi/_requests.html:50
+#: templates/quickapi/_requests.html:51
 msgid ""
 "To properly serialize dates in JSON is better to use special <a href="
 "\"http://code.google.com/p/jquery-json/\">jQuery plugin</a>."
 msgstr ""
 
-#: templates/quickapi/_requests.html:53
+#: templates/quickapi/_requests.html:54
 msgid "with HTTP Basic authorization"
 msgstr ""
 
@@ -342,40 +395,28 @@ msgstr ""
 msgid "without HTTP Basic authorization"
 msgstr ""
 
-#: templates/quickapi/_responses.html:3 templates/quickapi/base.html:53
+#: templates/quickapi/_responses.html:3 templates/quickapi/base.html:54
 msgid "Responses"
 msgstr ""
 
-#: templates/quickapi/_responses.html:6
-msgid "HTTP codes, with the meaning."
-msgstr ""
-
-#: templates/quickapi/_responses.html:7
-msgid "The string message to the user (localization support)"
-msgstr ""
-
-#: templates/quickapi/_responses.html:8
-msgid "Nested object JSON"
-msgstr ""
-
-#: templates/quickapi/_responses.html:11
+#: templates/quickapi/_responses.html:12
 msgid ""
 "The type and structure of nested object depend on the method to call (see "
 "documentation below)."
 msgstr ""
 
-#: templates/quickapi/base.html:4 templates/quickapi/base.html.py:47
+#: templates/quickapi/base.html:4 templates/quickapi/base.html.py:48
 msgid "API documentation"
 msgstr ""
 
-#: templates/quickapi/base.html:40
+#: templates/quickapi/base.html:41
 msgid "Toggle navigation"
 msgstr ""
 
-#: templates/quickapi/base.html:59
+#: templates/quickapi/base.html:60
 msgid "All methods"
 msgstr ""
 
-#: templates/quickapi/base.html:72
+#: templates/quickapi/base.html:73
 msgid "Project"
 msgstr ""

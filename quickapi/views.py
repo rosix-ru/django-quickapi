@@ -22,7 +22,7 @@
 #  
 #  
 from __future__ import unicode_literals, print_function
-from django.utils.encoding import smart_text
+from django.utils.encoding import force_text
 from django.utils import six
 from django.contrib.auth import authenticate, login
 from django.core.mail import mail_admins
@@ -44,7 +44,10 @@ from quickapi.conf import (settings, DEBUG, SITE_ID,
     QUICKAPI_SWITCH_LANGUAGE,
     QUICKAPI_SWITCH_LANGUAGE_AUTO,
     QUICKAPI_DECIMAL_LOCALE,
-    QUICKAPI_ENSURE_ASCII)
+    QUICKAPI_ENSURE_ASCII,
+    QUICKAPI_MAIL_ADMINS_ERROR_400,
+    QUICKAPI_MAIL_ADMINS_ERROR_405,
+    QUICKAPI_MAIL_ADMINS_ERROR_500)
 
 import traceback, decimal, json as jsonlib, decimal
 
@@ -258,7 +261,7 @@ def get_methods(list_or_dict=QUICKAPI_DEFINED_METHODS, sort=False):
                     method = getattr(module, _method)
                 except ImportError as e:
                     if QUICKAPI_DEBUG:
-                        print(colorize(smart_text(e), fg='red'))
+                        print(colorize(force_text(e), fg='red'))
                     else:
                         print(e)
                     method = None
@@ -312,8 +315,8 @@ def index(request, methods=METHODS):
             return run(request, methods)
         except Exception as e:
             if QUICKAPI_DEBUG:
-                print(colorize(smart_text(e), fg='red'))
-            return JSONResponse(status=500, message=smart_text(e))
+                print(colorize(force_text(e), fg='red'))
+            return JSONResponse(status=500, message=force_text(e))
 
     # Vars for docs
     ctx = {}
@@ -347,7 +350,7 @@ def run(request, methods):
                 b = bytes(key[6:], settings.DEFAULT_CHARSET).decode('base64_codec')
             else:
                 b = bytes(key[6:]).decode('base64')
-            return smart_text(b).split(':')
+            return force_text(b).split(':')
         else:
             return None, None
 
@@ -379,7 +382,7 @@ def run(request, methods):
             else:
                 print(pe)
                 print(ppost)
-            return JSONResponse(status=400, message=smart_text(e))
+            return JSONResponse(status=400, message=force_text(e))
         else:
             if not is_authenticate:
                 username, password = _auth(json)
@@ -390,6 +393,7 @@ def run(request, methods):
         user = authenticate(username=username, password=password)
         if user is not None and user.is_active:
             login(request, user)
+            is_authenticate = True
         elif QUICKAPI_ONLY_AUTHORIZED_USERS and method != 'quickapi.test':
             return JSONResponse(status=401)
 
@@ -406,34 +410,35 @@ def run(request, methods):
             msg = traceback.format_exc()
             if DEBUG:
                 print(msg)
-            else:
-                msg = MESSAGES[405]
-            return JSONResponse(status=405, message=msg)
+            elif QUICKAPI_MAIL_ADMINS_ERROR_500:
+                mail_admins(_('QuickAPI method error %s') % 500,
+                        force_text(msg) +'\n\n'+ force_text(request))
+            return JSONResponse(status=500, message=force_text(e))
     elif method == 'quickapi.test':
         real_method = test
     else:
         msg = _('Method `%s` does not exist') % method
         if DEBUG:
             print(msg)
-        return JSONResponse(status=405, message=msg)
+        elif QUICKAPI_MAIL_ADMINS_ERROR_405:
+            mail_admins(_('QuickAPI method error %s') % 405,
+                    force_text(msg) +'\n\n'+ force_text(request))
+        return JSONResponse(status=405, message=force_text(msg))
 
     try:
         return real_method(request, **kwargs)
+    except TypeError as e:
+        if DEBUG:
+            print(traceback.format_exc())
+        elif QUICKAPI_MAIL_ADMINS_ERROR_400:
+            mail_admins(_('QuickAPI method error %s') % 400,
+                    force_text(msg) +'\n\n'+ force_text(request))
+        return JSONResponse(status=400, message=force_text(e))
     except Exception as e:
         msg = traceback.format_exc()
         if DEBUG:
             print(msg)
-        else:
-            try:
-                msg = msg.decode('utf-8')
-            except:
-                pass
-            mail_admins('QuickAPI method error', msg +'\n\n'+ smart_text(request))
-        try:
-            return JSONResponse(status=500, message=str(e).decode('utf-8'))
-        except:
-            try:
-                return JSONResponse(status=500, message=smart_text(e))
-            except:
-                pass
-            return JSONResponse(status=500, message=MESSAGES[500])
+        elif QUICKAPI_MAIL_ADMINS_ERROR_500:
+            mail_admins(_('QuickAPI method error %s') % 500,
+                    force_text(msg) +'\n\n'+ force_text(request))
+        return JSONResponse(status=500, message=force_text(e))
