@@ -1,7 +1,7 @@
 /**
  * jQuery QuickAPI plugin 2.0
  *
- * @author Grigory Kramaranko, 2014
+ * @author Grigoriy Kramarenko, 2014
  * @license GNU General Public License 3 <http://www.gnu.org/licenses/>
  * 
  */
