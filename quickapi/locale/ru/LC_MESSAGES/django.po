@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: QUICKAPI\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-07-24 12:01+1100\n"
+"POT-Creation-Date: 2014-09-25 13:09+1100\n"
 "PO-Revision-Date: 2013-01-23 11:43+1100\n"
 "Last-Translator: Grigoriy Kramarenko <root@rosix.ru>\n"
 "Language-Team: \n"
@@ -18,7 +18,7 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
 
-#: decorators.py:55
+#: decorators.py:56
 msgid "API work only with POST method on AJAX."
 msgstr "API работает только с методом POST на AJAX."
 
@@ -242,7 +242,7 @@ msgstr "Исчерпана пропускная ширина канала"
 msgid "Not Extended"
 msgstr "не расширено"
 
-#: http.py:170
+#: http.py:171
 msgid "Undefined message"
 msgstr "Неопределённое сообщение"
 
@@ -309,39 +309,44 @@ msgstr "имя поля"
 msgid "new value for field"
 msgstr "новое значение для поля"
 
-#: views.py:94
+#: views.py:96
 #, python-format
 msgid "Test response. Redirect to %s."
 msgstr "Тестовый ответ. Перенаправление на %s."
 
-#: views.py:96
+#: views.py:98
 msgid "Test response. Error 400."
 msgstr "Тестовый ответ. Ошибка 400"
 
-#: views.py:98
+#: views.py:100
 msgid "Test response. Error 500."
 msgstr "Test response. Ошибка 500"
 
-#: views.py:109 views.py:168
+#: views.py:111 views.py:170
 msgid "String in your localization"
 msgstr "Строка в вашей локализации"
 
-#: views.py:117
+#: views.py:119
 msgid "Hidden in not debug mode"
 msgstr "Скрыто в debug-режиме"
 
-#: views.py:133
+#: views.py:135
 msgid "*Test response*"
 msgstr "*Тестовый ответ*"
 
-#: views.py:169
+#: views.py:171
 msgid "*In debug mode shows the settings. Here are the default.*"
 msgstr "*В debug-режиме показывает настройки. Здесь приведены по-умолчанию.*"
 
-#: views.py:415
+#: views.py:418
 #, python-format
 msgid "Method `%s` does not exist"
 msgstr "Метод `%s` не существует"
+
+#: views.py:430 views.py:441
+#, python-format
+msgid "QuickAPI method error %s"
+msgstr "Ошибка %s метода QuickAPI"
 
 #: templates/quickapi/_methods.html:4 templates/quickapi/base.html:57
 msgid "Methods"
