@@ -5,13 +5,19 @@
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Grigoriy Kramarenko">
+
+{% block shortcut_icons %}
+    <link rel="icon" href="{{ STATIC_URL }}img/quickapi/logo.svg" type="image/svg">
+    <link rel="icon" href="{{ STATIC_URL }}img/quickapi/favicon.png" type="image/png">
+{% endblock %}
 
     <!-- START: block style -->
     {% block style %}
     <!-- Bootstrap -->
-    <link rel="stylesheet" href="{{ STATIC_URL}}css/bootstrap/3.1.1/bootstrap.min.css">
-    <link rel="stylesheet" href="{{ STATIC_URL}}css/bootstrap/3.1.1/bootstrap-theme.min.css">
-    <link rel="stylesheet" href="{{ STATIC_URL }}css/font-awesome/4.0.3/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{{ STATIC_URL}}css/bootstrap/3.3.1/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ STATIC_URL}}css/bootstrap/3.3.1/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/font-awesome/4.2.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="{{ STATIC_URL }}css/pygments/1.5/pygments.css">
 
     <style type="text/css">
@@ -44,7 +50,7 @@
                     <span class="icon-bar"></span>
                 </button>
                 <a class="navbar-brand" href="#" title="Django QuickAPI Documentation">
-                    <img width="24" height="24" src="{{ STATIC_URL }}img/quickapi/logo.png"/>
+                    <img style="display:inline;" width="24" height="24" src="{{ STATIC_URL }}img/quickapi/logo.png"/>
                     {% block navbar_brand %}{% trans 'API documentation' %}{% endblock %}
                 </a>
             </div>
@@ -67,13 +73,17 @@
                         {% endfor %}
                         </ul>
                     </li>
-                    {% block navbar_project %}<li>
-                        <a href="{% block navbar_project_url %}/{% endblock %}">
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                {% block navbar_project %}
+                    <li>
+                        <a class="navbar-brand" href="{% block navbar_project_url %}/{% endblock %}">
                             {% block navbar_project_label %}
-                            <i class="fa fa-home fa-lg"></i> {% trans 'Project' %}
+                            <i class="fa fa-home fa-lg"></i> {% PROJECT_NAME %}
                             {% endblock %}
                         </a>
-                    </li>{% endblock %}
+                    </li>
+                {% endblock %}
                 </ul>
             </div><!--/.nav-collapse -->
         </div>
@@ -111,11 +121,12 @@
 
     <!-- START: block js -->
     {% block js %}
-    <script src="{{ STATIC_URL}}js/jquery/2.1.0/jquery.min.js"></script>
+    <script src="{{ STATIC_URL}}js/jquery/2.1.1/jquery.min.js"></script>
+    <script src="{{ STATIC_URL}}js/jquery/django/1.4/django-ajax-csrf.min.js"></script>
     <script src="{{ STATIC_URL}}js/jquery/json/2.4/jquery.json.min.js"></script>
     <script src="{{ STATIC_URL}}js/jquery/quickapi/2.0/jquery.quickapi.min.js"></script>
-    <script src="{{ STATIC_URL}}js/bootstrap/3.1.1/bootstrap.min.js"></script>
-    
+    <script src="{{ STATIC_URL}}js/bootstrap/3.3.1/bootstrap.min.js"></script>
+
     {% endblock %}
 
     <!-- START: block extrajs -->
