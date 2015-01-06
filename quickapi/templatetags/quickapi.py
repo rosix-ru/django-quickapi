@@ -22,7 +22,10 @@
 #  
 #  
 from __future__ import unicode_literals
+
+from django.utils.translation import ugettext_lazy as _
 from django import template
+from django.conf import settings
 from django.utils.encoding import smart_text
 
 register = template.Library()
@@ -139,7 +142,6 @@ def highlight_prepare(text):
 
     return '\n'.join(TEXT)
 
-
 @register.filter
 def formatdoc(text):
     text = drop_space(smart_text(text))
@@ -151,3 +153,6 @@ def formatdoc(text):
         '<br>'.join(text.split('\n'))
     return text
 
+@register.simple_tag
+def PROJECT_NAME():
+    return getattr(settings, 'PROJECT_NAME', _('Project'))
