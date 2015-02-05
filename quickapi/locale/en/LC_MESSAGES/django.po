@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: QUICKAPI\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-02-05 18:16+1000\n"
+"POT-Creation-Date: 2015-02-05 20:52+1000\n"
 "PO-Revision-Date: 2013-01-23 11:43+1100\n"
 "Last-Translator: Grigoriy Kramarenko <root@rosix.ru>\n"
 "Language: en\n"
@@ -247,11 +247,11 @@ msgstr ""
 msgid "Undefined message"
 msgstr ""
 
-#: templates/quickapi/_methods.html:4 templates/quickapi/base.html:63
+#: templates/quickapi/_methods.html:4 templates/quickapi/base.html:66
 msgid "Methods"
 msgstr ""
 
-#: templates/quickapi/_requests.html:4 templates/quickapi/base.html:59
+#: templates/quickapi/_requests.html:4 templates/quickapi/base.html:62
 msgid "Requests"
 msgstr ""
 
@@ -308,7 +308,7 @@ msgstr ""
 msgid "without HTTP Basic authorization"
 msgstr ""
 
-#: templates/quickapi/_responses.html:3 templates/quickapi/base.html:60
+#: templates/quickapi/_responses.html:3 templates/quickapi/base.html:63
 msgid "Responses"
 msgstr ""
 
@@ -330,19 +330,23 @@ msgid ""
 "documentation below)."
 msgstr ""
 
-#: templates/quickapi/base.html:4 templates/quickapi/base.html.py:54
+#: templates/quickapi/base.html:4 templates/quickapi/base.html.py:57
 msgid "API documentation"
 msgstr ""
 
-#: templates/quickapi/base.html:47
+#: templates/quickapi/base.html:10
+msgid "QuickAPI - it's Django-application for the fast organization API."
+msgstr ""
+
+#: templates/quickapi/base.html:50
 msgid "Toggle navigation"
 msgstr ""
 
-#: templates/quickapi/base.html:66
+#: templates/quickapi/base.html:69
 msgid "All methods"
 msgstr ""
 
-#: templatetags/quickapi_base.py:160
+#: templatetags/quickapi_base.py:159
 msgid "Project"
 msgstr ""
 

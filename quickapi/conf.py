@@ -22,14 +22,21 @@
 #  
 #  
 from __future__ import unicode_literals
+from django import get_version as django_version
 from django.conf import settings
 
-methods = { 'quickapi.test': 'quickapi.views.test' }
+from quickapi import __version__ as QUICKAPI_VERSION
 
 SITE_ID = settings.SITE_ID
 DEBUG   = settings.DEBUG
 
-QUICKAPI_DEFINED_METHODS       = getattr(settings, 'QUICKAPI_DEFINED_METHODS', methods)
+DJANGO_VERSION = django_version()
+
+PROJECT_NAME = getattr(settings, 'PROJECT_NAME', None)
+PROJECT_URL  = getattr(settings, 'PROJECT_URL', None)
+
+QUICKAPI_DEFINED_METHODS       = getattr(settings, 'QUICKAPI_DEFINED_METHODS',
+                                        {'quickapi.test': 'quickapi.views.test'})
 QUICKAPI_ONLY_AUTHORIZED_USERS = getattr(settings, 'QUICKAPI_ONLY_AUTHORIZED_USERS', False)
 QUICKAPI_INDENT                = getattr(settings, 'QUICKAPI_INDENT', 2)
 QUICKAPI_DEBUG                 = getattr(settings, 'QUICKAPI_DEBUG', False)

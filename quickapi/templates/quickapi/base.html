@@ -6,6 +6,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="author" content="Grigoriy Kramarenko">
+    <meta name="generator" content="Django {% DJANGO_VERSION %}">
+    <meta name="description" content="{% trans "QuickAPI - it's Django-application for the fast organization API." %}">
+    <meta name="version" content="{% QUICKAPI_VERSION %}">
 
 {% block shortcut_icons %}
     <link rel="icon" href="{{ STATIC_URL }}quickapi/img/logo.svg" type="image/svg">
@@ -77,10 +80,9 @@
                 <ul class="nav navbar-nav navbar-right">
                 {% block navbar_project %}
                     <li>
-                        <a class="navbar-brand" href="{% block navbar_project_url %}/{% endblock %}">
-                            {% block navbar_project_label %}
-                            <i class="fa fa-home fa-lg"></i> {% PROJECT_NAME %}
-                            {% endblock %}
+                        <a href="{% PROJECT_URL %}" class="navbar-brand">
+                            <i class="fa fa-level-up fa-lg"></i>
+                            <span> {% PROJECT_NAME %}</span>
                         </a>
                     </li>
                 {% endblock %}

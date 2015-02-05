@@ -24,11 +24,10 @@
 from __future__ import unicode_literals
 
 from django import template
-from django.conf import settings
-from django.utils.encoding import smart_text
+from django.utils.encoding import force_text
 from django.utils.translation import ugettext_lazy as _
 
-from quickapi import __version__ as VERSION
+from quickapi import conf
 
 register = template.Library()
 
@@ -146,7 +145,7 @@ def highlight_prepare(text):
 
 @register.filter
 def formatdoc(text):
-    text = drop_space(smart_text(text))
+    text = drop_space(force_text(text))
     if highlight_support:
         text = highlight_prepare(text)
     elif markdown_support:
@@ -157,8 +156,16 @@ def formatdoc(text):
 
 @register.simple_tag
 def PROJECT_NAME():
-    return getattr(settings, 'PROJECT_NAME', _('Project'))
+    return conf.PROJECT_NAME or _('Project')
+
+@register.simple_tag
+def PROJECT_URL():
+    return conf.PROJECT_URL or '/'
+
+@register.simple_tag
+def DJANGO_VERSION():
+    return conf.DJANGO_VERSION
 
 @register.simple_tag
 def QUICKAPI_VERSION():
-    return VERSION
+    return conf.QUICKAPI_VERSION
