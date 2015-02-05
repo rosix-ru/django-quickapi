@@ -7,13 +7,17 @@ msgid ""
 msgstr ""
 "Project-Id-Version: QUICKAPI\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-09-25 13:13+1100\n"
+"POT-Creation-Date: 2015-02-05 18:16+1000\n"
 "PO-Revision-Date: 2013-01-23 11:43+1100\n"
 "Last-Translator: Grigoriy Kramarenko <root@rosix.ru>\n"
 "Language: en\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+
+#: apps.py:7
+msgid "Application Programming Interface"
+msgstr ""
 
 #: decorators.py:56
 msgid "API work only with POST method on AJAX."
@@ -243,6 +247,105 @@ msgstr ""
 msgid "Undefined message"
 msgstr ""
 
+#: templates/quickapi/_methods.html:4 templates/quickapi/base.html:63
+msgid "Methods"
+msgstr ""
+
+#: templates/quickapi/_requests.html:4 templates/quickapi/base.html:59
+msgid "Requests"
+msgstr ""
+
+#: templates/quickapi/_requests.html:5
+msgid "Query parameters can be transmitted in a single JSON object via POST"
+msgstr ""
+
+#: templates/quickapi/_requests.html:18
+msgid "Authorization settings everywhere are optional."
+msgstr ""
+
+#: templates/quickapi/_requests.html:19
+msgid ""
+"For example, if the request object stores a user session, then "
+"authentication occurs on these data."
+msgstr ""
+
+#: templates/quickapi/_requests.html:23 templates/quickapi/_requests.html:37
+#: templates/quickapi/_requests.html:54 templates/quickapi/_requests.html:68
+msgid "Example"
+msgstr ""
+
+#: templates/quickapi/_requests.html:23 templates/quickapi/_requests.html:37
+#: templates/quickapi/_requests.html:54 templates/quickapi/_requests.html:68
+msgid "for"
+msgstr ""
+
+#: templates/quickapi/_requests.html:24
+msgid "Parameters, you can pass directly into the POST-query."
+msgstr ""
+
+#: templates/quickapi/_requests.html:33
+msgid "In this variant, you can only pass lists and simple values."
+msgstr ""
+
+#: templates/quickapi/_requests.html:34
+msgid ""
+"Key \"key3\" in this case, jQuery will automatically change to \"key3[]\"."
+msgstr ""
+
+#: templates/quickapi/_requests.html:50
+msgid "In this variant, you can transfer any serializable objects."
+msgstr ""
+
+#: templates/quickapi/_requests.html:51
+msgid "To properly serialize dates in JSON is better to use special"
+msgstr ""
+
+#: templates/quickapi/_requests.html:54
+msgid "with HTTP Basic authorization"
+msgstr ""
+
+#: templates/quickapi/_requests.html:68
+msgid "without HTTP Basic authorization"
+msgstr ""
+
+#: templates/quickapi/_responses.html:3 templates/quickapi/base.html:60
+msgid "Responses"
+msgstr ""
+
+#: templates/quickapi/_responses.html:6
+msgid "Codes HTTP that makes sense."
+msgstr ""
+
+#: templates/quickapi/_responses.html:7
+msgid "The message string for the user (with support for localization)"
+msgstr ""
+
+#: templates/quickapi/_responses.html:8
+msgid "Nested object"
+msgstr ""
+
+#: templates/quickapi/_responses.html:12
+msgid ""
+"The type and structure of nested object depend on the method to call (see "
+"documentation below)."
+msgstr ""
+
+#: templates/quickapi/base.html:4 templates/quickapi/base.html.py:54
+msgid "API documentation"
+msgstr ""
+
+#: templates/quickapi/base.html:47
+msgid "Toggle navigation"
+msgstr ""
+
+#: templates/quickapi/base.html:66
+msgid "All methods"
+msgstr ""
+
+#: templatetags/quickapi_base.py:160
+msgid "Project"
+msgstr ""
+
 #: utils.py:30
 msgid "Nothing"
 msgstr ""
@@ -293,130 +396,41 @@ msgstr ""
 msgid "new value for field"
 msgstr ""
 
-#: views.py:96
+#: views.py:97
 #, python-format
 msgid "Test response. Redirect to %s."
 msgstr ""
 
-#: views.py:98
+#: views.py:99
 msgid "Test response. Error 400."
 msgstr ""
 
-#: views.py:100
+#: views.py:101
 msgid "Test response. Error 500."
 msgstr ""
 
-#: views.py:111 views.py:170
+#: views.py:112 views.py:171
 msgid "String in your localization"
 msgstr ""
 
-#: views.py:119
+#: views.py:120
 msgid "Hidden in not debug mode"
 msgstr ""
 
-#: views.py:135
+#: views.py:136
 msgid "*Test response*"
 msgstr ""
 
-#: views.py:171
+#: views.py:172
 msgid "*In debug mode shows the settings. Here are the default.*"
 msgstr ""
 
-#: views.py:418
-#, python-format
-msgid "Method `%s` does not exist"
-msgstr ""
-
-#: views.py:430 views.py:441
+#: views.py:414 views.py:424 views.py:434 views.py:442
 #, python-format
 msgid "QuickAPI method error %s"
 msgstr ""
 
-#: templates/quickapi/_methods.html:4 templates/quickapi/base.html:57
-msgid "Methods"
-msgstr ""
-
-#: templates/quickapi/_requests.html:4 templates/quickapi/base.html:53
-msgid "Requests"
-msgstr ""
-
-#: templates/quickapi/_requests.html:5
-msgid "Query parameters can be transmitted in a single JSON object via POST"
-msgstr ""
-
-#: templates/quickapi/_requests.html:18
-msgid "Authorization settings everywhere are optional."
-msgstr ""
-
-#: templates/quickapi/_requests.html:19
-msgid ""
-"For example, if the request object stores a user session, then "
-"authentication occurs on these data."
-msgstr ""
-
-#: templates/quickapi/_requests.html:23 templates/quickapi/_requests.html:37
-#: templates/quickapi/_requests.html:54 templates/quickapi/_requests.html:68
-msgid "Example"
-msgstr ""
-
-#: templates/quickapi/_requests.html:23 templates/quickapi/_requests.html:37
-#: templates/quickapi/_requests.html:54 templates/quickapi/_requests.html:68
-msgid "for"
-msgstr ""
-
-#: templates/quickapi/_requests.html:24
-msgid "Parameters, you can pass directly into the POST-query."
-msgstr ""
-
-#: templates/quickapi/_requests.html:33
-msgid "In this variant, you can only pass lists and simple values."
-msgstr ""
-
-#: templates/quickapi/_requests.html:34
-msgid ""
-"Key \"key3\" in this case, jQuery will automatically change to \"key3[]\"."
-msgstr ""
-
-#: templates/quickapi/_requests.html:50
-msgid "In this variant, you can transfer any serializable objects."
-msgstr ""
-
-#: templates/quickapi/_requests.html:51
-msgid ""
-"To properly serialize dates in JSON is better to use special <a href="
-"\"http://code.google.com/p/jquery-json/\">jQuery plugin</a>."
-msgstr ""
-
-#: templates/quickapi/_requests.html:54
-msgid "with HTTP Basic authorization"
-msgstr ""
-
-#: templates/quickapi/_requests.html:68
-msgid "without HTTP Basic authorization"
-msgstr ""
-
-#: templates/quickapi/_responses.html:3 templates/quickapi/base.html:54
-msgid "Responses"
-msgstr ""
-
-#: templates/quickapi/_responses.html:12
-msgid ""
-"The type and structure of nested object depend on the method to call (see "
-"documentation below)."
-msgstr ""
-
-#: templates/quickapi/base.html:4 templates/quickapi/base.html.py:48
-msgid "API documentation"
-msgstr ""
-
-#: templates/quickapi/base.html:41
-msgid "Toggle navigation"
-msgstr ""
-
-#: templates/quickapi/base.html:60
-msgid "All methods"
-msgstr ""
-
-#: templates/quickapi/base.html:73
-msgid "Project"
+#: views.py:420
+#, python-format
+msgid "Method `%s` does not exist"
 msgstr ""

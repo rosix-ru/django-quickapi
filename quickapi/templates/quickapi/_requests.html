@@ -48,12 +48,12 @@
 
     <blockquote>
     <small>{% trans 'In this variant, you can transfer any serializable objects.' %}</small>
-        <small>{% trans 'To properly serialize dates in JSON is better to use special <a href="http://code.google.com/p/jquery-json/">jQuery plugin</a>.' %}</small>
+        <small>{% trans 'To properly serialize dates in JSON is better to use special' %} <a href="https://github.com/Krinkle/jquery-json">jQuery plugin</a>.</small>
     </blockquote>
 
     <h4>{% trans 'Example' %} 3 {% trans 'for' %} Python {% trans 'with HTTP Basic authorization' %}:</h4>
 <div class="highlight"><pre><span class="kn">import</span> <span class="nn">urllib2</span><span class="o">,</span> <span class="nn">urllib</span><span class="o">,</span> <span class="nn">json</span><span class="o">,</span> <span class="nn">base64</span>
-<span class="n">url</span> <span class="o">=</span> <span class="s">&#39;https://localhost:8000/api/&#39;</span>
+<span class="n">url</span> <span class="o">=</span> <span class="s">&#39;https://localhost/api/&#39;</span>
 <span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;method&#39;</span><span class="p">:</span><span class="s">&quot;get_orders_id&quot;</span><span class="p">,</span> <span class="s">&#39;kwargs&#39;</span><span class="p">:{</span><span class="s">&#39;date&#39;</span><span class="p">:</span><span class="s">&#39;2012-01-01&#39;</span><span class="p">,</span> <span class="s">&#39;state&#39;</span><span class="p">:</span> <span class="mi">4</span> <span class="p">},}</span>
 <span class="n">data</span> <span class="o">=</span> <span class="n">urllib</span><span class="o">.</span><span class="n">urlencode</span><span class="p">({</span><span class="s">&#39;jsonData&#39;</span><span class="p">:</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">data</span><span class="p">)})</span>
 <span class="n">req</span> <span class="o">=</span> <span class="n">urllib2</span><span class="o">.</span><span class="n">Request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span>
@@ -67,7 +67,7 @@
 
     <h4>{% trans 'Example' %} 4 {% trans 'for' %} Python {% trans 'without HTTP Basic authorization' %}:</h4>
 <div class="highlight"><pre><span class="kn">import</span> <span class="nn">urllib2</span><span class="o">,</span> <span class="nn">urllib</span><span class="o">,</span> <span class="nn">json</span>
-<span class="n">url</span> <span class="o">=</span> <span class="s">&#39;https://localhost:8000/api/&#39;</span>
+<span class="n">url</span> <span class="o">=</span> <span class="s">&#39;https://localhost/api/&#39;</span>
 <span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;username&#39;</span><span class="p">:</span><span class="s">&#39;login&#39;</span><span class="p">, </span><span class="s">&#39;password&#39;</span><span class="p">:</span><span class="s">&#39;passwd&#39;</span><span class="p">,
         </span><span class="s">&#39;method&#39;</span><span class="p">:</span><span class="s">&quot;get_orders_id&quot;</span><span class="p">,</span> <span class="s">&#39;kwargs&#39;</span><span class="p">:{</span><span class="s">&#39;date&#39;</span><span class="p">:</span> <span class="s">&#39;2012-01-01&#39;</span><span class="p">,</span> <span class="s">&#39;state&#39;</span><span class="p">:</span><span class="mi">2</span> <span class="p">}</span>
 <span class="p">}</span>

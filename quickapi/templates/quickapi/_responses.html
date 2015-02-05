@@ -3,9 +3,9 @@
     <legend><h1>{% trans 'Responses' %}</h1></legend>
 <div class="highlight">
 <pre><span class="nx">response</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s1">&#39;status&#39;</span><span class="o">:</span> <span class="mi">200</span><span class="p">,</span> <span class="c1">// Коды HTTP, имеющие смысл.</span>
-    <span class="s1">&#39;message&#39;</span><span class="o">:</span> <span class="s1">&#39;Строка сообщения для пользователя (с поддержкой локализации)&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;data&#39;</span><span class="o">:</span> <span class="o">&lt;</span>Вложенный объект <span class="nx">JSON</span><span class="o">&gt;</span><span class="p">,</span>
+    <span class="s1">&#39;status&#39;</span><span class="o">:</span> <span class="mi">200</span><span class="p">,</span> <span class="c1">// {% trans 'Codes HTTP that makes sense.' %}</span>
+    <span class="s1">&#39;message&#39;</span><span class="o">:</span> <span class="s1">&#39;{% trans 'The message string for the user (with support for localization)' %}&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;data&#39;</span><span class="o">:</span> <span class="o">&lt;</span>{% trans 'Nested object' %} <span class="nx">JSON</span><span class="o">&gt;</span><span class="p">,</span>
 <span class="p">}</span>
 </pre></div>
 
