@@ -22,6 +22,11 @@
 #  
 #  
 from __future__ import unicode_literals
+import datetime
+import decimal
+import zlib
+import json as jsonlib
+
 from django.utils.encoding import force_text
 from django.conf import settings
 from django.http import HttpResponse
@@ -34,7 +39,6 @@ from django.utils.cache import add_never_cache_headers
 from quickapi.conf import (QUICKAPI_INDENT, QUICKAPI_DECIMAL_LOCALE,
     QUICKAPI_ENSURE_ASCII)
 
-import datetime, decimal, zlib, json as jsonlib
 
 MESSAGES = {
 #1xx
@@ -133,8 +137,6 @@ class JSONEncoder(jsonlib.JSONEncoder):
         else:
             return super(JSONEncoder, self).default(o)
 
-# compatibility older
-DjangoJSONEncoder = JSONEncoder
 
 def tojson(ctx, indent=None):
     """
@@ -143,6 +145,7 @@ def tojson(ctx, indent=None):
     result = jsonlib.dumps(ctx, ensure_ascii=QUICKAPI_ENSURE_ASCII, cls=JSONEncoder, indent=indent)
     result = result.encode(settings.DEFAULT_CHARSET)
     return result
+
 
 def get_json_response(ctx=None):
     """
@@ -158,18 +161,18 @@ def get_json_response(ctx=None):
     response.write(result)
     return response
 
-# compatibility older
-_get_json_response = get_json_response
 
 def check_status(dic):
     if not isinstance(dic['status'], int):
         dic['status'] = int(dic['status'])
     return dic
 
+
 def check_message(dic):
     if dic['message'] is None:
         dic['message'] = MESSAGES.get(dic['status'], _('Undefined message'))
     return dic
+
 
 def JSONResponse(data=None, message=None, status=200, **kwargs):
     """
@@ -184,6 +187,7 @@ def JSONResponse(data=None, message=None, status=200, **kwargs):
     dic = check_message(check_status(dic))
     return get_json_response(dic)
 
+
 def JSONRedirect(location='/', message=None, status=301, **kwargs):
     """
     Redirect to page for this API.
@@ -196,3 +200,4 @@ def JSONRedirect(location='/', message=None, status=301, **kwargs):
     dic.update(kwargs)
     dic = check_message(check_status(dic))
     return get_json_response(dic)
+

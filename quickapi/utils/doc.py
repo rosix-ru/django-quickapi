@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-#  quickapi/utils.py
+#  quickapi/utils/doc.py
 #  
 #  Copyright 2014 Grigoriy Kramarenko <root@rosix.ru>
 #  
@@ -79,4 +79,5 @@ PARAMS_UPDATE_FIELD_TEMPLATE = """
     3. "value" - %s.
 """
 
-PARAMS_UPDATE_FIELD = string_lazy(PARAMS_UPDATE_FIELD_TEMPLATE, (_('primary key'), _('name of field'), _('new value for field')))
+PARAMS_UPDATE_FIELD = string_lazy(PARAMS_UPDATE_FIELD_TEMPLATE,
+    (_('primary key'), _('name of field'), _('new value for field')))

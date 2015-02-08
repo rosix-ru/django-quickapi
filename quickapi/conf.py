@@ -27,9 +27,6 @@ from django.conf import settings
 
 from quickapi import __version__ as QUICKAPI_VERSION
 
-SITE_ID = settings.SITE_ID
-DEBUG   = settings.DEBUG
-
 DJANGO_VERSION = django_version()
 
 PROJECT_NAME = getattr(settings, 'PROJECT_NAME', None)
