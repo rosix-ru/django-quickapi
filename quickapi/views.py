@@ -187,6 +187,10 @@ def index(request, methods=METHODS):
                             context_instance=RequestContext(request,))
 
 
+# short name
+api = index
+
+
 def run(request, methods):
     """ Авторизует пользователя, если он не авторизован и запускает методы """
 
