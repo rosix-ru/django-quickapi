@@ -1,12 +1,5 @@
 from setuptools import setup, find_packages
-import os
 import quickapi
-
-def read(fname):
-    try:
-        return open(os.path.join(os.path.dirname(__file__), fname)).read()
-    except:
-        return ''
 
 setup(
     name='django-quickapi',
