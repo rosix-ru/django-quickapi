@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-#  quickapi/utils/parsers.py
+#  quickapi/utils/requests.py
 #  
 #  Copyright 2012 Grigoriy Kramarenko <root@rosix.ru>
 #  
@@ -27,6 +27,7 @@ from django.conf import settings
 from django.utils import six
 from django.utils.encoding import force_text
 
+
 def parse_auth(request, data):
     if request.META.has_key('HTTP_AUTHORIZATION'):
         key = request.META['HTTP_AUTHORIZATION']
@@ -45,15 +46,27 @@ def parse_auth(request, data):
     else:
         return None, None
 
+
 def clean_kwargs(request, data):
     kwargs = {}
 
     for key in data.keys():
 
-        if '[]' in key and data is request.POST:
+        if '[]' in key and data is request.REQUEST:
             kwargs[key.replace('[]', '')] = data.getlist(key)
 
-        elif key not in ('method', 'username', 'password'):
+        elif key not in ('method', 'username', 'password', 'language'):
             kwargs[key] = data.get(key)
 
     return kwargs
+
+
+def clean_uri(request):
+    return request.build_absolute_uri().split(request.path)[0] + request.path
+
+
+def warning_auth_in_get(request, data):
+    if request.method == 'GET' and ('username' in data or 'password' in data):
+        return True
+    return False
+

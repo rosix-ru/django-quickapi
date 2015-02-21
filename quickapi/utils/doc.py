@@ -81,3 +81,26 @@ PARAMS_UPDATE_FIELD_TEMPLATE = """
 
 PARAMS_UPDATE_FIELD = string_lazy(PARAMS_UPDATE_FIELD_TEMPLATE,
     (_('primary key'), _('name of field'), _('new value for field')))
+
+
+QUICKTABLE_PARAMS = string_lazy("""
+    1. "filters" - %s;
+    2. "ordering" - %s;
+    3. "page" - %s;
+    4. "limit" - %s.
+""", (_('filters'), _('ordering'), _('page number'), _('objects per page')))
+
+
+QUICKTABLE_DATA = string_lazy("""
+```
+#!javascript
+
+{
+    objects: [%s],
+    page: 1,
+    num_pages: 3,
+    info: null // %s
+}
+```
+""", (_('list of objects'), _('or specific information')))
+

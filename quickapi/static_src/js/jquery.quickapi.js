@@ -1,8 +1,22 @@
 /**
- * jQuery QuickAPI plugin 2.0
- *
- * @author Grigoriy Kramarenko, 2014
- * @license GNU General Public License 3 <http://www.gnu.org/licenses/>
+ * jquery.quickapi.js - jQuery plugin for django-quickapi application
+ * 
+ * Copyright 2014 Grigoriy Kramarenko <root@rosix.ru>
+ * 
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+ * MA 02110-1301, USA.
  * 
  */
 
@@ -14,7 +28,7 @@
      * 
      * $.quickAPI({
      *   url: "/api/", 
-     *   args: {
+     *   data: {
      *     method: "name_your_method",
      *       kwargs: {
      *         method_param1: "value",
@@ -27,17 +41,34 @@
      *   timeout: 3000,
      *   language: 'ru',
      *   log: undefined, // аргумент для console.log(...)
+     *   simple_request: undefined, // аргумент для передачи данных
+     *                              // в простом виде (не в jsonData)
      *   callback: function(json, status, xhr) {},
      *   handlerShowAlert: function(head, msg, cls, cb) {//см. код ниже//},
      * })
      * 
      */
 
-    $.quickAPI = function(options) {
+    $.quickAPI = function(opts) {
 
-        var options = options || new Object();
-        
-        options.args = options.args || { method: "quickapi.test" };
+        var data, options = opts || new Object();
+
+        // `args` is deprecation option
+        if (!options.data) options.data = options.args || { method: "quickapi.test" };
+
+        if (options.simple_request) {
+
+            data = options.data;
+            if (!data.language) data.language = options.language || window.LANGUAGE_CODE
+
+        } else {
+
+            data = {
+                jsonData: $.toJSON(options.data),
+                language: options.language || window.LANGUAGE_CODE
+            }
+
+        }
 
         var jqxhr,
             settings = {
@@ -45,10 +76,7 @@
                 async: options.sync === true ? false : options.async === false ? false : true,
                 timeout: options.timeout || window.AJAX_TIMEOUT || 3000,
                 url: options.url || window.QUICKAPI_URL || '/api/',
-                data: {
-                    jsonData: $.toJSON(options.args),
-                    language: options.language || window.LANGUAGE_CODE,
-                },
+                data: data,
                 dataType: 'json',
             },
             callback = options.callback || function(json, status, xhr) {},
@@ -141,7 +169,7 @@
                         if (window.DEBUG) {
                             console.debug($.toJSON(json.message));
 
-                            if (options.args.method == "quickapi.test") {
+                            if (options.data.method == "quickapi.test") {
                                 console.debug(json.data)
                             }
                         };
@@ -154,3 +182,5 @@
     }
 
 }(jQuery));
+
+

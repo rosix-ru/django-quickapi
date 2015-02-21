@@ -25,8 +25,8 @@ from __future__ import unicode_literals
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth import REDIRECT_FIELD_NAME
-from django.http import HttpResponseBadRequest
-from functools import wraps
+from django.http import HttpResponseBadRequest, HttpResponseServerError
+
 
 def login_required(function=None, redirect_field_name=REDIRECT_FIELD_NAME, login_url=None):
     """
@@ -41,19 +41,53 @@ def login_required(function=None, redirect_field_name=REDIRECT_FIELD_NAME, login
         login_url=login_url,
         redirect_field_name=redirect_field_name
     )
+
     if function:
         return actual_decorator(function)
+
     return actual_decorator
 
-def api_required(view_func):
+
+def api_required(function=None, ajax_post=True, ajax_get=False,
+    not_ajax_post=True, not_ajax_get=False):
     """
     Decorator for views that only work with API.
+    By default GET requests denied.
     """
 
-    @wraps(view_func)
-    def check(request, *args, **kwargs):
-        if not request.is_ajax() and not (request.method == 'POST'):
-            return HttpResponseBadRequest(_('API work only with POST method on AJAX.'))
-        else:
+    def decorator(view_func):
+
+        def _wrapped_view(request, *args, **kwargs):
+            if not True in (ajax_post, ajax_get, not_ajax_post, not_ajax_get):
+                return HttpResponseServerError(_('This method incorrectly configured.'))
+
+            if request.method == 'POST':
+                if not True in (ajax_post, not_ajax_post):
+                    return HttpResponseBadRequest(_('This method not responsible on %s request.') % 'POST')
+
+                elif request.is_ajax():
+                    if not ajax_post:
+                        return HttpResponseBadRequest(_('This method works without AJAX.'))
+                
+                elif not not_ajax_post:
+                    return HttpResponseBadRequest(_('This method works with AJAX only.'))
+
+            elif request.method == 'GET':
+                if not True in (ajax_get, not_ajax_get):
+                    return HttpResponseBadRequest(_('This method not responsible on %s request.') % 'GET')
+
+                elif request.is_ajax():
+                    if not ajax_get:
+                        return HttpResponseBadRequest(_('This method works without AJAX.'))
+
+                elif not not_ajax_get:
+                    return HttpResponseBadRequest(_('This method works with AJAX only.'))
+
             return view_func(request, *args, **kwargs)
-    return check
+
+        return _wrapped_view
+
+    if function:
+        return decorator(function)
+
+    return decorator

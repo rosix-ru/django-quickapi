@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: QUICKAPI\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-02-05 20:52+1000\n"
+"POT-Creation-Date: 2015-02-21 18:43+1000\n"
 "PO-Revision-Date: 2013-01-23 11:43+1100\n"
 "Last-Translator: Grigoriy Kramarenko <root@rosix.ru>\n"
 "Language-Team: \n"
@@ -22,231 +22,244 @@ msgstr ""
 msgid "Application Programming Interface"
 msgstr "Интерфейс Программирования Приложения"
 
-#: decorators.py:56
-msgid "API work only with POST method on AJAX."
-msgstr "API работает только с методом POST на AJAX."
+#: decorators.py:62
+msgid "This method incorrectly configured."
+msgstr "Этот метод неправильно настроен"
 
-#: http.py:41
+#: decorators.py:66 decorators.py:77
+#, python-format
+msgid "This method not responsible on %s request."
+msgstr "Этот метод не отвечает на %s запрос."
+
+#: decorators.py:70 decorators.py:81
+msgid "This method works without AJAX."
+msgstr "Этот метод работает без AJAX."
+
+#: decorators.py:73 decorators.py:84
+msgid "This method works with AJAX only."
+msgstr "Этот метод работает только с AJAX."
+
+#: http.py:45
 msgid "Continue"
 msgstr "Продолжить"
 
-#: http.py:42
+#: http.py:46
 msgid "Switching Protocols"
 msgstr "Переключение протоколов"
 
-#: http.py:43
+#: http.py:47
 msgid "Processing"
 msgstr "Идёт обработка"
 
-#: http.py:45
+#: http.py:49
 msgid "OK"
 msgstr "Хорошо"
 
-#: http.py:46
+#: http.py:50
 msgid "Created"
 msgstr "Создано"
 
-#: http.py:47
+#: http.py:51
 msgid "Accepted"
 msgstr "Принято"
 
-#: http.py:48
+#: http.py:52
 msgid "Non-Authoritative Information"
 msgstr "Информация не авторитетна"
 
-#: http.py:49
+#: http.py:53
 msgid "No Content"
 msgstr "Нет содержимого"
 
-#: http.py:50
+#: http.py:54
 msgid "Reset Content"
 msgstr "Сбросить содержимое"
 
-#: http.py:51
+#: http.py:55
 msgid "Partial Content"
 msgstr "Частичное содержимое"
 
-#: http.py:52
+#: http.py:56
 msgid "Multi-Status"
 msgstr "Многостатусный"
 
-#: http.py:53
+#: http.py:57
 msgid "IM Used"
 msgstr "Использовано IM"
 
-#: http.py:55
+#: http.py:59
 msgid "Multiple Choices"
 msgstr "Множество выборов"
 
-#: http.py:56
+#: http.py:60
 msgid "Moved Permanently"
 msgstr "Перемещено навсегда"
 
-#: http.py:57
+#: http.py:61
 msgid "Found"
 msgstr "Найдено"
 
-#: http.py:58
+#: http.py:62
 msgid "See Other"
 msgstr "Смотреть другое"
 
-#: http.py:59
+#: http.py:63
 msgid "Not Modified"
 msgstr "Не изменялось"
 
-#: http.py:60
+#: http.py:64
 msgid "Use Proxy"
 msgstr "Использовать прокси"
 
-#: http.py:61
+#: http.py:65
 msgid "Temporary Redirect"
 msgstr "Временное перенаправление"
 
-#: http.py:63
+#: http.py:67
 msgid "Bad Request"
 msgstr "Плохой запрос"
 
-#: http.py:64
+#: http.py:68
 msgid "Unauthorized"
 msgstr "Не авторизован"
 
-#: http.py:65
+#: http.py:69
 msgid "Payment Required"
 msgstr "Требуется оплата"
 
-#: http.py:66
+#: http.py:70
 msgid "Forbidden"
 msgstr "Запрещено"
 
-#: http.py:67
+#: http.py:71
 msgid "Not Found"
 msgstr "Не найдено"
 
-#: http.py:68
+#: http.py:72
 msgid "Method Not Allowed"
 msgstr "Метод не доступен"
 
-#: http.py:69
+#: http.py:73
 msgid "Not Acceptable"
 msgstr "Не приемлемо"
 
-#: http.py:70
+#: http.py:74
 msgid "Proxy Authentication Required"
 msgstr "Необходима аутентификация прокси"
 
-#: http.py:71
+#: http.py:75
 msgid "Request Timeout"
 msgstr "Истекло время ожидания"
 
-#: http.py:72
+#: http.py:76
 msgid "Conflict"
 msgstr "Конфликт"
 
-#: http.py:73
+#: http.py:77
 msgid "Gone"
 msgstr "Удалён"
 
-#: http.py:74
+#: http.py:78
 msgid "Length Required"
 msgstr "Необходима длина"
 
-#: http.py:75
+#: http.py:79
 msgid "Precondition Failed"
 msgstr "Условие ложно"
 
-#: http.py:76
+#: http.py:80
 msgid "Request Entity Too Large"
 msgstr "Размер запроса слишком велик"
 
-#: http.py:77
+#: http.py:81
 msgid "Request-URI Too Large"
 msgstr "Запрашиваемый URI слишком длинный"
 
-#: http.py:78
+#: http.py:82
 msgid "Unsupported Media Type"
 msgstr "Неподдерживаемый тип данных"
 
-#: http.py:79
+#: http.py:83
 msgid "Requested Range Not Satisfiable"
 msgstr "Запрашиваемый диапазон не достижим"
 
-#: http.py:80
+#: http.py:84
 msgid "Expectation Failed"
 msgstr "Ожидаемое неприемлемо"
 
-#: http.py:81
+#: http.py:85
 msgid "Unprocessable Entity"
 msgstr "Необрабатываемый экземпляр"
 
-#: http.py:82
+#: http.py:86
 msgid "Locked"
 msgstr "Заблокировано"
 
-#: http.py:83
+#: http.py:87
 msgid "Failed Dependency"
 msgstr "Невыполненная зависимость"
 
-#: http.py:84
+#: http.py:88
 msgid "Unordered Collection"
 msgstr "Неупорядоченный набор"
 
-#: http.py:85
+#: http.py:89
 msgid "Upgrade Required"
 msgstr "Необходимо обновление"
 
-#: http.py:86
+#: http.py:90
 msgid "Retry With"
 msgstr "Повторить с"
 
-#: http.py:87
+#: http.py:91
 msgid "Unrecoverable Error"
 msgstr "Некорректируемая ошибка"
 
-#: http.py:89
+#: http.py:93
 msgid "Internal Server Error"
 msgstr "Внутренняя ошибка сервера"
 
-#: http.py:90
+#: http.py:94
 msgid "Not Implemented"
 msgstr "Не реализовано"
 
-#: http.py:91
+#: http.py:95
 msgid "Bad Gateway"
 msgstr "Плохой, ошибочный шлюз"
 
-#: http.py:92
+#: http.py:96
 msgid "Service Unavailable"
 msgstr "Сервис недоступен"
 
-#: http.py:93
+#: http.py:97
 msgid "Gateway Timeout"
 msgstr "Шлюз не отвечает"
 
-#: http.py:94
+#: http.py:98
 msgid "HTTP Version Not Supported"
 msgstr "Версия HTTP не поддерживается"
 
-#: http.py:95
+#: http.py:99
 msgid "Variant Also Negotiates"
 msgstr "Вариант тоже проводит согласование"
 
-#: http.py:96
+#: http.py:100
 msgid "Insufficient Storage"
 msgstr "Переполнение хранилища"
 
-#: http.py:97
+#: http.py:101
 msgid "Loop Detected"
 msgstr "Обнаружена петля"
 
-#: http.py:98
+#: http.py:102
 msgid "Bandwidth Limit Exceeded"
 msgstr "Исчерпана пропускная ширина канала"
 
-#: http.py:99
+#: http.py:103
 msgid "Not Extended"
 msgstr "не расширено"
 
-#: http.py:171
+#: http.py:173
 msgid "Undefined message"
 msgstr "Неопределённое сообщение"
 
@@ -358,11 +371,11 @@ msgstr "Все методы"
 msgid "Project"
 msgstr "Проект"
 
-#: utils.py:30
+#: utils/doc.py:30
 msgid "Nothing"
 msgstr "Пусто"
 
-#: utils.py:35
+#: utils/doc.py:35
 #, python-format
 msgid ""
 "\n"
@@ -393,69 +406,95 @@ msgstr ""
 "%(footer)s\n"
 "\n"
 
-#: utils.py:71
+#: utils/doc.py:71
 msgid "if success or"
 msgstr "если успешно, иначе"
 
-#: utils.py:72
+#: utils/doc.py:72
 msgid "if not success or"
 msgstr "если не успешно, иначе"
 
-#: utils.py:73
+#: utils/doc.py:73
 msgid "if exists or"
 msgstr "если существует, иначе"
 
-#: utils.py:74
+#: utils/doc.py:74
 msgid "if not exists or"
 msgstr "если не существует, иначе"
 
-#: utils.py:82
+#: utils/doc.py:83
 msgid "primary key"
 msgstr "первичный ключ"
 
-#: utils.py:82
+#: utils/doc.py:83
 msgid "name of field"
 msgstr "имя поля"
 
-#: utils.py:82
+#: utils/doc.py:83
 msgid "new value for field"
 msgstr "новое значение для поля"
 
-#: views.py:97
+#: utils/doc.py:91
+msgid "filters"
+msgstr "фильтры"
+
+#: utils/doc.py:91
+msgid "ordering"
+msgstr "сортировка"
+
+#: utils/doc.py:91
+msgid "page number"
+msgstr "номер страницы"
+
+#: utils/doc.py:91
+msgid "objects per page"
+msgstr "объектов на страницу"
+
+#: utils/doc.py:105
+#| msgid "Nested object"
+msgid "list of objects"
+msgstr "список объектов"
+
+#: utils/doc.py:105
+msgid "or specific information"
+msgstr "или специальная информация"
+
+#: views.py:71
 #, python-format
 msgid "Test response. Redirect to %s."
 msgstr "Тестовый ответ. Перенаправление на %s."
 
-#: views.py:99
-msgid "Test response. Error 400."
-msgstr "Тестовый ответ. Ошибка 400"
+#: views.py:73 views.py:75
+#, python-format
+msgid "Test response. Error %d."
+msgstr "Тестовый ответ. Ошибка %d."
 
-#: views.py:101
-msgid "Test response. Error 500."
-msgstr "Test response. Ошибка 500"
-
-#: views.py:112 views.py:171
+#: views.py:86 views.py:145
 msgid "String in your localization"
 msgstr "Строка в вашей локализации"
 
-#: views.py:120
+#: views.py:94
 msgid "Hidden in not debug mode"
 msgstr "Скрыто в debug-режиме"
 
-#: views.py:136
+#: views.py:110
 msgid "*Test response*"
 msgstr "*Тестовый ответ*"
 
-#: views.py:172
+#: views.py:146
 msgid "*In debug mode shows the settings. Here are the default.*"
 msgstr "*В debug-режиме показывает настройки. Здесь приведены по-умолчанию.*"
 
-#: views.py:414 views.py:424 views.py:434 views.py:442
-#, python-format
-msgid "QuickAPI method error %s"
-msgstr "Ошибка %s метода QuickAPI"
-
-#: views.py:420
+#: views.py:273
 #, python-format
 msgid "Method `%s` does not exist"
 msgstr "Метод `%s` не существует"
+
+#~ msgid "API work only with POST method on AJAX."
+#~ msgstr "API работает только с методом POST на AJAX."
+
+#~ msgid "Test response. Error 500."
+#~ msgstr "Test response. Ошибка 500"
+
+#~ msgid "QuickAPI method error %s"
+#~ msgstr "Ошибка %s метода QuickAPI"

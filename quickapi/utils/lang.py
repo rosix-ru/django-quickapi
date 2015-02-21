@@ -44,8 +44,8 @@ def switch_language(request, code=None):
 
     if code:
         new_language = code
-    elif 'language' in request.POST:
-        new_language = request.POST.get('language')
+    elif 'language' in request.REQUEST:
+        new_language = request.REQUEST.get('language')
     elif QUICKAPI_SWITCH_LANGUAGE_AUTO and hasattr(request, 'LANGUAGE_CODE'):
         new_language = request.LANGUAGE_CODE
 

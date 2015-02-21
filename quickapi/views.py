@@ -27,16 +27,16 @@ import traceback
 import decimal
 import json
 
-from django.utils import six
-from django.utils.encoding import force_text
 from django.contrib.auth import authenticate, login
-from django.core.mail import mail_admins
+from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.views.decorators.csrf import csrf_exempt
+from django.utils import six
 from django.utils import timezone
+from django.utils.encoding import force_text
 from django.utils.termcolors import colorize
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import get_language, ugettext_lazy as _
 
 from quickapi.http import JSONResponse, JSONRedirect, MESSAGES
 from quickapi.conf import (settings,
@@ -51,7 +51,8 @@ from quickapi.conf import (settings,
 from quickapi.utils.method import get_methods
 from quickapi.utils.doc import apidoc_lazy, string_lazy
 from quickapi.utils.lang import switch_language
-from quickapi.utils.parsers import parse_auth, clean_kwargs
+from quickapi.utils.requests import (parse_auth, clean_kwargs,
+    clean_uri, warning_auth_in_get)
 
 
 @csrf_exempt
@@ -60,13 +61,18 @@ def test(request, code=200, redirect='/'):
     Test response
     """
 
+    try:
+        code = int(code)
+    except:
+        code = 200
+
     if code in (301, 302):
         return JSONRedirect(location=redirect, status=code,
                 message=_('Test response. Redirect to %s.') % redirect)
     elif code == 400:
-        return JSONResponse(status=400, message=_('Test response. Error 400.'))
+        return JSONResponse(status=400, message=_('Test response. Error %d.') % 400)
     elif code == 500:
-        return JSONResponse(status=500, message=_('Test response. Error 500.'))
+        return JSONResponse(status=500, message=_('Test response. Error %d.') % 500)
 
     now = timezone.now()
 
@@ -74,7 +80,7 @@ def test(request, code=200, redirect='/'):
         'REMOTE_ADDR': request.META.get("HTTP_X_REAL_IP", request.META.get("REMOTE_ADDR", None)),
         'REMOTE_HOST': request.META.get("REMOTE_HOST", None),
         'default language': settings.LANGUAGE_CODE,
-        'request language': request.POST.get('language', getattr(request, 'LANGUAGE_CODE', None)),
+        'request language': get_language(),
         'is_authenticated': request.user.is_authenticated(),
         'types': {
             'string': _('String in your localization'),
@@ -147,14 +153,14 @@ METHODS = get_methods() # store default methods from settings
 @csrf_exempt
 def index(request, methods=METHODS):
     """ Распределяет запросы.
-        Структура запроса = {
-            'method': u'Имя вызываемого метода',
+        Структура запроса ={
+            'method': 'Имя вызываемого метода',
             'kwargs': { Словарь параметров },
             # Необязательные ключи могут браться из сессии, либо из
             # заголовков запроса (например HTTP Basic Authorization).
             # Список необязательные ключей:
-            'user': u'имя пользователя',
-            'pass': u'пароль пользователя',
+            'username': 'имя пользователя',
+            'password': 'пароль пользователя',
         }
         Параметр "methods" может использоваться сторонними приложениями
         для организации определённых наборов методов API.
@@ -165,9 +171,9 @@ def index(request, methods=METHODS):
 
     switch_language(request)
 
-    # When accessed from third-party programs, such as Python,
-    # request.is_ajax() is equal to false
-    if request.is_ajax() or request.method == 'POST':
+    # Когда в запросе есть ключ 'jsonData' или 'method', то это вызов метода.
+    # Иначе - это просмотр документации
+    if 'jsonData' in request.REQUEST or 'method' in request.REQUEST:
         try:
             return run(request, methods)
         except Exception as e:
@@ -178,8 +184,7 @@ def index(request, methods=METHODS):
 
     # Vars for docs
     ctx = {}
-    url = request.build_absolute_uri().split(request.path)[0] + request.path
-    ctx['api_url'] = url
+    ctx['api_url'] = clean_uri(request)
     ctx['methods'] = methods.values()
     ctx['test_method_doc'] = test.__doc__ if not 'quickapi.test' in methods else None
 
@@ -195,21 +200,29 @@ def run(request, methods):
     """ Авторизует пользователя, если он не авторизован и запускает методы """
 
     is_authenticate = request.user.is_authenticated()
+    username = password = None
 
+    # Принудительно направляем на страницу документации нарушителей
+    # правил передачи параметров авторизации
+    if warning_auth_in_get(request, request.REQUEST):
+        return HttpResponseRedirect(clean_uri(request)+'#requests')
 
-    if 'method' in request.POST:
-        method = request.POST.get('method', 'quickapi.test')
-        kwargs = clean_kwargs(request, request.POST)
+    if 'method' in request.REQUEST:
+        method = request.REQUEST.get('method')
+
+        kwargs = clean_kwargs(request, request.REQUEST)
+
         if not is_authenticate:
-            username, password = parse_auth(request, request.POST)
-    elif request.method == 'POST':
+            username, password = parse_auth(request, request.REQUEST)
+
+    elif 'jsonData' in request.REQUEST:
         try:
-            data   = json.loads(request.POST.get('jsonData', list(request.POST.keys())[0]))
-            method = data.get('method', 'quickapi.test')
-            kwargs = data.get('kwargs', clean_kwargs(request, data))
+            data   = json.loads(request.REQUEST.get('jsonData'))
+            method = data.get('method')
+            kwargs = data.get('kwargs', {})
 
         except Exception as e:
-            
+
             logger = logging.getLogger('quickapi.views.run')
 
             if QUICKAPI_DEBUG:
@@ -218,9 +231,10 @@ def run(request, methods):
             logger.error(traceback.format_exc())
 
             return JSONResponse(status=400, message=force_text(e))
-        else:
-            if not is_authenticate:
-                username, password = parse_auth(request, data)
+
+        if not is_authenticate:
+            username, password = parse_auth(request, data)
+
     else:
         return JSONResponse(status=400)
 
@@ -264,6 +278,7 @@ def run(request, methods):
         logger.warning(force_text(e))
 
         return JSONResponse(status=405, message=force_text(e))
+
 
     try:
         return real_method(request, **kwargs)
