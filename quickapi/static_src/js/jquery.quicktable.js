@@ -39,7 +39,7 @@
      * </table>
      * 
      * <script>
-     *   var $table = $('#my-table').quickTable({
+     *   var table = $('#my-table').quickTable({
      *     url: '/api/',
      *     method: 'auth.quicktable_users',
      *     columns: [
@@ -52,20 +52,22 @@
      */
     var pluginName="quickTable";
 
-    $.fn[pluginName] = function(opts) {
+    $.fn[pluginName] = function(options) {
 
-        if (!opts.url || !opts.method) {
+        if (!this.size()) { console.error('The selector found nothing'); return undefined };
+
+        if (!options.url || !options.method) {
             console.error(
                 "Not valid options for "+pluginName,
-                {url:opts.url, method:opts.method}
+                {url:options.url, method:options.method}
             );
         };
 
-        if ($.type(opts.columns) != 'array' || $.isEmptyObject(opts.columns)) {
+        if ($.type(options.columns) != 'array' || $.isEmptyObject(options.columns)) {
 
             console.error(
                 "Not valid options for "+pluginName,
-                {columns:opts.columns},
+                {columns:options.columns},
                 'columns must be not empty array!'
             );
 
@@ -77,422 +79,428 @@
 
         };
 
-        this.each(function() {
 
-            var table = this,
-                id = $(table).attr('id');
+        var table = this[0], id, opts;
 
-            if (!id) { return this }; // not valid
+        id = $(table).attr('id');
+        if (!id) { return this }; // not valid
 
-            var options = $.extend({
-                    url: undefined,
-                    method: undefined,
-                    columns: undefined,
-                    type: 'GET',
-                    timeout: 10000,
-                    async: true,
-                    autoload: true,
-                    autorender_settings: true,
-                    delay: 500,
-                    min_char: 3,
-                    page: 1,
-                    limit: 25,
-                    limit_list: [25, 50, 75, 100],
-                    filters: {},
-                    ordering: [],
-                    multiordering: false,
-                    table_type: 'table', // variants: 'stack'
-                    text_pager_prev: '&laquo;',
-                    text_pager_next: '&raquo;',
-                    text_not_found: 'Not found',
-                    // the following variables are strongly advised not to change
-                    _selector_filtering: '[data-filtering='+id+']',
-                    _selector_ordering: '[data-ordering='+id+'][name]',
-                    _selector_limiting: 'input[data-limiting='+id+']:checked, select[data-limiting='+id+']',
-                    _selector_colswitcher: 'input[data-colswitcher='+id+']',
-                    _selector_settings: '#'+id+'_settings',
-                    _selector_pager: '#'+id+'_pager',
-                    _selector_pager_links: 'li:not(.disabled) a:not(.disabled)',
-                    _selector_info: '#'+id+'_info',
-                    _selector_thead: '#'+id+' thead',
-                    _selector_tbody: '#'+id+' tbody',
-                    _default_filter_key: '_search_',
-                    _managed_columns: [],
-                    _column_names: {},
-                }, opts);
+        opts = $.extend({
+            url: undefined,
+            method: undefined,
+            columns: undefined,
+            type: 'POST',
+            timeout: 10000,
+            async: true,
+            autoload: true,
+            autorender_settings: true,
+            delay: 500,
+            page: 1,
+            limit: 25,
+            limit_list: [25, 50, 75, 100],
+            filters: {},
+            ordering: [],
+            multiordering: false,
+            table_type: 'table', // variants: 'stack'
+            text_pager_prev: '&laquo;',
+            text_pager_next: '&raquo;',
+            // the following variables are strongly advised not to change
+            _selector_filtering: '[data-filtering='+id+']',
+            _selector_ordering: '#'+id+' th[class^=sorting][name]',
+            _selector_limiting: 'input[data-limiting='+id+']:checked, select[data-limiting='+id+']',
+            _selector_colswitcher: 'input[data-colswitcher='+id+']',
+            _selector_settings: '#'+id+'_settings',
+            _selector_pager: '#'+id+'_pager',
+            _selector_pager_links: '#'+id+'_pager li:not(.disabled) a:not(.disabled)',
+            _selector_info: '#'+id+'_info',
+            _selector_thead: '#'+id+' thead',
+            _selector_tbody: '#'+id+' tbody',
+            _selector_alert_not_found: '[data-notfound='+id+']',
+            _default_filter_key: '_search_',
+            _managed_columns: [],
+            _column_names: {},
+        }, options);
 
-            table.options = options; // link
-            table.request = null; // current jqxhr
-            table.fn = {}; // storage for functions
+        table.opts = opts; // link
+        table.request = null; // current jqxhr
+        table.fn = {}; // storage for functions
 
-            options.replace = true; // append or overwrite tbody
+        opts.replace = true; // append or overwrite tbody
 
-            $.each(options.columns, function(i, col) {
-                options._column_names[col.name] = col;
-                if (col.hidden) $(table).addClass('table-col-'+i+'-hidden');
+        $.each(opts.columns, function(i, col) {
+            opts._column_names[col.name] = col;
+            if (col.hidden) $(table).addClass('table-col-'+(i+1)+'-hidden');
+        });
+
+        /*** START FUNCTIONS ***/
+
+        /* Delay for keyup in filters */
+        table.fn.delay = (function(){
+
+            var tid = 0;
+
+            return function(callback, ms){
+                clearTimeout(tid);
+                tid = setTimeout(callback, ms);
+            };
+
+        })();
+
+        /* Twitter bootstrap .pager inner HTML */
+        table.fn._render_bs_pager = function(page, num_pages, hide_prev) {
+
+            var html = '';
+
+            if (page >1 && !hide_prev) {
+                html += '<li><a href="#" value="'+(page-1)+'">'+opts.text_pager_prev+'</a></li>';
+            } else {
+                html += '<li class="disabled"><span>'+opts.text_pager_prev+'</span></li>';
+            }
+
+            if (page < num_pages) {
+                html += '<li><a href="#" value="'+(page+1)+'">'+opts.text_pager_next+'</a></li>';
+            } else {
+                html += '<li class="disabled"><span>'+opts.text_pager_next+'</span></li>';
+            }
+
+            $(opts._selector_pager).html(html);
+
+        };
+
+        /* Twitter bootstrap .pagination inner HTML */
+        table.fn._render_bs_pagination = function(page, num_pages, on_each_side, on_ends) {
+
+            var html = '',
+                on_each_side=on_each_side||3,
+                on_ends=on_ends||2,
+                dot='.',
+                page_range = [],
+                _push;
+
+            if (page >1) {
+                html += '<li><a href="#" value="'+(page-1)+'">'+opts.text_pager_prev+'</a></li>';
+            } else {
+                html += '<li class="disabled"><span>'+opts.text_pager_prev+'</span></li>';
+            }
+
+            _push = function(s, e) { for(var i=s; i<e; i++) { page_range.push(i) } };
+
+            if (num_pages > 9) {
+
+                if (page > (on_each_side + on_ends)) {
+                    _push(1, on_each_side);
+                    page_range.push(dot);
+                    _push(page+1-on_each_side, page+1);
+                } else {
+                    _push(1, page+1)
+                }
+
+                if (page < (num_pages - on_each_side - on_ends + 1)) {
+                    _push(page+1, page+on_each_side);
+                    page_range.push(dot);
+                    _push(num_pages-on_ends+1, num_pages+1);
+                } else {
+                    _push(page+1, num_pages+1)
+                }
+            } else {
+                page_range = $.map($(Array(num_pages)), function(val, i) { return i+1; })
+            };
+
+            $.each(page_range, function(i, item) {
+
+                if (item == dot) {
+                    html += '<li class="disabled"><span>...</span></li>';
+                } else if (item == page) {
+                    html += '<li class="active"><span>'+page+'</span></li>';
+                } else {
+                    html += '<li><a href="#" value="'+item+'">'+item+'</a></li>';
+                }
+
             });
 
-            /*** START FUNCTIONS ***/
+            if (page < num_pages) {
+                html += '<li><a href="#" value="'+(page+1)+'">'+opts.text_pager_next+'</a></li>';
+            } else {
+                html += '<li class="disabled"><span>'+opts.text_pager_next+'</span></li>';
+            }
 
-            /* Delay for keyup in filters */
-            table.fn.delay = (function(){
+            $(opts._selector_pager).html(html);
 
-                var tid = 0;
+        };
 
-                return function(callback, ms){
-                    clearTimeout(tid);
-                    tid = setTimeout(callback, ms);
-                };
+        /* Use default pagination */
+        table.fn.render_pager = function(page, num_pages) {
 
-            })();
+            if (opts.table_type == 'stack') {
+                return table.fn._render_bs_pager(page, num_pages, true);
+            }
 
-            /* Twitter bootstrap .pager inner HTML */
-            table.fn._render_bs_pager = function(page, num_pages, hide_prev) {
+            return table.fn._render_bs_pagination(page, num_pages);
 
-                var html = '';
+        }
 
-                if (page >1 && !hide_prev) {
-                    html += '<li><a href="#" value="'+(page-1)+'">'+options.text_pager_prev+'</a></li>';
-                } else {
-                    html += '<li class="disabled"><span>'+options.text_pager_prev+'</span></li>';
+        /* Show/hide not found text */
+        table.fn.alert_not_found = function(show) {
+
+            var $alert = $(opts._selector_alert_not_found);
+
+            show ? $alert.show() : $alert.hide();
+        };
+
+        /* Rendering information */
+        table.fn.render_info = function(html) {
+            $(opts._selector_info).html(html);
+        };
+
+        /* Rendering settings */
+        table.fn.render_settings = function() {
+
+            var html = '';
+
+            $.each(opts.columns, function(i, col) {
+
+                if (!col.notmanaged) {
+                    html += '<label>'
+                         +'<input type="checkbox" name="'+id+'_colswitcher" value="'+(i+1)+'" '
+                         +(!col.hidden ? ' checked' : '')+'/>'
+                         +(col.title||col.name)
+                         +'</label>'
                 }
 
-                if (page < num_pages) {
-                    html += '<li><a href="#" value="'+(page+1)+'">'+options.text_pager_next+'</a></li>';
-                } else {
-                    html += '<li class="disabled"><span>'+options.text_pager_next+'</span></li>';
-                }
+            });
 
-                $(options._selector_pager).html(html);
+            html += '<div class="btn-group" data-toggle="buttons">'
 
-            };
+            $.each(opts.limit_list, function(i, limit) {
 
-            /* Twitter bootstrap .pagination inner HTML */
-            table.fn._render_bs_pagination = function(page, num_pages, on_each_side, on_ends) {
+                html += '<label class="btn'+(opts.limit == limit ? ' active': '')+'">'
+                        +'<input type="checkbox" name="'+id+'_limit" '
+                        +(opts.limit == limit ? ' checked': '')+'>'
+                        + limit
+                        +'</label>'
 
-                var html = '',
-                    on_each_side=on_each_side||3,
-                    on_ends=on_ends||2,
-                    dot='.',
-                    page_range = [],
-                    _push;
+            });
 
-                if (page >1) {
-                    html += '<li><a href="#" value="'+(page-1)+'">'+options.text_pager_prev+'</a></li>';
-                } else {
-                    html += '<li class="disabled"><span>'+options.text_pager_prev+'</span></li>';
-                }
+            html += '</div>'
 
-                _push = function(s, e) { for(var i=s; i<e; i++) { page_range.push(i) } };
+            $(opts._selector_settings).html(html);
 
-                if (num_pages > 9) {
+        };
 
-                    if (page > (on_each_side + on_ends)) {
-                        _push(1, on_each_side);
-                        page_range.push(dot);
-                        _push(page+1-on_each_side, page+1);
-                    } else {
-                        _push(1, page+1)
-                    }
+        /* Returns class for <tr> */
+        table.fn.get_class_tr = function(object) { return object ? '' : 'danger' };
 
-                    if (page < (num_pages - on_each_side - on_ends + 1)) {
-                        _push(page+1, page+on_each_side);
-                        page_range.push(dot);
-                        _push(num_pages-on_ends+1, num_pages+1);
-                    } else {
-                        _push(page+1, num_pages+1)
-                    }
-                } else {
-                    page_range = $.map($(Array(num_pages)), function(val, i) { return i+1; })
-                };
+        /* Rendering one object */
+        table.fn.render_object = function(index, object) {
 
-                $.each(page_range, function(i, item) {
+            if (object == null) return;
 
-                    if (item == dot) {
-                        html += '<li class="disabled"><span>...</span></li>';
-                    } else if (item == page) {
-                        html += '<li class="active"><span>'+page+'</span></li>';
-                    } else {
-                        html += '<li><a href="#" value="'+item+'">'+item+'</a></li>';
-                    }
+            var html = '';
 
-                });
+            html += '<tr class="'+table.fn.get_class_tr(object)+'">';
 
-                if (page < num_pages) {
-                    html += '<li><a href="#" value="'+(page+1)+'">'+options.text_pager_next+'</a></li>';
-                } else {
-                    html += '<li class="disabled"><span>'+options.text_pager_next+'</span></li>';
-                }
+            $.each(opts.columns, function(i, col) {
 
-                $(options._selector_pager).html(html);
+                html += '<td>'+object[col.name]+'</td>';
 
-            };
+            });
 
-            /* Use default pagination */
-            table.fn.render_pager = function(page, num_pages) {
+            html += '</tr>';
 
-                if (options.table_type == 'stack') {
-                    return table.fn._render_bs_pager(page, num_pages, true);
-                }
+            $(opts._selector_tbody).append(html);
 
-                return table.fn._render_bs_pagination(page, num_pages);
+        };
+
+        /* Callback of jqxhr. Rendering all objects, pagination, etc. */
+        table.fn.render = function(json, replace) {
+
+            var data = json.data;
+
+            if (replace) $(opts._selector_tbody).html('');
+
+            if ($.isEmptyObject(data.objects)) {
+                table.fn.alert_not_found(true)
+            } else {
+                table.fn.alert_not_found(false)
+                $.each(data.objects, function(i, item) {
+                    table.fn.render_object(i, item)
+                })
+            }
+
+            table.fn.render_pager(data.page, data.num_pages);
+
+            if (data.info) table.fn.render_info(data.info);
+
+        };
+
+        /* Request to server on quickAPI. Returns jqxhr. */
+        table.fn.get = function() {
+
+            var replace = opts.replace;
+
+            if (table.request) table.request.abort();
+
+            table.request = $.quickAPI({
+                url: opts.url,
+                timeout: opts.timeout,
+                type: opts.type,
+                async: opts.async,
+                args: {
+                    method: opts.method,
+                    kwargs: {
+                        filters: opts.filters,
+                        ordering: opts.ordering,
+                        page: opts.page,
+                        limit: opts.limit,
+                    },
+                },
+                callback: function(json, status, xhr) { return table.fn.render(json, replace) },
+                showAlert: opts.showAlert,
+            })
+            .always(function() {table.request = null});
+
+            return table.request
+
+        };
+
+        /* Request to server from first page by force. */
+        table.fn.get_first_page = function() {
+
+            opts.page = 1;
+            opts.replace = true;
+
+            return table.fn.get();
+
+        };
+
+        /*** END FUNCTIONS ***/
+
+        /*** START BINDING TABLE CONTROLLERS ON DOCUMENT BODY ***/
+
+        $('body')
+
+        /* Keyup on filters */
+        .off('keyup', opts._selector_filtering)
+        .on('keyup', opts._selector_filtering, function(e) {
+
+            var fname = this.name || opts._default_filter_key,
+                old = opts.filters[fname],
+                min = Number($(this).data('minimum')) || 0,
+                len = this.value.length;
+
+            if (this.value != old && (!len || len >= min)) {
+
+                opts.filters[fname] = this.value;
+                table.fn.delay(table.fn.get_first_page, opts.delay);
 
             }
 
-            /* Rendering information */
-            table.fn.render_info = function(html) {
-                $(options._selector_info).html(html);
-            };
+        })
 
-            /* Rendering settings */
-            table.fn.render_settings = function() {
+        /* Change limit on page */
+        .off('change', opts._selector_limiting)
+        .on('change', opts._selector_limiting, function(e) {
 
-                var html = '';
+            opts.limit = this.value;
+            table.fn.get_first_page();
 
-                $.each(options.columns, function(i, col) {
+        })
 
-                    if (!col.notmanaged) {
-                        html += '<label>'
-                             +'<input type="checkbox" name="'+id+'_colswitcher" value="'+i+'" '
-                             +(!col.hidden ? ' checked' : '')+'/>'
-                             +(col.title||col.name)
-                             +'</label>'
-                    }
+        /* Change visible of column */
+        .off('change', opts._selector_colswitcher)
+        .on('change', opts._selector_colswitcher, function(e) {
 
-                });
+            var n = this.value,
+                cls = 'table-col-'+n+'-hidden';
 
-                html += '<div class="btn-group" data-toggle="buttons">'
-  
-                $.each(options.limit_list, function(i, limit) {
+            if (!n) return;
 
-                    html += '<label class="btn'+(options.limit == limit ? ' active': '')+'">'
-                            +'<input type="checkbox" name="'+id+'_limit" '
-                            +(options.limit == limit ? ' checked': '')+'>'
-                            + limit
-                            +'</label>'
+            if (this.checked) {
+                $(table).removeClass(cls);
+                opts.columns[n-1].hidden = false;
+            } else {
+                $(table).addClass(cls);
+                opts.columns[n-1].hidden = true;
+            }
 
-                });
+        })
 
-                html += '</div>'
+        /* Change ordering on columns */
+        .off('click', opts._selector_ordering)
+        .on('click', opts._selector_ordering, function(e) {
 
-                $(options._selector_settings).html(html);
+            var column = $(this).attr('name'), L, i;
+            
+            if (!column) return;
 
-            };
+            L = opts.ordering;
+            i = $.inArray(column, L);
 
-            /* Returns class for <tr> */
-            table.fn.get_class_tr = function(object) { return object ? '' : 'row-danger' };
+            if (!opts.multiordering) {
+                $(opts._selector_ordering).removeClass('sorting-asc')
+                                             .removeClass('sorting-desc')
+                                             .addClass('sorting');
+            }
 
-            /* Rendering one object */
-            table.fn.render_object = function(index, object) {
-
-                if (object == null && options.text_not_found == null) return;
-
-                var html = '';
-
-                html += '<tr class="'+table.fn.get_class_tr(object)+'">';
-
-                if (object) {
-
-                    $.each(options.columns, function(i, col) {
-
-                        html += '<td>'+object[col.name]+'</td>';
-
-                    });
+            if (i > -1) {
+                //~ console.debug('exists', i, column);
+                if (!opts.multiordering) {
+                    L = ['-'+column];
                 } else {
-                    html += '<td colspan="'+options.columns.length+'">'+options.text_not_found+'</td>'
+                    L[i] = '-'+column;
                 }
 
-
-                html += '</tr>';
-
-                $(options._selector_tbody).append(html);
-
-            };
-
-            /* Callback of jqxhr. Rendering all objects, pagination, etc. */
-            table.fn.render = function(json, replace) {
-
-                var data = json.data;
-
-                if (replace) $(options._selector_tbody).html('');
-
-                if ($.isEmptyObject(data.objects)) {
-                    table.fn.render_object(0, null)
-                } else {
-                    $.each(data.objects, function(i, item) {
-                        table.fn.render_object(i, item)
-                    })
-                }
-
-                table.fn.render_pager(data.page, data.num_pages);
-
-                if (data.info) table.fn.render_info(data.info);
-
-            };
-
-            /* Request to server on quickAPI. Returns jqxhr. */
-            table.fn.get = function() {
-
-                var replace = options.replace;
-
-                if (table.request) table.request.abort();
-
-                table.request = $.quickAPI({
-                    url: options.url,
-                    timeout: options.timeout,
-                    type: options.type,
-                    async: options.async,
-                    args: {
-                        method: options.method,
-                        kwargs: {
-                            filters: options.filters,
-                            ordering: options.ordering,
-                            page: options.page,
-                            limit: options.limit,
-                        },
-                    },
-                    callback: function(json, status, xhr) { return table.fn.render(json, replace) },
-                    showAlert: options.showAlert,
-                })
-                .always(function() {table.request = null});
-
-                return table.request
-
-            };
-
-            /* Request to server from first page by force. */
-            table.fn.get_first_page = function() {
-
-                options.page = 1;
-                options.replace = true;
-
-                return table.fn.get();
-
-            };
-
-            /*** END FUNCTIONS ***/
-
-            /*** START BINDING TABLE CONTROLLERS ON BODY OF DOCUMENT ***/
-
-            $('body')
-
-            /* Keyup on filters */
-            .off('keyup', options._selector_filtering)
-            .on('keyup', options._selector_filtering, function(e) {
-
-                var old = options.filters[(this.name || options._default_filter_key)],
-                    min = Number($(this).data('minimum')) || 0;
-
-                if (this.value != old && this.value.length >= min) {
-
-                    options.filters[(this.name || options._default_filter_key)] = this.value;
-                    table.fn.delay(table.fn.get_first_page, options.delay);
-
-                }
-
-            })
-
-            /* Change limit on page */
-            .off('change', options._selector_limiting)
-            .on('change', options._selector_limiting, function(e) {
-
-                options.limit = this.value;
-                table.fn.get_first_page();
-
-            })
-
-            /* Change visible of column */
-            .off('change', options._selector_colswitcher)
-            .on('change', options._selector_colswitcher, function(e) {
-
-                var i = this.value;
-
-                if (this.checked) {
-                    $(table).removeClass('table-col-'+i+'-hidden');
-                    options.columns[i].hidden = false;
-                } else {
-                    $(table).addClass('table-col-'+i+'-hidden');
-                    options.columns[i].hidden = true;
-                }
-
-            })
-
-            /* Change ordering on columns */
-            .off('click', options._selector_ordering)
-            .on('click', options._selector_ordering, function(e) {
-
-                var column = this.name,
-                    L = options.ordering,
-                    i = $.inArray(column, L);
-
-                if (!options.multiordering) {
-                    $(options._selector_ordering).removeClass('sorting_asc')
-                                                 .removeClass('sorting_desc')
-                                                 .addClass('sorting');
-                }
-
+                $(this).removeClass('sorting').addClass('sorting-desc');
+            } else {
+                //~ console.debug('not exists', i, column);
+                i = $.inArray('-'+column, L);
                 if (i > -1) {
-                    //~ console.debug('exists', i, column);
-                    if (!options.multiordering) {
-                        L = ['-'+column];
+                    //~ console.debug('remove', i, '-'+column);
+                    if (!opts.multiordering) {
+                        L = [];
                     } else {
-                        L[i] = '-'+column;
+                        L = L.slice(0,i).concat(L.slice(i+1));
                     }
 
-                    $(this).removeClass('sorting').addClass('sorting_desc');
+                    $(this).removeClass('sorting-desc').addClass('sorting');
+                }
+            }
+
+            if (i == -1){
+                //~ console.debug('not exists', i, '-'+column);
+                if (!opts.multiordering) {
+                    L = [column];
                 } else {
-                    //~ console.debug('not exists', i, column);
-                    i = $.inArray('-'+column, L);
-                    if (i > -1) {
-                        //~ console.debug('remove', i, '-'+column);
-                        if (!options.multiordering) {
-                            L = [];
-                        } else {
-                            L = L.slice(0,i).concat(L.slice(i+1));
-                        }
-
-                        $(this).removeClass('sorting_desc').addClass('sorting');
-                    }
+                    L.push(column);
                 }
 
-                if (i == -1){
-                    //~ console.debug('not exists', i, '-'+column);
-                    if (!options.multiordering) {
-                        L = [column];
-                    } else {
-                        L.push(column);
-                    }
+                $(this).removeClass('sorting').addClass('sorting-asc');
+            }
 
-                    $(this).removeClass('sorting').addClass('sorting_asc');
-                }
+            opts.ordering = L;
 
-                options.ordering = L;
+            table.fn.get_first_page();
 
-                table.fn.get_first_page();
+        })
 
-            });
+        /* Click on pagination */
+        .off('click', opts._selector_pager_links)
+        .on('click', opts._selector_pager_links, function(e) {
 
-            /* Click on pagination */
-            $(options._selector_pager)
-            .off('click', options._selector_pager_links)
-            .on('click', options._selector_pager_links, function(e) {
-
-                e.preventDefault();
-                options.page = $(this).val();
-                if (options.table_type == 'stack') { options.replace = false };
-                table.fn.get();
-
-            });
-
-            /*** END BINDING TABLE CONTROLLERS ***/
-
-            /* Starting table */
-            if (options.autorender_settings) table.fn.render_settings();
-            if (options.autoload) table.fn.get_first_page();
+            e.preventDefault();
+            opts.page = $(this).val();
+            if (opts.table_type == 'stack') { opts.replace = false };
+            table.fn.get();
 
         });
+
+        /*** END BINDING TABLE CONTROLLERS ***/
+
+        /* Starting table */
+        if (opts.autorender_settings) table.fn.render_settings();
+        if (opts.autoload) table.fn.get_first_page();
  
-        return this;
+        return table;
  
     };
 

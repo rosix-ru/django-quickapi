@@ -1,0 +1,98 @@
+/* 
+ * quicktable.less 
+ * 
+ * Copyright 2014 Grigoriy Kramarenko <root@rosix.ru>
+ * 
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+ * MA 02110-1301, USA.
+ * 
+ */
+
+.mixin(@x) when not(default()) {
+    th:nth-child(@{x}), td:nth-child(@{x}) { display: none }
+}
+
+.table-col-1-hidden {.mixin(1)}
+.table-col-2-hidden {.mixin(2)}
+.table-col-3-hidden {.mixin(3)}
+.table-col-4-hidden {.mixin(4)}
+.table-col-5-hidden {.mixin(5)}
+.table-col-6-hidden {.mixin(6)}
+.table-col-7-hidden {.mixin(7)}
+.table-col-8-hidden {.mixin(8)}
+.table-col-9-hidden {.mixin(9)}
+.table-col-10-hidden {.mixin(10)}
+
+.table-col-11-hidden {.mixin(11)}
+.table-col-12-hidden {.mixin(12)}
+.table-col-13-hidden {.mixin(13)}
+.table-col-14-hidden {.mixin(14)}
+.table-col-15-hidden {.mixin(15)}
+.table-col-16-hidden {.mixin(16)}
+.table-col-17-hidden {.mixin(17)}
+.table-col-18-hidden {.mixin(18)}
+.table-col-19-hidden {.mixin(19)}
+.table-col-20-hidden {.mixin(20)}
+
+.table-col-21-hidden {.mixin(21)}
+.table-col-22-hidden {.mixin(22)}
+.table-col-23-hidden {.mixin(23)}
+.table-col-24-hidden {.mixin(24)}
+.table-col-25-hidden {.mixin(25)}
+.table-col-26-hidden {.mixin(26)}
+.table-col-27-hidden {.mixin(27)}
+.table-col-28-hidden {.mixin(28)}
+.table-col-29-hidden {.mixin(29)}
+.table-col-30-hidden {.mixin(30)}
+
+/*
+ * Sorting
+ */
+th.sorting {
+    cursor: pointer;
+    background: url('../img/tables/sort_both.png') no-repeat center right;
+}
+
+th.sorting-asc {
+    cursor: pointer;
+    background: url('../img/tables/sort_asc.png') no-repeat center right;
+}
+
+th.sorting-desc {
+    cursor: pointer;
+    background: url('../img/tables/sort_desc.png') no-repeat center right;
+}
+
+th.sorting-n0 {
+    background-color: #FFE6E6;
+}
+
+th.sorting-n1 {
+    background-color: #FFF9E6;
+}
+
+th.sorting-n2 {
+    background-color: #F3FFE6;
+}
+
+th.sorting-n3 {
+    background-color: #E6FFED;
+}
+
+th.sorting-n4 {
+    background-color: #E6FFFF;
+}
+
+

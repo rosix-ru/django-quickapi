@@ -14,3 +14,5 @@
 ^build/.*$
 ^dist/.*$
 ^django_quickapi.egg-info/.*$
+^quickapi/static/quickapi/img
+^quickapi/static/quickapi/js

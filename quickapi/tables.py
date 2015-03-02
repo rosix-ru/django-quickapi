@@ -24,7 +24,7 @@
 from __future__ import unicode_literals
 import operator
 
-from django.db.models import Q
+from django.db.models import Q, Model
 from django.core.paginator import Paginator#, InvalidPage, EmptyPage
 from django.utils import six
 from django.utils.encoding import force_text
@@ -39,14 +39,28 @@ class QuickTable(object):
     manager = None
     columns = ()
     order_columns = ()
-    global_search_columns = ()
-    custom_search_columns = ()
-    custom_exact_columns  = ()
-    ajax_url_column = None
+    global_search_columns = () # fields for searching on global_filter_key
+    custom_search_columns = () # when searching by one and above fields
+    custom_exact_columns  = () # when searching by one and above fields and exact only
+    map_columns           = {}
     global_filter_key = '_search_'
     max_display_length = 100  # max limit of records returned, do not
                               # allow to kill our server by huge sets
                               # of data
+
+
+    def __init__(self, *args, **kwargs):
+
+        self.validate()
+
+
+    def validate(self):
+
+        if not self.manager:
+            raise NotImplementedError("Not specified a model Manager for %s." % self.__class__)
+
+        if not self.columns:
+            raise NotImplementedError("Not specified columns for %s." % self.__class__)
 
 
     def map_column(self, name):
@@ -54,13 +68,14 @@ class QuickTable(object):
         Производит сопоставление названия колонки к полю в базе данных.
         Для наследуемых классов.
         """
-        return name
+        return self.map_columns.get(name, name)
 
 
     def render_column(self, request, row, column):
         """
         Renders a column on a row
         """
+
         if column in ('__unicode__', '__str__'):
             return force_text(row)
 
@@ -68,27 +83,32 @@ class QuickTable(object):
 
         if hasattr(row, 'get_%s_display' % column):
             # It's a choice field
-            data = getattr(row, 'get_%s_display' % column)()
-        else:
-            try:
-                data = getattr(row, column)
-            except AttributeError:
-                obj = row
-                for part in column.split('.'):
-                    if obj is None:
-                        break
-                    obj = getattr(obj, part)
+            return getattr(row, 'get_%s_display' % column)()
 
-                data = obj
+        elif '.' in column:
+            data = row
+            for part in column.split('.'):
+                if data is None:
+                    break
+                data = getattr(data, part, None)
 
-        if self.ajax_url_column and column == self.ajax_url_column and hasattr(row, 'get_absolute_url'):
-            return '<a href="#ajax%s">%s</a>' % (row.get_absolute_url(), data)
-        else:
+            if isinstance(data, Model):
+                return force_text(data)
+
             return data
+
+        else:
+            return getattr(row, column)
 
 
     def render_objects(self, request, qs):
-        return map(lambda o: dict([(c, self.render_column(request, o, c)) for c in self.columns]), qs)
+
+        cols = [ self.map_column(c) for c in self.columns ]
+
+        def _serialize(o):
+            return { c: self.render_column(request, o, c) for c in cols }
+
+        return map(_serialize, qs)
 
 
     def filtering(self, request, qs, filters):
@@ -139,6 +159,9 @@ class QuickTable(object):
 
 
     def get_context_data(self, request, page, info):
+        """
+        Формирование контекста JSON структуры
+        """
         data =  {
             'objects': self.render_objects(request, page.object_list),
             'page': page.number,
@@ -153,15 +176,11 @@ class QuickTable(object):
         """
         Стандартное получение данных. Для наследования.
         """
-        if not self.manager:
-            raise NotImplementedError("Not specified a model Manager.")
-
-        if not self.columns:
-            raise NotImplementedError("Not specified columns.")
 
         qs   = self.manager.all()
         qs   = self.filtering(request, qs, filters)
         info = self.get_info(request, qs)
+
         qs   = self.ordering(request, qs, ordering)
         page = self.paging(request, qs, page, limit)
 
