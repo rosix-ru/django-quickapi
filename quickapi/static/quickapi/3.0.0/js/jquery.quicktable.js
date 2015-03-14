@@ -101,7 +101,7 @@
             filters: {},
             ordering: [],
             multiordering: false,
-            table_type: 'table', // variants: 'stack'
+            table_type: 'table', // variants: 'stack' or 'pager'
             text_pager_prev: '&laquo;',
             text_pager_next: '&raquo;',
             // the following variables are strongly advised not to change
@@ -146,21 +146,35 @@
 
         })();
 
+        /* Twitter bootstrap .pager as stack */
+        table.fn._render_bs_stack = function(page, num_pages) {
+
+            var p = opts._selector_pager, a = opts._selector_pager_links;
+
+            if (page < num_pages) {
+                $(a).data('page', (page+1));
+                $(p).show();
+            } else {
+                $(a).data('page', '');
+                $(p).hide();
+            }
+        };
+
         /* Twitter bootstrap .pager inner HTML */
         table.fn._render_bs_pager = function(page, num_pages, hide_prev) {
 
-            var html = '';
+            var html = '', tp = opts.text_pager_prev, tn = opts.text_pager_next;
 
             if (page >1 && !hide_prev) {
-                html += '<li><a href="#" value="'+(page-1)+'">'+opts.text_pager_prev+'</a></li>';
+                html += '<li><a href="#" data-page="'+(page-1)+'">'+tp+'</a></li>';
             } else {
-                html += '<li class="disabled"><span>'+opts.text_pager_prev+'</span></li>';
+                html += '<li class="disabled"><span>'+tp+'</span></li>';
             }
 
             if (page < num_pages) {
-                html += '<li><a href="#" value="'+(page+1)+'">'+opts.text_pager_next+'</a></li>';
+                html += '<li><a href="#" data-page="'+(page+1)+'">'+tn+'</a></li>';
             } else {
-                html += '<li class="disabled"><span>'+opts.text_pager_next+'</span></li>';
+                html += '<li class="disabled"><span>'+tn+'</span></li>';
             }
 
             $(opts._selector_pager).html(html);
@@ -178,7 +192,7 @@
                 _push;
 
             if (page >1) {
-                html += '<li><a href="#" value="'+(page-1)+'">'+opts.text_pager_prev+'</a></li>';
+                html += '<li><a href="#" data-page="'+(page-1)+'">'+opts.text_pager_prev+'</a></li>';
             } else {
                 html += '<li class="disabled"><span>'+opts.text_pager_prev+'</span></li>';
             }
@@ -213,13 +227,13 @@
                 } else if (item == page) {
                     html += '<li class="active"><span>'+page+'</span></li>';
                 } else {
-                    html += '<li><a href="#" value="'+item+'">'+item+'</a></li>';
+                    html += '<li><a href="#" data-page="'+item+'">'+item+'</a></li>';
                 }
 
             });
 
             if (page < num_pages) {
-                html += '<li><a href="#" value="'+(page+1)+'">'+opts.text_pager_next+'</a></li>';
+                html += '<li><a href="#" data-page="'+(page+1)+'">'+opts.text_pager_next+'</a></li>';
             } else {
                 html += '<li class="disabled"><span>'+opts.text_pager_next+'</span></li>';
             }
@@ -232,7 +246,10 @@
         table.fn.render_pager = function(page, num_pages) {
 
             if (opts.table_type == 'stack') {
-                return table.fn._render_bs_pager(page, num_pages, true);
+                return table.fn._render_bs_stack(page, num_pages)
+            }
+            else if (opts.table_type == 'pager') {
+                return table.fn._render_bs_pager(page, num_pages, true)
             }
 
             return table.fn._render_bs_pagination(page, num_pages);
@@ -334,9 +351,9 @@
         };
 
         /* Request to server on quickAPI. Returns jqxhr. */
-        table.fn.get = function() {
+        table.fn.get = function(filters) {
 
-            var replace = opts.replace;
+            var replace = opts['replace'], F = filters || {};
 
             if (table.request) table.request.abort();
 
@@ -348,7 +365,7 @@
                 args: {
                     method: opts.method,
                     kwargs: {
-                        filters: opts.filters,
+                        filters: $.extend({}, opts.filters, F),
                         ordering: opts.ordering,
                         page: opts.page,
                         limit: opts.limit,
@@ -364,12 +381,12 @@
         };
 
         /* Request to server from first page by force. */
-        table.fn.get_first_page = function() {
+        table.fn.get_first_page = function(filters) {
 
             opts.page = 1;
             opts.replace = true;
 
-            return table.fn.get();
+            return table.fn.get(filters);
 
         };
 
@@ -488,7 +505,7 @@
         .on('click', opts._selector_pager_links, function(e) {
 
             e.preventDefault();
-            opts.page = $(this).val();
+            opts.page = $(this).data('page');
             if (opts.table_type == 'stack') { opts.replace = false };
             table.fn.get();
 
