@@ -255,8 +255,6 @@ def run(request, methods):
     if QUICKAPI_DEBUG:
         print(colorize(logger.name, fg='blue'))
 
-    print method, kwargs
-
     if method in methods:
         try:
             real_method = methods[method]['method']
