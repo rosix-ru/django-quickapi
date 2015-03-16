@@ -219,7 +219,7 @@ def run(request, methods):
         try:
             data   = json.loads(request.REQUEST.get('jsonData'))
             method = data.get('method')
-            kwargs = data.get('kwargs', {})
+            kwargs = data.get('kwargs', clean_kwargs(request, data))
 
         except Exception as e:
 
@@ -255,6 +255,7 @@ def run(request, methods):
     if QUICKAPI_DEBUG:
         print(colorize(logger.name, fg='blue'))
 
+    print method, kwargs
 
     if method in methods:
         try:
@@ -278,7 +279,6 @@ def run(request, methods):
         logger.warning(force_text(e))
 
         return JSONResponse(status=405, message=force_text(e))
-
 
     try:
         return real_method(request, **kwargs)

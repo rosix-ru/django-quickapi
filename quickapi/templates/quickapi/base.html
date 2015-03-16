@@ -11,8 +11,8 @@
     <meta name="version" content="{% QUICKAPI_VERSION %}">
 
 {% block shortcut_icons %}
-    <link rel="icon" href="{{ STATIC_URL }}quickapi/img/logo.svg" type="image/svg">
-    <link rel="icon" href="{{ STATIC_URL }}quickapi/img/favicon.png" type="image/png">
+    <link rel="icon" href="{{ STATIC_URL }}quickapi/{% QUICKAPI_VERSION %}/img/logo.svg" type="image/svg">
+    <link rel="icon" href="{{ STATIC_URL }}quickapi/{% QUICKAPI_VERSION %}/img/favicon.png" type="image/png">
 {% endblock %}
 
     <!-- START: block style -->
@@ -53,7 +53,7 @@
                     <span class="icon-bar"></span>
                 </button>
                 <a class="navbar-brand" href="#" title="Django QuickAPI {% QUICKAPI_VERSION %} Documentation">
-                    <img style="display:inline;" width="24" height="24" src="{{ STATIC_URL }}quickapi/img/logo.png"/>
+                    <img style="display:inline;" width="24" height="24" src="{{ STATIC_URL }}quickapi/{% QUICKAPI_VERSION %}/img/logo.png"/>
                     {% block navbar_brand %}{% trans 'API documentation' %}{% endblock %}
                 </a>
             </div>
@@ -127,7 +127,7 @@
     <script src="{{ STATIC_URL }}jquery/django/django-ajax-csrf.min.js"></script>
     <script src="{{ STATIC_URL }}jquery/json/2.5.1/jquery.json.min.js"></script>
     <script src="{{ STATIC_URL }}bootstrap/3.3.2/js/bootstrap.min.js"></script>
-    <script src="{{ STATIC_URL }}quickapi/js/jquery.quickapi.min.js"></script>
+    <script src="{{ STATIC_URL }}quickapi/{% QUICKAPI_VERSION %}/js/jquery.quickapi.min.js"></script>
 
     {% endblock %}
 
