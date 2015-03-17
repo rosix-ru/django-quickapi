@@ -171,9 +171,14 @@ def index(request, methods=METHODS):
 
     switch_language(request)
 
+    if request.method == 'GET':
+        REQUEST = request.GET
+    else:
+        REQUEST = request.POST
+
     # Когда в запросе есть ключ 'jsonData' или 'method', то это вызов метода.
     # Иначе - это просмотр документации
-    if 'jsonData' in request.REQUEST or 'method' in request.REQUEST:
+    if 'jsonData' in REQUEST or 'method' in REQUEST:
         try:
             return run(request, methods)
         except Exception as e:
@@ -204,20 +209,25 @@ def run(request, methods):
 
     # Принудительно направляем на страницу документации нарушителей
     # правил передачи параметров авторизации
-    if warning_auth_in_get(request, request.REQUEST):
+    if warning_auth_in_get(request):
         return HttpResponseRedirect(clean_uri(request)+'#requests')
 
-    if 'method' in request.REQUEST:
-        method = request.REQUEST.get('method')
+    if request.method == 'GET':
+        REQUEST = request.GET
+    else:
+        REQUEST = request.POST
 
-        kwargs = clean_kwargs(request, request.REQUEST)
+    if 'method' in REQUEST:
+        method = REQUEST.get('method')
+
+        kwargs = clean_kwargs(request, REQUEST)
 
         if not is_authenticate:
-            username, password = parse_auth(request, request.REQUEST)
+            username, password = parse_auth(request, REQUEST)
 
-    elif 'jsonData' in request.REQUEST:
+    elif 'jsonData' in REQUEST:
         try:
-            data   = json.loads(request.REQUEST.get('jsonData'))
+            data   = json.loads(REQUEST.get('jsonData'))
             method = data.get('method')
             kwargs = data.get('kwargs', clean_kwargs(request, data))
 
