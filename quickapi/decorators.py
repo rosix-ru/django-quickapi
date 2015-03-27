@@ -22,6 +22,8 @@
 #  
 #  
 from __future__ import unicode_literals
+from functools import wraps
+
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth import REDIRECT_FIELD_NAME
@@ -57,6 +59,7 @@ def api_required(function=None, ajax_post=True, ajax_get=False,
 
     def decorator(view_func):
 
+        @wraps(view_func)
         def _wrapped_view(request, *args, **kwargs):
             if not True in (ajax_post, ajax_get, not_ajax_post, not_ajax_get):
                 return HttpResponseServerError(_('This method incorrectly configured.'))

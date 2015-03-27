@@ -52,7 +52,7 @@ def clean_kwargs(request, data):
 
     for key in data.keys():
 
-        if '[]' in key and data is request.REQUEST:
+        if '[]' in key and (data is request.POST or data is request.GET):
             kwargs[key.replace('[]', '')] = data.getlist(key)
 
         elif key not in ('method', 'username', 'password', 'language'):
@@ -65,8 +65,8 @@ def clean_uri(request):
     return request.build_absolute_uri().split(request.path)[0] + request.path
 
 
-def warning_auth_in_get(request, data):
-    if request.method == 'GET' and ('username' in data or 'password' in data):
-        return True
+def warning_auth_in_get(request):
+    if request.method == 'GET':
+        return bool('username' in request.GET or 'password' in request.GET)
     return False
 
