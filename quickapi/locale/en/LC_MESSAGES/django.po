@@ -1,11 +1,26 @@
-# QUICKAPI LOCALIZATION.
-# Copyright (C) 2013 Grigoriy Kramarenko
-# This file is distributed under the same license as the QUICKAPI package.
-# Grigoriy Kramarenko <root@rosix.ru>, 2013.
 #
+#   Copyright 2013-2015 Grigoriy Kramarenko <root@rosix.ru>
+#
+#   This file is part of QuickAPI.
+#
+#   QuickAPI is free software: you can redistribute it and/or
+#   modify it under the terms of the GNU Affero General Public License
+#   as published by the Free Software Foundation, either version 3 of
+#   the License, or (at your option) any later version.
+#
+#   QuickAPI is distributed in the hope that it will be useful,
+#   but WITHOUT ANY WARRANTY; without even the implied warranty of
+#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#   GNU Affero General Public License for more details.
+#
+#   You should have received a copy of the GNU Affero General Public
+#   License along with QuickAPI. If not, see
+#   <http://www.gnu.org/licenses/>.
+#
+
 msgid ""
 msgstr ""
-"Project-Id-Version: QUICKAPI\n"
+"Project-Id-Version: QuickAPI\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-02-21 18:46+1000\n"
 "PO-Revision-Date: 2013-01-23 11:43+1100\n"

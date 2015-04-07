@@ -1,24 +1,27 @@
 /**
- * jquery.quickapi.js - jQuery plugin for django-quickapi application
+ * jquery.quickapi.js - jQuery plugin for QuickAPI application
  * 
- * Copyright 2014 Grigoriy Kramarenko <root@rosix.ru>
- * 
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 3 of the License, or
- * (at your option) any later version.
- * 
- * This program is distributed in the hope that it will be useful,
+ * Copyright 2014-2015 Grigoriy Kramarenko <root@rosix.ru>
+ *
+ * This file is part of QuickAPI.
+ *
+ * QuickAPI is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU Affero General Public License
+ * as published by the Free Software Foundation, either version 3 of
+ * the License, or (at your option) any later version.
+ *
+ * QuickAPI is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- * 
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
- * MA 02110-1301, USA.
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public
+ * License along with QuickAPI. If not, see
+ * <http://www.gnu.org/licenses/>.
  * 
  */
+
+
 
 (function ($) {
     /* Общая функция для работы с django-quickapi

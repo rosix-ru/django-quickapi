@@ -1,14 +1,38 @@
-{% load i18n %}
+{% comment %}<!--
+ 
+    Copyright 2012-2015 Grigoriy Kramarenko <root@rosix.ru>
+
+    This file is part of QuickAPI.
+
+    QuickAPI is free software: you can redistribute it and/or
+    modify it under the terms of the GNU Affero General Public License
+    as published by the Free Software Foundation, either version 3 of
+    the License, or (at your option) any later version.
+
+    QuickAPI is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License for more details.
+
+    You should have received a copy of the GNU Affero General Public
+    License along with QuickAPI. If not, see
+    <http://www.gnu.org/licenses/>.
+-->
+{% endcomment %}{% load i18n %}
+
 <div id="responses">
     <legend><h1>{% trans 'Responses' %}</h1></legend>
 <div class="highlight">
-<pre><span class="nx">response</span> <span class="o">=</span> <span class="p">{</span>
+
+<pre>
+<span class="nx">response</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s1">&#39;status&#39;</span><span class="o">:</span> <span class="mi">200</span><span class="p">,</span> <span class="c1">// {% trans 'Codes HTTP that makes sense.' %}</span>
     <span class="s1">&#39;message&#39;</span><span class="o">:</span> <span class="s1">&#39;{% trans 'The message string for the user (with support for localization)' %}&#39;</span><span class="p">,</span>
     <span class="s1">&#39;data&#39;</span><span class="o">:</span> <span class="o">&lt;</span>{% trans 'Nested object' %} <span class="nx">JSON</span><span class="o">&gt;</span><span class="p">,</span>
 <span class="p">}</span>
-</pre></div>
+</pre>
 
+</div>
     <blockquote><small>{% trans 'The type and structure of nested object depend on the method to call (see documentation below).' %}</small></blockquote>
 </div>
 
