@@ -40,10 +40,12 @@ setup(
         'Environment :: Web Environment',
         'Framework :: Django',
         'Intended Audience :: Developers',
-        'License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)',
+        'License :: OSI Approved :: GNU Affero General Public License v3 or later (AGPLv3+)',
         'Natural Language :: Russian',
+        'Natural Language :: English',
         'Operating System :: OS Independent',
         'Programming Language :: Python',
+        'Programming Language :: JavaScript',
         'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
     ],
 )
