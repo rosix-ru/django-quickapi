@@ -19,7 +19,7 @@
     License along with QuickAPI. If not, see
     <http://www.gnu.org/licenses/>.
 -->
-{% endcomment %}{% load i18n l10n quickapi_base %}<!DOCTYPE html>
+{% endcomment %}{% load i18n l10n quickapi_base static %}<!DOCTYPE html>
 <html lang="{{ LANGUAGE_CODE|default:"ru" }}" {% if LANGUAGE_BIDI %}dir="rtl"{% endif %}>
 <head>
     <title>{% block title %}{% trans 'API documentation' %}{% endblock %}</title>
@@ -32,17 +32,17 @@
     <meta name="version" content="{% QUICKAPI_VERSION %}">
 
 {% block shortcut_icons %}
-    <link rel="icon" href="{{ STATIC_URL }}quickapi/{% QUICKAPI_VERSION %}/img/logo.svg" type="image/svg">
-    <link rel="icon" href="{{ STATIC_URL }}quickapi/{% QUICKAPI_VERSION %}/img/favicon.png" type="image/png">
+    <link rel="icon" href="{% get_static_prefix %}quickapi/{% QUICKAPI_VERSION %}/img/logo.svg" type="image/svg">
+    <link rel="icon" href="{% get_static_prefix %}quickapi/{% QUICKAPI_VERSION %}/img/favicon.png" type="image/png">
 {% endblock %}
 
     <!-- START: block style -->
     {% block style %}
     <!-- Bootstrap -->
-    <link rel="stylesheet" href="{{ STATIC_URL }}font-awesome/4.3.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="{{ STATIC_URL }}bootstrap/3.3.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="{{ STATIC_URL }}bootstrap/3.3.2/css/bootstrap-theme.min.css">
-    <link rel="stylesheet" href="{{ STATIC_URL }}pygments/1.5/pygments.min.css">
+    <link rel="stylesheet" href="{% get_static_prefix %}font-awesome/4.3.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{% get_static_prefix %}bootstrap/3.3.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% get_static_prefix %}bootstrap/3.3.2/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="{% get_static_prefix %}pygments/1.5/pygments.min.css">
 
     <style type="text/css">
         #requests, #responses, #methods {
@@ -74,8 +74,8 @@
                     <span class="icon-bar"></span>
                 </button>
                 <a class="navbar-brand" href="#" title="Django QuickAPI {% QUICKAPI_VERSION %} Documentation">
-                    <img style="display:inline;" width="24" height="24" src="{{ STATIC_URL }}quickapi/{% QUICKAPI_VERSION %}/img/logo.png"/>
-                    {% block navbar_brand %}{% trans 'API documentation' %}{% endblock %}
+                    <img style="display:inline;" width="24" height="24" src="{% get_static_prefix %}quickapi/{% QUICKAPI_VERSION %}/img/logo.png"/>
+                    <span>{% block navbar_brand %}{% trans 'API documentation' %}{% endblock %}</span>
                 </a>
             </div>
             <div class="collapse navbar-collapse">
@@ -96,6 +96,11 @@
                             <li><a href="#method-{{ m.name|slugify }}">{{ m.name }}</a></li>
                         {% endfor %}
                         </ul>
+                    </li>
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#modal-license">
+                            <img style="height:18px; background: white;" src="{% get_static_prefix %}licenses/GNU/img/agplv3-88x31.png">
+                        </a>
                     </li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
@@ -142,15 +147,88 @@
     {% endblock %}
     <!-- END: block container -->
 
-    <!-- START: block js -->
-    {% block js %}
-    <script src="{{ STATIC_URL }}jquery/2.1.3/jquery.min.js"></script>
-    <script src="{{ STATIC_URL }}jquery/django/django-ajax-csrf.min.js"></script>
-    <script src="{{ STATIC_URL }}jquery/json/2.5.1/jquery.json.min.js"></script>
-    <script src="{{ STATIC_URL }}bootstrap/3.3.2/js/bootstrap.min.js"></script>
-    <script src="{{ STATIC_URL }}quickapi/{% QUICKAPI_VERSION %}/js/jquery.quickapi.min.js"></script>
+    <!-- START: block modal -->
+    {% block modal %}
+
+    <div id="modal-license" class="modal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="{% trans 'Close' %}"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">{% trans 'License' %}: {% trans 'GNU Affero General Public License' %}</h4>
+                </div>
+
+                <div class="modal-body">
+
+<div class="alert alert-info">
+{% trans 'This is short non-official localized text of license. Please, read full official text.' %}
+</div>
+
+<img class="pull-right" src="{% get_static_prefix %}licenses/GNU/img/agplv3-155x51.png">
+
+<p>
+{% blocktrans %}
+QuickAPI is free software: you can redistribute it and/or
+modify it under the terms of the GNU Affero General Public License
+as published by the Free Software Foundation, either version 3 of
+the License, or (at your option) any later version.
+{% endblocktrans %}
+</p>
+
+<p>
+{% blocktrans %}
+QuickAPI is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU Affero General Public License for more details.
+{% endblocktrans %}
+</p>
+
+<p>
+{% blocktrans %}
+You should have received a copy of the GNU Affero General Public
+License along with QuickAPI. If not, see
+{% endblocktrans %}
+&lt;http://www.gnu.org/licenses/&gt;.
+</p>
+
+                </div>
+
+                <div class="modal-footer">
+
+                    <a href="{% get_static_prefix %}licenses/GNU/AGPLv3.txt" role="button" class="btn btn-primary">
+                        <i class="fa fa-file-text-o fa-lg"> </i>
+                        <span> {% trans 'Full official text' %} </span>
+                    </a>
+
+                    <a href="https://rosix.ru/projects/django-quickapi/" role="button" class="btn btn-success">
+                        <i class="fa fa-download fa-lg"> </i>
+                        <span> {% trans 'Get the code' %} </span>
+                    </a>
+
+                    <button type="button" class="btn btn-default" data-dismiss="modal">{% trans 'Close' %}</button>
+
+                </div>
+
+            </div><!-- /.modal-content -->
+
+        </div><!-- /.modal-dialog -->
+
+    </div><!-- /.modal -->
 
     {% endblock %}
+    <!-- END: block modal -->
+
+    <!-- START: block js -->
+    {% block js %}
+    <script src="{% get_static_prefix %}jquery/2.1.3/jquery.min.js"></script>
+    <script src="{% get_static_prefix %}jquery/django/django-ajax-csrf.min.js"></script>
+    <script src="{% get_static_prefix %}jquery/json/2.5.1/jquery.json.min.js"></script>
+    <script src="{% get_static_prefix %}bootstrap/3.3.2/js/bootstrap.min.js"></script>
+    <script src="{% get_static_prefix %}quickapi/{% QUICKAPI_VERSION %}/js/jquery.quickapi.min.js"></script>
+
+    {% endblock %}
+    <!-- END: block js -->
 
     <!-- START: block extrajs -->
     {% block extrajs %}{% endblock %}

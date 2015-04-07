@@ -29,7 +29,7 @@ setup(
     author='Grigoriy Kramarenko',
     author_email='root@rosix.ru',
     url='https://bitbucket.org/rosix/django-quickapi/',
-    license='GNU General Public License v3 or later (GPLv3+)',
+    license='GNU Affero General Public License v3 or later (AGPLv3+)',
     platforms='any',
     zip_safe=False,
     packages=find_packages(),
