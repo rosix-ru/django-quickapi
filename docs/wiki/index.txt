@@ -7,6 +7,6 @@ Wiki
 
    install
    including
-   settings
-   advanced
+   autodoc
+   multiversion
    rnr

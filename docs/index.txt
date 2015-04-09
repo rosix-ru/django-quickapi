@@ -27,10 +27,10 @@
 * **Первые шаги:**
   :doc:`Установка <wiki/install>` |
   :doc:`Добавление в проект <wiki/including>` |
-  :doc:`Конфигурирование <wiki/settings>`
+  :doc:`Знакомство с настройками <ref/conf>`
 
 * **Тонкости:**
-  :doc:`Продвинутая настройка <wiki/advanced>` |
+  :doc:`Мультиверсия <wiki/multiversion>` |
   :doc:`Запросы и ответы <wiki/rnr>`
 
 

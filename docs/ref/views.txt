@@ -1,0 +1,67 @@
+============
+Модуль views
+============
+
+.. module:: quickapi.views
+   :synopsis: Модуль представлений QuickAPI.
+
+
+.. function:: test(request, code=200, redirect='/')
+
+    Представление предназначено для тестирования. 
+
+    Если ``code`` равен ``301`` или ``302``, то возвращает переадресацию
+    ``JSONRedirect(redirect)``.
+
+    Также можно протестировать коды ``400`` и ``500``.
+
+    В остальных случаях возвращает данные, которые можно
+    использовать в реальных приложениях:
+
+    .. code-block:: python
+
+        {
+            'REMOTE_ADDR': request.META.get("HTTP_X_REAL_IP", request.META.get("REMOTE_ADDR", None)),
+            'REMOTE_HOST': request.META.get("REMOTE_HOST", None),
+            'default language': settings.LANGUAGE_CODE,
+            'request language': get_language(),
+            'is_authenticated': request.user.is_authenticated(),
+            'types': {
+                'string': _('String in your localization'),
+                'datetime': now,
+                'date': now.date(),
+                'time': now.time(),
+                'decimal': decimal.Decimal('12345678.90'),
+                'float': 12345678.90,
+                'integer': 1234567890,
+            },
+            'settings': _('Hidden in not debug mode'),
+        }
+
+
+
+.. function:: index(request, methods=METHODS)
+
+    Распределяет запросы.
+
+    Когда в запросе ``request.REQUEST`` есть ключ ``jsonData`` или ``method``,
+    то передаётся управление представлению ``quickapi.views.run``, в котором и вызызывается метод.
+
+    Если же таких данных в запросе не обнаружено, то возвращает страницу
+    с документацией по указанным методам.
+
+
+.. note::
+    
+    Параметр ``methods`` может использоваться сторонними 
+    приложениями для организации определённых наборов методов API.
+
+    По-умолчанию на него подаётся словарь методов определённый в
+    переменной ``settings.QUICKAPI_DEFINED_METHODS`` главного проекта.
+
+
+
+.. function:: run(request, methods)
+
+    Авторизует пользователя, если он до сих пор не авторизован и
+    запускает метод.

@@ -1,0 +1,46 @@
+===========
+Модуль http
+===========
+
+.. module:: quickapi.http
+    :synopsis: Модуль протокола.
+
+
+
+.. attribute:: MESSAGES
+
+    Словарь, содержащий коды протокола HTTP в качестве ключа и
+    локализованное сообщение для этого кода в качестве значения.
+
+
+
+.. class:: JSONEncoder(json.JSONEncoder)
+
+    JSONEncoder subclass that knows how to encode date/time, decimal
+    types and Lazy objects.
+    Almost like in Django, but with additions.
+
+
+
+.. function:: tojson(ctx, indent=None)
+
+    Convert context to JSON.
+
+
+
+.. function:: get_json_response(ctx=None)
+
+    Building JSON response.
+
+
+
+.. function:: JSONResponse(data=None, message=None, status=200, **kwargs)
+
+    Checks a context and returns full JSON response
+
+
+
+.. function:: JSONRedirect(location='/', message=None, status=301, **kwargs)
+
+    Redirect to page for this API.
+

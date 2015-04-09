@@ -1,0 +1,7 @@
+===========
+Пакет utils
+===========
+
+.. module:: quickapi.utils
+   :synopsis: Пакет утилит для QuickAPI.
+

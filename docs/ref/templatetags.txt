@@ -1,0 +1,7 @@
+==================
+Пакет templatetags
+==================
+
+.. module:: quickapi.templatetags
+   :synopsis: Пакет шаблонных тегов для QuickAPI.
+

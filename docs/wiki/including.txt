@@ -37,7 +37,7 @@
 
     from quickapi.http import JSONResponse, JSONRedirect
 
-    api_mymethod(request):
+    def api_mymethod(request):
         """
         *Documentation with markdown and pygments support*
         """
@@ -61,5 +61,10 @@
         'mymethod': 'project.app.views.api_mymethod',
     }
 
-Другие варианты подключения смотрите в разделе
-:doc:`продвинутая настройка </wiki/advanced>`
+
+Также, Вы можете изменить поведение API с помощью настроек, которые 
+перечислены в :doc:`описании модуля conf </ref/conf>`
+
+
+Если Вам необходимо развернуть несколько версий API, то прочитайте о
+:doc:`мультиверсии API </wiki/multiversion>`.
