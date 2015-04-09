@@ -1,0 +1,53 @@
+Продвинутая настройка
+=====================
+
+Вы можете сдеать несколько адресов URL с различным набором API-функций.
+Заметьте, что в этом случае нам не нужно регистрировать
+переменную ``QUICKAPI_DEFINED_METHODS`` в файле настроек проекта.
+
+.. code-block:: python
+
+    # urls.py
+
+    urlpatterns = patterns('',
+        ...
+        url(r'^api/v1/$', 'project.app.views.api_v1', name="api_v1"),
+        url(r'^api/v2/$', 'project.app.views.api_v2', name="api_v2"),
+        ...
+    )
+
+
+.. code-block:: python
+
+    # views.py
+
+    from django.views.decorators.csrf import csrf_exempt
+    from quickapi.views import index as quickapi_index, get_methods
+
+    DICT_METHODS_V1 = {
+        'mymethod1': api_mymethod_v1,                     # function
+        'mymethod2': 'project.app.views.api_mymethod_v1', # string for import
+        ...
+    }
+
+    METHODS_V1 = get_methods(DICT_METHODS_V1)
+
+    DICT_METHODS_V2 = (
+        ('mymethod1', api_mymethod_v2),
+        ('mymethod2', 'project.app.views.api_mymethod_v2'),
+        ...
+    )
+
+    METHODS_V2 = get_methods(DICT_METHODS_V2)
+
+    @csrf_exempt
+    def api_v1(request):
+        return quickapi_index(request, methods=METHODS_V1)
+
+    @csrf_exempt
+    def api_v2(request):
+        return quickapi_index(request, methods=METHODS_V2)
+
+
+Естесственно, тестовый адрес ``/api/test/`` становится недоступным 
+после таких изменений.

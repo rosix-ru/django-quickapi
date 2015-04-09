@@ -1,0 +1,65 @@
+Добавление в проект
+===================
+
+Добавьте ``quickapi`` в список приложений для Вашего проекта
+
+.. code-block:: python
+
+    # settings.py
+
+    INSTALLED_APPS = (
+        ...
+        'quickapi',
+        ...
+    )
+
+
+А также определите URL для API
+
+.. code-block:: python
+
+    # urls.py
+
+    urlpatterns = patterns('',
+        ...
+        url(r'^api/', include('quickapi.urls', namespace='quickapi', app_name='quickapi')),
+        ...
+    )
+
+
+Теперь можно протестировать адрес в браузере: ``/api/test/``.
+
+Если всё в порядке, приступаем к написанию первой функции
+
+.. code-block:: python
+
+    # project/app/views.py
+
+    from quickapi.http import JSONResponse, JSONRedirect
+
+    api_mymethod(request):
+        """
+        *Documentation with markdown and pygments support*
+        """
+
+        user = request.user
+
+        if not user.is_authenticated():
+            return JSONResponse(status=403)
+
+        elif not request.user.is_staff:
+            return JSONRedirect('/to-redirect/')
+
+        data = {'list': [1,2,3,4,5]}
+
+        return JSONResponse(data)
+
+
+Для подключения добавьте следующий код в файл настроек::
+
+    QUICKAPI_DEFINED_METHODS = {
+        'mymethod': 'project.app.views.api_mymethod',
+    }
+
+Другие варианты подключения смотрите в разделе
+:doc:`продвинутая настройка </wiki/advanced>`

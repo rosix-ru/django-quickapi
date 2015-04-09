@@ -1,0 +1,12 @@
+====
+Wiki
+====
+
+.. toctree::
+   :maxdepth: 1
+
+   install
+   including
+   settings
+   advanced
+   rnr

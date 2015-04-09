@@ -1,0 +1,14 @@
+Установка
+=========
+
+Выберите наиболее подходящий вариант:
+
+.. code-block:: bash
+
+    $ pip install django-quickapi
+
+
+.. code-block:: bash
+
+    $ easy_install django-quickapi
+

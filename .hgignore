@@ -8,6 +8,7 @@
 \.sqlite$
 \.db$
 ^wiki/.*$
+^docs/_build/.*$
 ^media/.*\.sql$
 ^media/.*\.log$
 ^media/.*\.txt$

@@ -1,0 +1,45 @@
+================
+Запросы и ответы
+================ 
+
+Примеры приведены с использованием jQuery.
+
+Структура запроса 
+=================
+
+.. code-block:: javascript
+
+    $.post('/api/',
+        { jsonData: JSON.stringify({
+            'method': <method_name>,
+            'kwargs': { 'key': <param1>, 'key2': <param2>,
+                        'key3': [ <param3_1>, <param3_2>, <param3_3> ],
+                        ... },
+            'username': <login_name>, // not required for browsers
+            'password': <password>,   // not required for browsers
+            }),
+        }, function() {});
+
+
+Структура ответа
+================
+
+Стандартный ответ с данными (JSONResponse)
+
+.. code-block:: javascript
+
+    {
+        'status': 200, // codes HTTP having meaning.
+        'message': 'String message for the user',
+        'data': object, // any JSON object
+    }
+
+Переадресация (JSONRedirect)
+
+.. code-block:: javascript
+
+    {
+        'status': 301, // codes HTTP having meaning.
+        'message': 'String message for the user',
+        'data': {'Location': '/to-redirect/'},
+    }

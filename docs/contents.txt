@@ -1,0 +1,23 @@
+.. _contents:
+
+================================
+Содержание документации QuickAPI
+================================
+
+.. toctree::
+    :hidden:
+
+    index
+
+
+.. toctree::
+    :maxdepth: 3
+
+    glossary
+    wiki/index
+
+Индексированные страницы
+========================
+
+* :ref:`genindex`
+* :ref:`modindex`

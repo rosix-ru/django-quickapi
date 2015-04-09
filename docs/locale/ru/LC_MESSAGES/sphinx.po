@@ -1,0 +1,502 @@
+# 
+# Extend system localization for Sphinx v0.6
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Sphinx 0.6b1\n"
+"Report-Msgid-Bugs-To: info@rosix.ru\n"
+"POT-Creation-Date: 2015-03-19 00:00+1000\n"
+"PO-Revision-Date: 2015-04-09 15:29:00+1000\n"
+"Last-Translator: Grigoriy Kramarenko <root@rosix.ru>\n"
+"Language-Team: ru <info@rosix.ru>\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "   Bases: %s"
+msgstr "   Базовые классы: %s"
+
+msgid " (in "
+msgstr " (в "
+
+msgid "%(filename)s &mdash; %(docstitle)s"
+msgstr "%(filename)s &mdash; %(docstitle)s"
+
+msgid "%B %d, %Y"
+msgstr "%d %B %Y"
+
+msgid "%b %d, %Y"
+msgstr "%d %b %Y"
+
+msgid "%s %s"
+msgstr "%s %s"
+
+msgid "%s %s documentation"
+msgstr "Документация %s %s"
+
+msgid "%s (%s attribute)"
+msgstr "%s (атрибут %s)"
+
+msgid "%s (%s.%s attribute)"
+msgstr "%s (атрибут %s.%s)"
+
+msgid "%s (C function)"
+msgstr "%s (функция C)"
+
+msgid "%s (C macro)"
+msgstr "%s (макроподстановка C)"
+
+msgid "%s (C member)"
+msgstr "%s (поле C)"
+
+msgid "%s (C type)"
+msgstr "%s (тип C)"
+
+msgid "%s (C variable)"
+msgstr "%s (переменная C)"
+
+msgid "%s (C++ class)"
+msgstr "%s (класс C++)"
+
+msgid "%s (C++ function)"
+msgstr "%s (функция C++)"
+
+msgid "%s (C++ member)"
+msgstr "%s (поле C++)"
+
+msgid "%s (C++ type)"
+msgstr "%s (тип C++)"
+
+msgid "%s (built-in class)"
+msgstr "%s (встроенный класс)"
+
+msgid "%s (built-in variable)"
+msgstr "%s (встроенная переменная)"
+
+msgid "%s (class in %s)"
+msgstr "%s (класс в %s)"
+
+msgid "%s (directive)"
+msgstr "%s (директива)"
+
+msgid "%s (global variable or constant)"
+msgstr "%s (глобальная переменная или константа)"
+
+msgid "%s (in module %s)"
+msgstr "%s (в модуле %s)"
+
+msgid "%s (module)"
+msgstr "%s (модуль)"
+
+msgid "%s (role)"
+msgstr "%s (роль)"
+
+msgid "%s() (%s method)"
+msgstr "%s() (метод %s)"
+
+msgid "%s() (%s static method)"
+msgstr "%s() (статический метод %s)"
+
+msgid "%s() (%s.%s method)"
+msgstr "%s() (метод %s.%s)"
+
+msgid "%s() (%s.%s static method)"
+msgstr "%s() (статический метод %s.%s)"
+
+msgid "%s() (built-in function)"
+msgstr "%s() (встроенная функция)"
+
+msgid "%s() (class)"
+msgstr "%s() (класс)"
+
+msgid "%s() (in module %s)"
+msgstr "%s() (в модуле %s)"
+
+msgid "%scommand line option; %s"
+msgstr "Опция командной строки %s; %s"
+
+msgid "&copy; <a href=\"%(path)s\">Copyright</a> %(copyright)s."
+msgstr "&copy; <a href=\"%(path)s\">Copyright</a> %(copyright)s."
+
+msgid "&copy; Copyright %(copyright)s."
+msgstr "&copy; Copyright %(copyright)s."
+
+msgid "<h1>All modules for which code is available</h1>"
+msgstr "<h1>Все модули, для которых код доступен</h1>"
+
+msgid "<h1>Source code for %s</h1>"
+msgstr "<h1>Исходный код для %s</h1>"
+
+msgid "About these documents"
+msgstr "Об этих документах…"
+
+msgid "Attention"
+msgstr "Внимание"
+
+msgid "Author: "
+msgstr "Автор: "
+
+msgid "Automatically generated list of changes in version %(version)s"
+msgstr "Автоматически созданный список изменений в версии %(version)s"
+
+msgid "Builtins"
+msgstr "Встроенные функции"
+
+msgid "C API changes"
+msgstr "Изменения в C API"
+
+msgid "Caution"
+msgstr "Осторожно"
+
+msgid "Changed in version %s"
+msgstr "Изменено в версии %s"
+
+msgid "Changes in Version %(version)s &mdash; %(docstitle)s"
+msgstr "Изменения в версии %(version)s &mdash; %(docstitle)s"
+
+msgid "Collapse sidebar"
+msgstr "Collapse sidebar"
+
+msgid "Complete Table of Contents"
+msgstr "Подробное оглавление"
+
+msgid "Contents"
+msgstr "Оглавление"
+
+msgid "Copyright"
+msgstr "Copyright"
+
+msgid ""
+"Created using <a href=\"http://sphinx.pocoo.org/\">Sphinx</a> "
+"%(sphinx_version)s."
+msgstr ""
+"При создании использован <a href=\"http://sphinx.pocoo.org/\">Sphinx</a> "
+"%(sphinx_version)s."
+
+msgid "Danger"
+msgstr "Опасно"
+
+msgid "Deprecated"
+msgstr "Не рекомендуется"
+
+msgid "Deprecated since version %s"
+msgstr "Не рекомендуется, начиная с версии %s"
+
+msgid "Enter search terms or a module, class or function name."
+msgstr "Введите слова для поиска или имя модуля, класса или функции."
+
+msgid "Error"
+msgstr "Ошибка"
+
+msgid "Expand sidebar"
+msgstr "Раскрыть боковую панель"
+
+msgid "Footnotes"
+msgstr "Сноски"
+
+msgid ""
+"From here you can search these documents. Enter your search\n"
+"    words into the box below and click \"search\". Note that the search\n"
+"    function will automatically search for all of the words. Pages\n"
+"    containing fewer words won't appear in the result list."
+msgstr ""
+"Эта форма предназначена для поиска по всем разделам настоящей документации. "
+"Введите искомые слова в текстовое поле и нажмите кнопку «искать». Обратите "
+"внимание: найдены будут только те страницы, в которых упомянуты все "
+"указанные слова. Страницы, в которых встречается только часть этих слов, "
+"отобраны не будут."
+
+msgid "Full index on one page"
+msgstr "Полный алфавитный указатель на одной странице"
+
+msgid "General Index"
+msgstr "Словарь-указатель"
+
+msgid "Global Module Index"
+msgstr "Алфавитный указатель модулей"
+
+msgid "Go"
+msgstr "Искать"
+
+msgid "Hide Search Matches"
+msgstr "Снять выделение"
+
+msgid "Hint"
+msgstr "Подсказка"
+
+msgid "Important"
+msgstr "Важно"
+
+msgid "Index"
+msgstr "Алфавитный указатель"
+
+msgid "Index &ndash; %(key)s"
+msgstr "Алфавитный указатель &ndash; %(key)s"
+
+msgid "Index pages by letter"
+msgstr "Указатели по буквам алфавита"
+
+msgid "Indices and tables:"
+msgstr "Таблицы и указатели:"
+
+msgid "Last updated on %(last_updated)s."
+msgstr "Дата последнего обновления: %(last_updated)s."
+
+msgid "Library changes"
+msgstr "Изменения в библиотеке"
+
+msgid "Module Index"
+msgstr "Состав модуля"
+
+msgid "Module author: "
+msgstr "Автор модуля: "
+
+msgid "Module level"
+msgstr "Модуль"
+
+msgid "Navigation"
+msgstr "Навигация"
+
+msgid "New in version %s"
+msgstr "Добавлено в версии %s"
+
+msgid "Next topic"
+msgstr "Следующий раздел"
+
+msgid "Note"
+msgstr "Примечание"
+
+msgid "Other changes"
+msgstr "Другие изменения"
+
+msgid "Overview"
+msgstr "Обзор"
+
+msgid "Overview: module code"
+msgstr "Обзор: код модуля"
+
+msgid "Parameters"
+msgstr "Параметры"
+
+msgid "Permalink to this definition"
+msgstr "Ссылка на это определение"
+
+msgid "Permalink to this headline"
+msgstr "Ссылка на этот заголовок"
+
+msgid ""
+"Please activate JavaScript to enable the search\n"
+"    functionality."
+msgstr "Для выполнения поиска необходима поддержка JavaScript в браузере."
+
+msgid "Previous topic"
+msgstr "Предыдущий раздел"
+
+msgid "Quick search"
+msgstr "Быстрый поиск"
+
+msgid "Raises"
+msgstr "Исключение"
+
+msgid "Release"
+msgstr "Выпуск"
+
+msgid "Return type"
+msgstr "Тип результата"
+
+msgid "Returns"
+msgstr "Результат"
+
+msgid "Search"
+msgstr "Поиск"
+
+msgid "Search %(docstitle)s"
+msgstr "Поиск в документе «%(docstitle)s»"
+
+msgid "Search Page"
+msgstr "Поиск"
+
+msgid "Search Results"
+msgstr "Результаты поиска"
+
+msgid "Search within %(docstitle)s"
+msgstr "Поиск в документе «%(docstitle)s»"
+
+msgid "Section author: "
+msgstr "Автор секции: "
+
+msgid "See Also"
+msgstr "См.также"
+
+msgid "See also"
+msgstr "См.также"
+
+msgid "Show Source"
+msgstr "Показать исходный текст"
+
+msgid "Table Of Contents"
+msgstr "Содержание"
+
+msgid "This Page"
+msgstr "Эта страница"
+
+msgid "Throws"
+msgstr "Бросает исключение"
+
+msgid "Tip"
+msgstr "Совет"
+
+msgid "Todo"
+msgstr "План"
+
+msgid "Warning"
+msgstr "Предупреждение"
+
+msgid "Your search did not match any results."
+msgstr "Результатов по вашему запросу не найдено."
+
+msgid "[docs]"
+msgstr "[документация]"
+
+msgid "[image]"
+msgstr "[рисунок]"
+
+msgid "[source]"
+msgstr "[исходный код]"
+
+msgid "alias of :class:`%s`"
+msgstr "псевдоним класса :class:`%s`"
+
+msgid "all functions, classes, terms"
+msgstr "все функции, классы, переменные и константы"
+
+msgid "attribute"
+msgstr "атрибут"
+
+msgid "built-in function"
+msgstr "базовая функция"
+
+msgid "can be huge"
+msgstr "может быть очень большим"
+
+msgid "class"
+msgstr "класс"
+
+msgid "class method"
+msgstr "метод класса"
+
+msgid "continued from previous page"
+msgstr "продолжение предыдущей страницы"
+
+msgid "data"
+msgstr "данные"
+
+msgid "directive"
+msgstr "директива"
+
+msgid "environment variable"
+msgstr "переменная окружения"
+
+msgid "environment variable; %s"
+msgstr "переменная окружения; %s"
+
+msgid "exception"
+msgstr "исключение"
+
+msgid "function"
+msgstr "функция"
+
+msgid "glossary term"
+msgstr "элемент словаря терминов"
+
+msgid "grammar token"
+msgstr "маркер грамматики"
+
+msgid "index"
+msgstr "словарь"
+
+msgid "keyword"
+msgstr "ключевое слово"
+
+msgid "lists all sections and subsections"
+msgstr "список всех разделов и подразделов"
+
+msgid "macro"
+msgstr "макро"
+
+msgid "member"
+msgstr "поле"
+
+msgid "method"
+msgstr "метод"
+
+msgid "module"
+msgstr "модуль"
+
+msgid "modules"
+msgstr "модули"
+
+msgid "next"
+msgstr "следующее"
+
+msgid "next chapter"
+msgstr "следующая глава"
+
+msgid "object"
+msgstr "объект"
+
+msgid "operator"
+msgstr "оператор"
+
+msgid "original entry"
+msgstr "оригинальная запись"
+
+msgid "previous"
+msgstr "предыдущее"
+
+msgid "previous chapter"
+msgstr "предыдущая глава"
+
+msgid "program option"
+msgstr "опция программы"
+
+msgid "quick access to all modules"
+msgstr "сводный список всех модулей"
+
+msgid "reference label"
+msgstr "ярлык справочника"
+
+msgid "role"
+msgstr "роль"
+
+msgid "search"
+msgstr "искать"
+
+msgid "search this documentation"
+msgstr "поиск во всем документе"
+
+msgid "see %s"
+msgstr "смотрите %s"
+
+msgid "see also %s"
+msgstr "смотрите также %s"
+
+msgid "statement"
+msgstr "команда"
+
+msgid "static method"
+msgstr "статический метод"
+
+msgid "type"
+msgstr "тип"
+
+msgid "Last update"
+msgstr "Последнее обновление"
+
+msgid "You are here"
+msgstr "Вы находитесь здесь"
+
+msgid "up"
+msgstr "наверх"

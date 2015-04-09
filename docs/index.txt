@@ -1,0 +1,39 @@
+.. QuickAPI documentation master file, created by
+   sphinx-quickstart on Wed Mar 18 16:44:42 2015.
+   You can adapt this file completely to your liking, but it should at least
+   contain the root `toctree` directive.
+
+.. _index:
+
+=====================
+Документация QuickAPI
+=====================
+
+Приложение QuickAPI - это простой путь установки механизма вызовов
+для проектов Django.
+
+Протестировано на Django 1.4 и выше.
+
+**Внимание!** Мы настоятельно рекомендуем использовать HTTPS!
+
+
+Введение
+========
+
+* **Первые шаги:**
+  :doc:`Установка <wiki/install>` |
+  :doc:`Добавление в проект <wiki/including>` |
+  :doc:`Конфигурирование <wiki/settings>`
+
+* **Тонкости:**
+  :doc:`Продвинутая настройка <wiki/advanced>` |
+  :doc:`Запросы и ответы <wiki/rnr>`
+
+
+Индексированные страницы
+========================
+
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`
+
