@@ -6,4 +6,6 @@
 
 .. glossary::
 
-    
+    JSON
+        JavaScript Object Notation
+
