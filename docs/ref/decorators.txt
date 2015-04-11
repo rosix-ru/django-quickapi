@@ -8,10 +8,9 @@
 
 .. function:: login_required(function=None, redirect_field_name=REDIRECT_FIELD_NAME, login_url=None)
 
-    Decorator for views that checks that the user is logged in, redirecting
-    to the log-in page if necessary.
-    This decorator different from those in Django that checks is
-    active user or not.
+    Декоратор для представлений, который проверяет авторизован ли 
+    пользователь и активен ли он, при необходимости переадресовывает 
+    на страницу авторизации.
 
 
 .. function:: api_required(function=None, ajax_post=True, ajax_get=False, not_ajax_post=True, not_ajax_get=False)
