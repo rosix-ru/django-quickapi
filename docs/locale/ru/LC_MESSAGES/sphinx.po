@@ -358,13 +358,13 @@ msgid "Your search did not match any results."
 msgstr "Результатов по вашему запросу не найдено."
 
 msgid "[docs]"
-msgstr "[документация]"
+msgstr "[док.]"
 
 msgid "[image]"
-msgstr "[рисунок]"
+msgstr "[рис.]"
 
 msgid "[source]"
-msgstr "[исходный код]"
+msgstr "[код]"
 
 msgid "alias of :class:`%s`"
 msgstr "псевдоним класса :class:`%s`"

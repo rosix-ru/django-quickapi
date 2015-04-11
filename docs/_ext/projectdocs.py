@@ -5,15 +5,22 @@ import json
 import os
 import re
 
-from gettext import textdomain, bindtextdomain, gettext as _
+from sphinx import __version__ as sphinx_ver, addnodes
+from sphinx.writers.html import SmartyPantsHTMLTranslator
+
+from gettext import textdomain, bindtextdomain, gettext
 
 # set domain for gettext locallize this file
 domain = textdomain('ext')
 # set directory with localizations
 bindtextdomain(domain, localedir='locale')
 
-from sphinx import __version__ as sphinx_ver, addnodes
-from sphinx.writers.html import SmartyPantsHTMLTranslator
+def _(message):
+    v = gettext(message)
+    try:
+        return v.decode('utf-8')
+    except:
+        return v
 
 
 class ProjectHTMLTranslator(SmartyPantsHTMLTranslator):

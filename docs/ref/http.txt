@@ -3,7 +3,7 @@
 ===========
 
 .. module:: quickapi.http
-    :synopsis: Модуль протокола.
+    :synopsis: Модуль протокола передачи JSON внутри HTTP.
 
 
 
@@ -16,31 +16,32 @@
 
 .. class:: JSONEncoder(json.JSONEncoder)
 
-    JSONEncoder subclass that knows how to encode date/time, decimal
-    types and Lazy objects.
-    Almost like in Django, but with additions.
-
+    Подкласс, который знает как преобразовывать дату/время, числовые 
+    типы и объекты с отложенным вызовом - такие, как, например, 
+    строки с переводом на языки. Напоминает такой же в Django, но 
+    более расширен.
 
 
 .. function:: tojson(ctx, indent=None)
 
-    Convert context to JSON.
+    Конвертирует переданный контекст в JSON с помощью ``JSONEncoder``.
 
 
 
 .. function:: get_json_response(ctx=None)
 
-    Building JSON response.
+    Выполняет ``tojson`` для контекста и формирует ответ сервера.
 
 
 
 .. function:: JSONResponse(data=None, message=None, status=200, **kwargs)
 
-    Checks a context and returns full JSON response
+    Проверяет контекст и возвращает полностью сформированный ответ 
+    сервера с JSON-данными.
 
 
 
 .. function:: JSONRedirect(location='/', message=None, status=301, **kwargs)
 
-    Redirect to page for this API.
+    Возвращает переадресацию на страницу.
 

@@ -6,8 +6,9 @@
     :maxdepth: 1
 
     conf
-    http
-    views
     decorators
+    http
+    tables
     templatetags
+    views
     utils

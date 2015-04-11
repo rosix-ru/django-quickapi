@@ -3,5 +3,150 @@
 ===========
 
 .. module:: quickapi.utils
-   :synopsis: Пакет утилит для QuickAPI.
+    :synopsis: Пакет утилит для QuickAPI.
+
+
+
+Модуль doc
+==========
+
+.. module:: quickapi.utils.doc
+    :synopsis: Средства мультиязычной документации к методам API.
+
+В этом модуле реализованы функции с отложенным переводом и 
+унифицированные заготовки переводов для составления документации к
+методам.
+
+
+.. function:: apidoc_lazy(header, params=_('Nothing'), data='', footer='')
+
+    Возвращает отложенный вызов форматирования документации по шаблону.
+    
+    Пример использования.
+
+    .. code-block:: python
+    
+        # TODO: insert example
+        
+
+.. function:: combine_string(string, args=None)
+
+    Возвращает отложенный вызов соединения шаблонной строки с 
+    приняными аргументами.
+
+    Пример использования.
+
+    .. code-block:: python
+    
+        # TODO: insert example
+
+
+.. attribute:: JS_BOOLEAN_TEMPLATE
+
+    Шаблон для ответа истинностью.
+
+.. attribute:: RETURN_BOOLEAN_SUCCESS
+
+    Шаблонный ответ метода.
+
+    .. code-block:: javascript
+    
+        true // если успешно, иначе false
+
+
+.. attribute:: RETURN_BOOLEAN_NOTSUCCESS
+
+    Шаблонный ответ метода.
+
+    .. code-block:: javascript
+    
+        true // если не успешно, иначе false
+
+.. attribute:: RETURN_BOOLEAN_EXISTS
+
+    Шаблонный ответ метода.
+
+    .. code-block:: javascript
+    
+        true // если существует, иначе false
+
+.. attribute:: RETURN_BOOLEAN_NOTEXISTS
+
+    Шаблонный ответ метода.
+
+    .. code-block:: javascript
+    
+        true // если не существует, иначе false
+
+.. attribute:: PARAMS_UPDATE_FIELD_TEMPLATE
+
+    Шаблон для параметров метода обновления обекта.
+
+.. attribute:: PARAMS_UPDATE_FIELD
+
+    Шаблонная документация по принимаемым парамерам для метода 
+    обновления обекта.
+
+        1. "pk" - первичный ключ;
+        2. "field" - имя поля;
+        3. "value" - новое значение для поля.
+
+
+.. attribute:: QUICKTABLE_PARAMS
+
+    Шаблонная документация по принимаемым парамерам для методов 
+    с QuickTables.
+
+        1. "filters" - фильтры;
+        2. "ordering" - сортировка;
+        3. "page" - номер страницы;
+        4. "limit" -объектов на страницу.
+
+
+.. attribute:: QUICKTABLE_DATA
+
+    Шаблонный ответ для методов с QuickTables.
+
+    .. code-block:: javascript
+
+        {
+            objects: [],  // список объектов
+            page: 1,      // номер страницы
+            num_pages: 3, // количество страниц
+            info: null    // или специальная информация
+        }
+
+
+
+
+
+Модуль filters
+==============
+
+.. module:: quickapi.utils.filters
+    :synopsis: Средства фильтрации Queryset.
+
+
+
+Модуль lang
+===========
+
+.. module:: quickapi.utils.lang
+    :synopsis: Функции обработки переключения языков.
+
+
+Модуль method
+=============
+
+.. module:: quickapi.utils.method
+    :synopsis: Функции обработки переключения языков.
+
+
+Модуль requests
+===============
+
+.. module:: quickapi.utils.requests
+    :synopsis: Функции обработки переключения языков.
+
+
 
