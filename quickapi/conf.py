@@ -38,3 +38,15 @@ QUICKAPI_SWITCH_LANGUAGE       = getattr(settings, 'QUICKAPI_SWITCH_LANGUAGE', T
 QUICKAPI_SWITCH_LANGUAGE_AUTO  = getattr(settings, 'QUICKAPI_SWITCH_LANGUAGE_AUTO', True)
 QUICKAPI_DECIMAL_LOCALE        = getattr(settings, 'QUICKAPI_DECIMAL_LOCALE', False)
 QUICKAPI_ENSURE_ASCII          = getattr(settings, 'QUICKAPI_ENSURE_ASCII', False)
+
+VERSIONS = {
+    'django': DJANGO_VERSION,
+    'quickapi': QUICKAPI_VERSION,
+    'jquery': '2.1.3',
+    'jquery.json': '2.1.5',
+    'bootstrap': '3.3.2',
+    'font-awesome': '4.3.0',
+    'pygments': '1.5',
+    'underscore': '1.7.0',
+    'underscore.string': '3.0.2',
+}

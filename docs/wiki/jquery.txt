@@ -1,0 +1,118 @@
+==============
+Плагины jQuery
+==============
+
+В этом разделе показаны простейшие примеры использования встроенных 
+плагинов для jQuery. Более подробно о том как использовать, какие 
+параметры существуют и как они назначены по умолчанию - смотрите 
+исходный код каждого плагина в каталоге ``/static_src/js/``.
+
+
+quickAPI
+========
+
+.. versionadded: 2.0
+
+.. code-block:: html
+
+    {% load static quickapi_base %}
+    
+    <html lang="ru">
+
+    <body>
+    
+    <div id="place"></div>
+
+    <button id="button-test1">Тест 1</button>
+    <button id="button-test2">Тест 2</button>
+
+    <script src="{% get_static_prefix %}jquery/{% get_version 'jquery' %}/jquery.min.js"></script>
+    <script src="{% get_static_prefix %}jquery/json/{% get_version 'jquery.json' %}/jquery.json.min.js"></script>
+    <script src="{% get_static_prefix %}jquery/django/django-ajax-csrf.min.js"></script>
+    <script src="{% get_static_prefix %}quickapi/{% get_version 'quickapi' %}/js/jquery.quickapi.min.js"></script>
+
+    <script>
+
+        var LANGUAGE_CODE = "ru",
+            QUICKAPI_URL = "/api/",
+            AJAX_TIMEOUT = 10000;
+
+        var cb = function(json, status, xhr) {
+            $('#place').text(json.data);
+        }
+
+        $('#button-test1').on('click', function() {
+            $.quickAPI({ 
+                data: { method: "quickapi.test" },
+                callback: cb,
+            })
+        });
+
+        $('#button-test2').on('click', function() {
+            $.quickAPI({
+                url: "/api/"
+                data: { method: "quickapi.test", kwargs: { code: 400 } },
+                callback: cb,
+                language: "en",
+                type: "POST",
+                sync: true,
+                timeout: 3000,
+                log: "gets data from test2",
+                handlerShowAlert: function(head, msg, cls, cb) { alert(msg); }
+            })
+        });
+
+    <script>
+    
+    </body></html>
+
+
+
+quickTable
+==========
+
+.. versionadded: 3.0
+
+.. code-block:: html
+
+    {% load i18n static quickapi_base %}
+    
+    <html lang="ru">
+    <head>
+        <link rel="stylesheet" href="{% get_static_prefix %}bootstrap/{% get_version 'bootstrap' %}/css/bootstrap.min.css">
+        <link rel="stylesheet" href="{% get_static_prefix %}quickapi/{% get_version 'quickapi' %}/css/quicktable.min.css" />
+    </head>
+    <body>
+    
+    <table id="table-users">
+        <thead><tr><th>{% trans 'Username' %}</th></tr></thead>
+        <tbody></tbody>
+    </table>
+
+    <script src="{% get_static_prefix %}jquery/{% get_version 'jquery' %}/jquery.min.js"></script>
+    <script src="{% get_static_prefix %}jquery/django/django-ajax-csrf.min.js"></script>
+    <script src="{% get_static_prefix %}jquery/json/{% get_version 'jquery.json' %}/jquery.json.min.js"></script>
+    <script src="{% get_static_prefix %}bootstrap/{% get_version 'bootstrap' %}/js/bootstrap.min.js"></script>
+    <script src="{% get_static_prefix %}quickapi/{% get_version 'quickapi' %}/js/jquery.quickapi.full.min.js"></script>
+
+    <script>
+
+        var LANGUAGE_CODE = "ru",
+            QUICKAPI_URL = "/api/",
+            AJAX_TIMEOUT = 10000;
+
+
+        var table = $('#table-users').quickTable({
+                url: '/api/',
+                method: 'your_method_for_users',
+                columns: [
+                    { name: "id", hidden: true, notmanaged: true },
+                    { name: "username", title: "{% trans 'Username' %}" },
+                ]
+            });
+
+
+    <script>
+
+    </body></html>
+

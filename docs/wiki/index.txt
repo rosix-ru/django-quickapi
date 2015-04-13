@@ -10,3 +10,4 @@ Wiki
    autodoc
    multiversion
    rnr
+   jquery

@@ -21,6 +21,8 @@
 
 from __future__ import unicode_literals
 
+import warnings
+
 from django import template
 from django.utils.encoding import force_text
 from django.utils.translation import ugettext_lazy as _
@@ -160,10 +162,25 @@ def PROJECT_NAME():
 def PROJECT_URL():
     return conf.PROJECT_URL or '/'
 
+class TagDeprecationWarning(Warning):
+    pass
+
 @register.simple_tag
 def DJANGO_VERSION():
+    warnings.warn(
+        "Template tag {% DJANGO_VERSION %} in QuickAPI is deprecated. "
+        "Use {% get_version 'django' %}.", TagDeprecationWarning)
+
     return conf.DJANGO_VERSION
 
 @register.simple_tag
 def QUICKAPI_VERSION():
+    warnings.warn(
+        "Template tag {% QUICKAPI_VERSION %} in QuickAPI is deprecated. "
+        "Use {% get_version 'quickapi' %}.", TagDeprecationWarning)
+
     return conf.QUICKAPI_VERSION
+
+@register.simple_tag
+def get_version(key):
+    return conf.VERSIONS.get(key.lower(), 'stable')
