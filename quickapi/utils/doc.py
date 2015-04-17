@@ -25,19 +25,21 @@ from django.utils import six
 from django.utils.translation import lazy, ugettext_lazy as _
 
 
-def _apidoc_lazy(header, params=_('Nothing'), data='', footer=''):
+def _apidoc_lazy(header, params=_('Missing'), data='', footer=''):
     """
     Returns formatted documentation by generic template.
     """
 
     template = _("""
+### Description
+
 %(header)s
 
-#### Request parameters
+### Request parameters
 
 %(params)s
 
-#### Returned object
+### Returned object
 
 %(data)s
 

@@ -21,7 +21,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: QuickAPI\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-04-17 18:50+1000\n"
+"POT-Creation-Date: 2015-04-17 22:48+1000\n"
 "PO-Revision-Date: 2015-04-17 13:58+1000\n"
 "Last-Translator: Grigoriy Kramarenko <root@rosix.ru>\n"
 "Language-Team: \n"
@@ -277,27 +277,29 @@ msgstr "не расширено"
 msgid "Undefined message"
 msgstr "Неопределённое сообщение"
 
-#: templates/quickapi/_methods.html:24 templates/quickapi/base.html:87
+#: templates/quickapi/_methods.html:24 templates/quickapi/base.html:81
+#: templates/quickapi/base.html.py:135
 msgid "Methods"
 msgstr "Методы"
 
-#: templates/quickapi/_methods.html:40
+#: templates/quickapi/_methods.html:46
 msgid "no description available"
 msgstr "описание отсутствует"
 
-#: templates/quickapi/_requests.html:24 templates/quickapi/base.html:83
+#: templates/quickapi/_requests.html:25 templates/quickapi/base.html:79
+#: templates/quickapi/base.html.py:133
 msgid "Requests"
 msgstr "Запросы"
 
-#: templates/quickapi/_requests.html:25
+#: templates/quickapi/_requests.html:27
 msgid "Query parameters can be transmitted in a single JSON object via POST"
 msgstr "Параметры запроса можно передать в одном JSON-объекте через POST"
 
-#: templates/quickapi/_requests.html:38
+#: templates/quickapi/_requests.html:43
 msgid "Authorization settings everywhere are optional."
 msgstr "Параметры авторизации везде являются необязательными."
 
-#: templates/quickapi/_requests.html:39
+#: templates/quickapi/_requests.html:44
 msgid ""
 "For example, if the request object stores a user session, then "
 "authentication occurs on these data."
@@ -305,63 +307,68 @@ msgstr ""
 "Так, например, если объект запроса хранит сессию пользователя, то "
 "авторизация происходит по этим данным."
 
-#: templates/quickapi/_requests.html:43 templates/quickapi/_requests.html:57
-#: templates/quickapi/_requests.html:74 templates/quickapi/_requests.html:88
+#: templates/quickapi/_requests.html:48 templates/quickapi/_requests.html:68
+#: templates/quickapi/_requests.html:88 templates/quickapi/_requests.html:107
 msgid "Example"
 msgstr "Пример"
 
-#: templates/quickapi/_requests.html:43 templates/quickapi/_requests.html:57
-#: templates/quickapi/_requests.html:74 templates/quickapi/_requests.html:88
+#: templates/quickapi/_requests.html:48 templates/quickapi/_requests.html:68
+#: templates/quickapi/_requests.html:88 templates/quickapi/_requests.html:107
 msgid "for"
 msgstr "для"
 
-#: templates/quickapi/_requests.html:44
+#: templates/quickapi/_requests.html:50
 msgid "Parameters, you can pass directly into the POST-query."
 msgstr "Параметры можно передавать непосредственно в POST-запросе."
 
-#: templates/quickapi/_requests.html:53
+#: templates/quickapi/_requests.html:64
 msgid "In this variant, you can only pass lists and simple values."
 msgstr "В этом варианте можно передавать только простые списки и значения."
 
-#: templates/quickapi/_requests.html:54
+#: templates/quickapi/_requests.html:65
 msgid ""
 "Key \"key3\" in this case, jQuery will automatically change to \"key3[]\"."
 msgstr ""
 "Ключ \"key3\" в этом случае, jQuery автоматически заменит на \"key3[]\"."
 
-#: templates/quickapi/_requests.html:70
+#: templates/quickapi/_requests.html:84
 msgid "In this variant, you can transfer any serializable objects."
 msgstr "В этом варианте можно передавать любые сериализуемые объекты."
 
-#: templates/quickapi/_requests.html:71
+#: templates/quickapi/_requests.html:85
 msgid "To properly serialize dates in JSON is better to use special"
 msgstr "Для правильной сериализации дат в JSON лучше использовать специальный"
 
-#: templates/quickapi/_requests.html:74
+#: templates/quickapi/_requests.html:88
 msgid "with HTTP Basic authorization"
 msgstr "с HTTP Basic авторизацией"
 
-#: templates/quickapi/_requests.html:88
+#: templates/quickapi/_requests.html:107
 msgid "without HTTP Basic authorization"
 msgstr "без HTTP Basic авторизации"
 
-#: templates/quickapi/_responses.html:24 templates/quickapi/base.html:84
+#: templates/quickapi/_responses.html:24 templates/quickapi/base.html:80
+#: templates/quickapi/base.html.py:134
 msgid "Responses"
 msgstr "Ответы"
 
-#: templates/quickapi/_responses.html:29
+#: templates/quickapi/_responses.html:26
+msgid "The general structure of the answers"
+msgstr "Общая структура ответов"
+
+#: templates/quickapi/_responses.html:32
 msgid "Codes HTTP that makes sense."
 msgstr "Коды HTTP, имеющие смысл."
 
-#: templates/quickapi/_responses.html:30
+#: templates/quickapi/_responses.html:33
 msgid "The message string for the user (with support for localization)"
 msgstr "Строка сообщения для пользователя (с поддержкой локализации)"
 
-#: templates/quickapi/_responses.html:31
+#: templates/quickapi/_responses.html:34
 msgid "Nested object"
 msgstr "Вложенный объект"
 
-#: templates/quickapi/_responses.html:36
+#: templates/quickapi/_responses.html:39
 msgid ""
 "The type and structure of nested object depend on the method to call (see "
 "documentation below)."
@@ -377,31 +384,31 @@ msgstr "Документация API"
 msgid "QuickAPI - it's Django-application for the fast organization API."
 msgstr "QuickAPI - это Django-приложение для быстрой организации API."
 
-#: templates/quickapi/base.html:71
+#: templates/quickapi/base.html:67
 msgid "Toggle navigation"
 msgstr "Переключение навигации"
 
-#: templates/quickapi/base.html:76 templates/quickapi/base.html.py:78
-msgid "The documentation for API methods"
-msgstr "Документация по методам API"
+#: templates/quickapi/base.html:72 templates/quickapi/base.html.py:74
+msgid "The documentation for API"
+msgstr "Документация для API"
 
-#: templates/quickapi/base.html:90
-msgid "All methods"
-msgstr "Все методы"
+#: templates/quickapi/base.html:143
+msgid "Back on top"
+msgstr "Наверх"
 
-#: templates/quickapi/base.html:157 templates/quickapi/base.html.py:209
+#: templates/quickapi/base.html:163 templates/quickapi/base.html.py:215
 msgid "Close"
 msgstr "Закрыть"
 
-#: templates/quickapi/base.html:158
+#: templates/quickapi/base.html:164
 msgid "License"
 msgstr "Лицензия"
 
-#: templates/quickapi/base.html:158
+#: templates/quickapi/base.html:164
 msgid "GNU Affero General Public License"
 msgstr "Стандартная общественная лицензия GNU Афферо"
 
-#: templates/quickapi/base.html:164
+#: templates/quickapi/base.html:170
 msgid ""
 "This is short non-official localized text of license. Please, read full "
 "official text."
@@ -409,7 +416,7 @@ msgstr ""
 "Это краткий неофициальный локализованный текст лицензии. Пожалуйста, "
 "прочитайте полный официальный текст."
 
-#: templates/quickapi/base.html:170
+#: templates/quickapi/base.html:176
 msgid ""
 "\n"
 "QuickAPI is free software: you can redistribute it and/or\n"
@@ -424,7 +431,7 @@ msgstr ""
 " обеспечения; либо версии 3 лицензии, либо (по Вашему выбору) любой более\n"
 " поздней версии.\n"
 
-#: templates/quickapi/base.html:179
+#: templates/quickapi/base.html:185
 msgid ""
 "\n"
 "QuickAPI is distributed in the hope that it will be useful,\n"
@@ -438,7 +445,7 @@ msgstr ""
 " или ПРИГОДНОСТИ ДЛЯ ОПРЕДЕЛЕННЫХ ЦЕЛЕЙ. Подробнее см. в Стандартной\n"
 " общественной лицензии GNU Афферо.\n"
 
-#: templates/quickapi/base.html:188
+#: templates/quickapi/base.html:194
 msgid ""
 "\n"
 "You should have received a copy of the GNU Affero General Public\n"
@@ -448,11 +455,11 @@ msgstr ""
 "Вы должны были получить копию Стандартной общественной лицензии GNU Афферо\n"
 " вместе с QuickAPI. Если это не так, см.\n"
 
-#: templates/quickapi/base.html:201
+#: templates/quickapi/base.html:207
 msgid "Full official text"
 msgstr "Полный официальный текст"
 
-#: templates/quickapi/base.html:206
+#: templates/quickapi/base.html:212
 msgid "Get the code"
 msgstr "Получить код"
 
@@ -461,20 +468,22 @@ msgid "Project"
 msgstr "Проект"
 
 #: utils/doc.py:28
-msgid "Nothing"
-msgstr "Пусто"
+msgid "Missing"
+msgstr "Отсутсвуют"
 
 #: utils/doc.py:33
 #, python-format
 msgid ""
 "\n"
+"### Description\n"
+"\n"
 "%(header)s\n"
 "\n"
-"#### Request parameters\n"
+"### Request parameters\n"
 "\n"
 "%(params)s\n"
 "\n"
-"#### Returned object\n"
+"### Returned object\n"
 "\n"
 "%(data)s\n"
 "\n"
@@ -482,68 +491,70 @@ msgid ""
 "\n"
 msgstr ""
 "\n"
+"### Описание\n"
+"\n"
 "%(header)s\n"
 "\n"
-"#### Параметры запроса\n"
+"### Параметры запроса\n"
 "\n"
 "%(params)s\n"
 "\n"
-"#### Возвращаемый объект\n"
+"### Возвращаемый объект\n"
 "\n"
 "%(data)s\n"
 "\n"
 "%(footer)s\n"
 "\n"
 
-#: utils/doc.py:69
+#: utils/doc.py:71
 msgid "if success or"
 msgstr "если успешно, иначе"
 
-#: utils/doc.py:70
+#: utils/doc.py:72
 msgid "if not success or"
 msgstr "если не успешно, иначе"
 
-#: utils/doc.py:71
+#: utils/doc.py:73
 msgid "if exists or"
 msgstr "если существует, иначе"
 
-#: utils/doc.py:72
+#: utils/doc.py:74
 msgid "if not exists or"
 msgstr "если не существует, иначе"
 
-#: utils/doc.py:81
+#: utils/doc.py:83
 msgid "primary key"
 msgstr "первичный ключ"
 
-#: utils/doc.py:81
+#: utils/doc.py:83
 msgid "name of field"
 msgstr "имя поля"
 
-#: utils/doc.py:81
+#: utils/doc.py:83
 msgid "new value for field"
 msgstr "новое значение для поля"
 
-#: utils/doc.py:89
+#: utils/doc.py:91
 msgid "filters"
 msgstr "фильтры"
 
-#: utils/doc.py:89
+#: utils/doc.py:91
 msgid "ordering"
 msgstr "сортировка"
 
-#: utils/doc.py:89
+#: utils/doc.py:91
 msgid "page number"
 msgstr "номер страницы"
 
-#: utils/doc.py:89
+#: utils/doc.py:91
 msgid "objects per page"
 msgstr "объектов на страницу"
 
-#: utils/doc.py:103
+#: utils/doc.py:105
 msgid "list of objects"
 msgstr "список объектов"
 
-#: utils/doc.py:103
+#: utils/doc.py:105
 msgid "or specific information"
 msgstr "или специальная информация"
 
@@ -577,6 +588,12 @@ msgstr "*В debug-режиме показывает настройки. Здес
 #, python-format
 msgid "Method `%s` does not exist"
 msgstr "Метод `%s` не существует"
+
+#~ msgid "All methods"
+#~ msgstr "Все методы"
+
+#~ msgid "Nothing"
+#~ msgstr "Пусто"
 
 #~ msgid "API work only with POST method on AJAX."
 #~ msgstr "API работает только с методом POST на AJAX."

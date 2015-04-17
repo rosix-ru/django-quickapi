@@ -21,9 +21,13 @@
 {% endcomment %}{% load i18n %}
 
 <div id="requests">
+
     <legend><h1>{% trans 'Requests' %}</h1></legend>
-    <h4>{% trans 'Query parameters can be transmitted in a single JSON object via POST' %}:</h4>
+
+    <h3>{% trans 'Query parameters can be transmitted in a single JSON object via POST' %}:</h3>
+
 <div class="highlight">
+
 <pre><span class="nx">jsonData</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s1">&#39;method&#39;</span><span class="o">:</span> <span class="o">&lt;</span><span class="nx">method_name</span><span class="o">&gt;</span><span class="p">,</span>
     <span class="s1">&#39;kwargs&#39;</span><span class="o">:</span> <span class="p">{</span> <span class="s1">&#39;key&#39;</span><span class="o">:</span> <span class="o">&lt;</span><span class="nx">param1</span><span class="o">&gt;</span><span class="p">,</span> <span class="s1">&#39;key2&#39;</span><span class="o">:</span> <span class="o">&lt;</span><span class="nx">param2</span><span class="o">&gt;</span><span class="p">,</span>
@@ -32,6 +36,7 @@
     <span class="s1">&#39;password&#39;</span><span class="o">:</span> <span class="o">&lt;</span><span class="nx">password</span><span class="o">&gt;</span><span class="p">,</span>
 <span class="p">}</span>
 </pre>
+
 </div>
 
     <blockquote>
@@ -40,22 +45,30 @@
         </small>
     </blockquote>
 
-    <h4>{% trans 'Example' %} 1 {% trans 'for' %} jQuery:</h4>
+    <h3>{% trans 'Example' %} 1 {% trans 'for' %} jQuery:</h3>
+
     <small class="text-muted">{% trans 'Parameters, you can pass directly into the POST-query.' %}</small>
-<div class="highlight"><pre><span class="nx">$</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="s1">&#39;/api/&#39;</span><span class="p">,</span> <span class="p">{</span>
+
+<div class="highlight">
+
+<pre><span class="nx">$</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="s1">&#39;/api/&#39;</span><span class="p">,</span> <span class="p">{</span>
         <span class="s1">&#39;method&#39;</span><span class="o">:</span> <span class="o">&lt;</span><span class="nx">method_name</span><span class="o">&gt;</span><span class="p">,</span>
         <span class="s1">&#39;key&#39;</span><span class="o">:</span> <span class="o">&lt;</span><span class="nx">param1</span><span class="o">&gt;</span><span class="p">,</span> <span class="s1">&#39;key2&#39;</span><span class="o">:</span> <span class="o">&lt;</span><span class="nx">param2</span><span class="o">&gt;</span><span class="p">,</span>
         <span class="s1">&#39;key3&#39;</span><span class="o">:</span> <span class="p">[</span> <span class="o">&lt;</span><span class="nx">param3_1</span><span class="o">&gt;</span><span class="p">,</span> <span class="o">&lt;</span><span class="nx">param3_2</span><span class="o">&gt;</span><span class="p">,</span> <span class="o">&lt;</span><span class="nx">param3_3</span><span class="o">&gt;</span> <span class="p">]</span>
 <span class="p">},</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{});</span>
-</pre></div>
+</pre>
+
+</div>
 
     <blockquote>
         <small>{% trans 'In this variant, you can only pass lists and simple values.' %}</small>
         <small>{% trans 'Key "key3" in this case, jQuery will automatically change to "key3[]".' %}</small>
     </blockquote>
 
-    <h4>{% trans 'Example' %} 2 {% trans 'for' %} jQuery:</h4>
+    <h3>{% trans 'Example' %} 2 {% trans 'for' %} jQuery:</h3>
+
 <div class="highlight">
+
 <pre><span class="nx">$</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="s1">&#39;/api/&#39;</span><span class="p">,</span>
     <span class="p">{</span> <span class="nx">jsonData</span><span class="o">:</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">({</span>
         <span class="s1">&#39;method&#39;</span><span class="o">:</span> <span class="o">&lt;</span><span class="nx">method_name</span><span class="o">&gt;</span><span class="p">,</span>
@@ -64,15 +77,19 @@
     <span class="p">},</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{}
 );</span>
 </pre>
+
 </div>
 
     <blockquote>
-    <small>{% trans 'In this variant, you can transfer any serializable objects.' %}</small>
+        <small>{% trans 'In this variant, you can transfer any serializable objects.' %}</small>
         <small>{% trans 'To properly serialize dates in JSON is better to use special' %} <a href="https://github.com/Krinkle/jquery-json">jQuery plugin</a>.</small>
     </blockquote>
 
-    <h4>{% trans 'Example' %} 3 {% trans 'for' %} Python {% trans 'with HTTP Basic authorization' %}:</h4>
-<div class="highlight"><pre><span class="kn">import</span> <span class="nn">urllib2</span><span class="o">,</span> <span class="nn">urllib</span><span class="o">,</span> <span class="nn">json</span><span class="o">,</span> <span class="nn">base64</span>
+    <h3>{% trans 'Example' %} 3 {% trans 'for' %} Python {% trans 'with HTTP Basic authorization' %}:</h3>
+
+<div class="highlight">
+
+<pre><span class="kn">import</span> <span class="nn">urllib2</span><span class="o">,</span> <span class="nn">urllib</span><span class="o">,</span> <span class="nn">json</span><span class="o">,</span> <span class="nn">base64</span>
 <span class="n">url</span> <span class="o">=</span> <span class="s">&#39;{{ api_url }}&#39;</span>
 <span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;method&#39;</span><span class="p">:</span><span class="s">&quot;get_orders_id&quot;</span><span class="p">,</span> <span class="s">&#39;kwargs&#39;</span><span class="p">:{</span><span class="s">&#39;date&#39;</span><span class="p">:</span><span class="s">&#39;2012-01-01&#39;</span><span class="p">,</span> <span class="s">&#39;state&#39;</span><span class="p">:</span> <span class="mi">4</span> <span class="p">},}</span>
 <span class="n">data</span> <span class="o">=</span> <span class="n">urllib</span><span class="o">.</span><span class="n">urlencode</span><span class="p">({</span><span class="s">&#39;jsonData&#39;</span><span class="p">:</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">data</span><span class="p">)})</span>
@@ -83,10 +100,15 @@
 <span class="p">)</span>
 <span class="n">r</span> <span class="o">=</span> <span class="n">urllib2</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="n">req</span><span class="p">)</span>
 <span class="k">print</span> <span class="n">r</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
-</pre></div>
+</pre>
 
-    <h4>{% trans 'Example' %} 4 {% trans 'for' %} Python {% trans 'without HTTP Basic authorization' %}:</h4>
-<div class="highlight"><pre><span class="kn">import</span> <span class="nn">urllib2</span><span class="o">,</span> <span class="nn">urllib</span><span class="o">,</span> <span class="nn">json</span>
+</div>
+
+    <h3>{% trans 'Example' %} 4 {% trans 'for' %} Python {% trans 'without HTTP Basic authorization' %}:</h3>
+
+<div class="highlight">
+
+<pre><span class="kn">import</span> <span class="nn">urllib2</span><span class="o">,</span> <span class="nn">urllib</span><span class="o">,</span> <span class="nn">json</span>
 <span class="n">url</span> <span class="o">=</span> <span class="s">&#39;{{ api_url }}&#39;</span>
 <span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;username&#39;</span><span class="p">:</span><span class="s">&#39;login&#39;</span><span class="p">, </span><span class="s">&#39;password&#39;</span><span class="p">:</span><span class="s">&#39;passwd&#39;</span><span class="p">,
         </span><span class="s">&#39;method&#39;</span><span class="p">:</span><span class="s">&quot;get_orders_id&quot;</span><span class="p">,</span> <span class="s">&#39;kwargs&#39;</span><span class="p">:{</span><span class="s">&#39;date&#39;</span><span class="p">:</span> <span class="s">&#39;2012-01-01&#39;</span><span class="p">,</span> <span class="s">&#39;state&#39;</span><span class="p">:</span><span class="mi">2</span> <span class="p">}</span>
@@ -94,6 +116,8 @@
 <span class="n">data</span> <span class="o">=</span> <span class="n">urllib</span><span class="o">.</span><span class="n">urlencode</span><span class="p">({</span><span class="s">&#39;jsonData&#39;</span><span class="p">:</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">data</span><span class="p">)})</span>
 <span class="n">r</span> <span class="o">=</span> <span class="n">urllib2</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
 <span class="k">print</span> <span class="n">r</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
-</pre></div>
+</pre>
+
+</div>
 
 </div>

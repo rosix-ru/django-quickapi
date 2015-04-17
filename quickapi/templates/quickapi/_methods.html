@@ -24,27 +24,33 @@
     <legend><h1>{% trans 'Methods' %}</h1></legend>
 
     {% if test_method_doc %}
-        <div id="method-quickapitest" class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title">quickapi.test</h3>
-            </div>
+        <div class="method-head">
+            <h2 id="method-quickapitest">quickapi.test</h2>
+        </div>
+
+        <div class="panel panel-primary">
             <div class="panel-body">
                 {{ test_method_doc|formatdoc|safe }}
             </div>
         </div>
+
     {% endif %}
 
     {% for m in methods %}
-        <div id="method-{{ m.name|slugify }}" class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title">{{ m.name }}{% if not m.doc %} <small>{% trans 'no description available' %}</small>{% endif %}</h3>
-            </div>
-        {% if m.doc %}
+        <div class="method-head">
+            <h2 id="method-{{ m.name|slugify }}">{{ m.name }}</h2>
+        </div> 
+
+        <div class="panel panel-{{ m.doc|yesno:'primary,danger' }}">
             <div class="panel-body">
-                {{ m.doc|formatdoc|safe }}
+            {% if m.doc %}
+                <div>{{ m.doc|formatdoc|safe }}</div>
+            {% else %}
+                <h4 class="text-muted"><i class="fa fa-clock-o fa-lg"></i> {% trans 'no description available' %}</h4>
+            {% endif %}
             </div>
-        {% endif %}
-        </div>
+        </div> 
+
     {% endfor %}
 </div>
 
