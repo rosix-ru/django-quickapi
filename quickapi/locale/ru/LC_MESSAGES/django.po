@@ -21,7 +21,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: QuickAPI\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-04-17 13:58+1000\n"
+"POT-Creation-Date: 2015-04-17 18:50+1000\n"
 "PO-Revision-Date: 2015-04-17 13:58+1000\n"
 "Last-Translator: Grigoriy Kramarenko <root@rosix.ru>\n"
 "Language-Team: \n"
@@ -282,7 +282,6 @@ msgid "Methods"
 msgstr "Методы"
 
 #: templates/quickapi/_methods.html:40
-#| msgid "Service Unavailable"
 msgid "no description available"
 msgstr "описание отсутствует"
 
@@ -384,7 +383,7 @@ msgstr "Переключение навигации"
 
 #: templates/quickapi/base.html:76 templates/quickapi/base.html.py:78
 msgid "The documentation for API methods"
-msgstr ""
+msgstr "Документация по методам API"
 
 #: templates/quickapi/base.html:90
 msgid "All methods"
