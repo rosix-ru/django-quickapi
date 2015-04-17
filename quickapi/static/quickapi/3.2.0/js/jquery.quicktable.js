@@ -59,10 +59,10 @@
 
         if (!this.size()) { console.error('The selector found nothing'); return undefined };
 
-        if (!options.url || !options.method) {
+        if ((!options.url && !window.QUICKAPI_URL) || !options.method) {
             console.error(
                 "Not valid options for "+pluginName,
-                {url:options.url, method:options.method}
+                {url:options.url, method:options.method, QUICKAPI_URL: window.QUICKAPI_URL}
             );
         };
 
@@ -89,7 +89,7 @@
         if (!id) { return this }; // not valid
 
         opts = $.extend({
-            url: undefined,
+            url: window.QUICKAPI_URL,
             method: undefined,
             columns: undefined,
             type: 'POST',

@@ -121,13 +121,7 @@
                     // Если есть переадресация, то выполняем её
                     if (xhr.getResponseHeader('Location')) {
 
-                        window.location.replace(
-                            xhr.getResponseHeader('Location')
-                                .replace(/\/[\#\-\w]*$/, "/?")
-                                .replace(/\?.*$/, "?next=" + window.location.pathname)
-                        );
-
-                        console.info("REDIRECT:" + xhr.getResponseHeader('Location'))
+                        location.replace(xhr.getResponseHeader('Location'));
 
                     } else if (xhr.responseText) {
                         // Иначе извещаем пользователя ответом и в консоль
@@ -143,17 +137,15 @@
                     if (options.log && window.DEBUG) {console.debug(options.log)};
 
                     /* При переадресации нужно отобразить сообщение на некоторое время,
-                     * а затем выполнить переход по ссылке, добавив GET-параметр для
-                     * возврата на текущую страницу
+                     * а затем выполнить переход по ссылке
                      */
                     if ((json.status >=300) && (json.status <400) && (json.data.Location != undefined)) {
 
-                        var location = json.data.Location
-                                .replace(/\/[\#\-\w]*$/, "/?")
-                                .replace(/\?.*$/, "?next=" + window.location.pathname),
-                            redirect = function() { window.location.replace(location) };
+                        var loc = json.data.Location, redirect;
 
-                        console.info("REDIRECT:" + location);
+                        redirect = function() { location.replace(loc) };
+
+                        console.info("REDIRECT:" + loc);
 
                         if (json.message) {
                             showAlert("REDIRECT:", json.message, 'alert-danger', redirect)
@@ -248,10 +240,10 @@
 
         if (!this.size()) { console.error('The selector found nothing'); return undefined };
 
-        if (!options.url || !options.method) {
+        if ((!options.url && !window.QUICKAPI_URL) || !options.method) {
             console.error(
                 "Not valid options for "+pluginName,
-                {url:options.url, method:options.method}
+                {url:options.url, method:options.method, QUICKAPI_URL: window.QUICKAPI_URL}
             );
         };
 
@@ -278,7 +270,7 @@
         if (!id) { return this }; // not valid
 
         opts = $.extend({
-            url: undefined,
+            url: window.QUICKAPI_URL,
             method: undefined,
             columns: undefined,
             type: 'POST',
