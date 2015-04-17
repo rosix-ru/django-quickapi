@@ -21,8 +21,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: QuickAPI\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-04-07 17:02+1000\n"
-"PO-Revision-Date: 2013-01-23 11:43+1100\n"
+"POT-Creation-Date: 2015-04-17 13:58+1000\n"
+"PO-Revision-Date: 2015-04-17 13:58+1000\n"
 "Last-Translator: Grigoriy Kramarenko <root@rosix.ru>\n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -281,6 +281,11 @@ msgstr "Неопределённое сообщение"
 msgid "Methods"
 msgstr "Методы"
 
+#: templates/quickapi/_methods.html:40
+#| msgid "Service Unavailable"
+msgid "no description available"
+msgstr "описание отсутствует"
+
 #: templates/quickapi/_requests.html:24 templates/quickapi/base.html:83
 msgid "Requests"
 msgstr "Запросы"
@@ -365,7 +370,7 @@ msgstr ""
 "Тип и структура вложенного объекта зависят от вызываемого метода (см. "
 "документацию ниже)."
 
-#: templates/quickapi/base.html:25 templates/quickapi/base.html.py:78
+#: templates/quickapi/base.html:25
 msgid "API documentation"
 msgstr "Документация API"
 
@@ -377,11 +382,15 @@ msgstr "QuickAPI - это Django-приложение для быстрой ор
 msgid "Toggle navigation"
 msgstr "Переключение навигации"
 
+#: templates/quickapi/base.html:76 templates/quickapi/base.html.py:78
+msgid "The documentation for API methods"
+msgstr ""
+
 #: templates/quickapi/base.html:90
 msgid "All methods"
 msgstr "Все методы"
 
-#: templates/quickapi/base.html:157 templates/quickapi/base.html.py:207
+#: templates/quickapi/base.html:157 templates/quickapi/base.html.py:209
 msgid "Close"
 msgstr "Закрыть"
 
@@ -401,7 +410,7 @@ msgstr ""
 "Это краткий неофициальный локализованный текст лицензии. Пожалуйста, "
 "прочитайте полный официальный текст."
 
-#: templates/quickapi/base.html:168
+#: templates/quickapi/base.html:170
 msgid ""
 "\n"
 "QuickAPI is free software: you can redistribute it and/or\n"
@@ -416,7 +425,7 @@ msgstr ""
 " обеспечения; либо версии 3 лицензии, либо (по Вашему выбору) любой более\n"
 " поздней версии.\n"
 
-#: templates/quickapi/base.html:177
+#: templates/quickapi/base.html:179
 msgid ""
 "\n"
 "QuickAPI is distributed in the hope that it will be useful,\n"
@@ -430,7 +439,7 @@ msgstr ""
 " или ПРИГОДНОСТИ ДЛЯ ОПРЕДЕЛЕННЫХ ЦЕЛЕЙ. Подробнее см. в Стандартной\n"
 " общественной лицензии GNU Афферо.\n"
 
-#: templates/quickapi/base.html:186
+#: templates/quickapi/base.html:188
 msgid ""
 "\n"
 "You should have received a copy of the GNU Affero General Public\n"
@@ -440,15 +449,15 @@ msgstr ""
 "Вы должны были получить копию Стандартной общественной лицензии GNU Афферо\n"
 " вместе с QuickAPI. Если это не так, см.\n"
 
-#: templates/quickapi/base.html:199
+#: templates/quickapi/base.html:201
 msgid "Full official text"
 msgstr "Полный официальный текст"
 
-#: templates/quickapi/base.html:204
+#: templates/quickapi/base.html:206
 msgid "Get the code"
 msgstr "Получить код"
 
-#: templatetags/quickapi_base.py:157
+#: templatetags/quickapi_base.py:159
 msgid "Project"
 msgstr "Проект"
 

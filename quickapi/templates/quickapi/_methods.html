@@ -37,11 +37,13 @@
     {% for m in methods %}
         <div id="method-{{ m.name|slugify }}" class="panel panel-default">
             <div class="panel-heading">
-                <h3 class="panel-title">{{ m.name }}</h3>
+                <h3 class="panel-title">{{ m.name }}{% if not m.doc %} <small>{% trans 'no description available' %}</small>{% endif %}</h3>
             </div>
+        {% if m.doc %}
             <div class="panel-body">
                 {{ m.doc|formatdoc|safe }}
             </div>
+        {% endif %}
         </div>
     {% endfor %}
 </div>

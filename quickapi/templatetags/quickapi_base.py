@@ -184,3 +184,7 @@ def QUICKAPI_VERSION():
 @register.simple_tag
 def get_version(key):
     return conf.VERSIONS.get(key.lower(), 'stable')
+
+@register.simple_tag
+def PYGMENTS_STYLE():
+    return conf.QUICKAPI_PYGMENTS_STYLE
