@@ -105,7 +105,7 @@ def test(request, code=200, redirect='/'):
     return JSONResponse(data=data)
 
 test.__doc__ = apidoc_lazy(
-    header=_("""*Test response*"""),
+    header=_("""Test response."""),
     data=string_lazy(
 """
 ```

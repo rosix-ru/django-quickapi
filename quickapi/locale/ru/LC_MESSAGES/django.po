@@ -468,14 +468,14 @@ msgid "Project"
 msgstr "Проект"
 
 #: utils/doc.py:28
-msgid "Missing"
-msgstr "Отсутсвуют"
+msgid "Missing."
+msgstr "Отсутствуют."
 
 #: utils/doc.py:33
 #, python-format
 msgid ""
 "\n"
-"### Description\n"
+"### Functional assignment\n"
 "\n"
 "%(header)s\n"
 "\n"
@@ -491,7 +491,7 @@ msgid ""
 "\n"
 msgstr ""
 "\n"
-"### Описание\n"
+"### Функциональное назначение\n"
 "\n"
 "%(header)s\n"
 "\n"
@@ -577,8 +577,8 @@ msgid "Hidden in not debug mode"
 msgstr "Скрыто в debug-режиме"
 
 #: views.py:108
-msgid "*Test response*"
-msgstr "*Тестовый ответ*"
+msgid "Test response."
+msgstr "Тестовый ответ."
 
 #: views.py:144
 msgid "*In debug mode shows the settings. Here are the default.*"
