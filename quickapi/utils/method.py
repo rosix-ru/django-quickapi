@@ -109,7 +109,7 @@ def import_string(dotted_path):
         six.reraise(ImportError, ImportError(msg), sys.exc_info()[2])
 
 
-def get_methods(list_or_dict=QUICKAPI_DEFINED_METHODS, sort=False):
+def get_methods(list_or_dict=QUICKAPI_DEFINED_METHODS, sort=True):
     """ Преобразует словарь или список заданных строками методов,
         реальными объектами функций.
         Форматы list_or_dict:
@@ -139,6 +139,7 @@ def get_methods(list_or_dict=QUICKAPI_DEFINED_METHODS, sort=False):
             'method': method,
             'doc':    method.__doc__,
             'name':   key,
+            'namespace': key.split('.')[0] if '.' in key else None
         }
 
     if sort:

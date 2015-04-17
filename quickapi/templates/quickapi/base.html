@@ -48,6 +48,18 @@
         #sidebar { position: fixed; top: 3px; }
         .sidebar-nav li>a { padding: 1px 8px; }
         #responses, #methods, .method-head { padding-top: 20px; }
+        .sidebar-nav .nav {display: none; padding-bottom: 10px; }
+        .sidebar-nav .nav li>a { padding-left: 18px; }
+        .sidebar-nav .nav li:first-child { margin-top: 2px; }
+        @media (min-width: 992px) {
+            .sidebar-nav>.active>ul { display: block; }
+        }
+        .sidebar-nav .nav-pills>li.active>a,
+        .sidebar-nav .nav-pills>li.active>a:focus,
+        .sidebar-nav .nav-pills>li.active>a:hover {
+            color: #fff;
+            background-color: #5bc0de;
+        }
     </style>
     {% endblock %}
     <!-- END: block style -->
@@ -124,26 +136,15 @@
             {% block methods %}
                 {% include "quickapi/_methods.html" %}
             {% endblock %}
-            <!-- END: block requests -->
+            <!-- END: block methods -->
             </div><!-- /.col-md-9 -->
 
             <div class="col-md-3">
-                <div id="sidebar" class="hidden-print hidden-xs hidden-sm">
-                    <ul class="nav nav-pills nav-stacked sidebar-nav">
-                        <li><a href="#requests">{% trans 'Requests' %}</a></li>
-                        <li><a href="#responses">{% trans 'Responses' %}</a></li>
-                        <li><a href="#methods">{% trans 'Methods' %}</a></li>
-                    {% if test_method_doc %}
-                        <li><a href="#method-quickapitest">quickapi.test</a></li>
-                    {% endif %}
-                    {% for m in methods %}
-                        <li><a href="#method-{{ m.name|slugify }}">{{ m.name }}</a></li>
-                    {% endfor %}
-                        <ul class="nav nav-pills nav-stacked sidebar-nav">
-                            <li><a href="#"><i class="fa fa-arrow-up fa-lg"></i> {% trans 'Back on top' %}</a></li>
-                        </ul>
-                    </ul>
-                </div>
+            <!-- START: block sidebar -->
+            {% block sidebar %}
+                {% include "quickapi/_sidebar.html" %}
+            {% endblock %}
+            <!-- END: block sidebar -->
             </div><!-- /.col-md-3 -->
 
         </div><!-- /.row -->

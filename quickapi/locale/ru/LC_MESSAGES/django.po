@@ -21,7 +21,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: QuickAPI\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-04-17 22:48+1000\n"
+"POT-Creation-Date: 2015-04-18 02:12+1000\n"
 "PO-Revision-Date: 2015-04-17 13:58+1000\n"
 "Last-Translator: Grigoriy Kramarenko <root@rosix.ru>\n"
 "Language-Team: \n"
@@ -277,17 +277,21 @@ msgstr "не расширено"
 msgid "Undefined message"
 msgstr "Неопределённое сообщение"
 
-#: templates/quickapi/_methods.html:24 templates/quickapi/base.html:81
-#: templates/quickapi/base.html.py:135
+#: templates/quickapi/_methods.html:24 templates/quickapi/_sidebar.html:28
+#: templates/quickapi/base.html:92
 msgid "Methods"
 msgstr "Методы"
 
 #: templates/quickapi/_methods.html:46
+msgid "Namespace"
+msgstr "Пространство имён"
+
+#: templates/quickapi/_methods.html:60
 msgid "no description available"
 msgstr "описание отсутствует"
 
-#: templates/quickapi/_requests.html:25 templates/quickapi/base.html:79
-#: templates/quickapi/base.html.py:133
+#: templates/quickapi/_requests.html:25 templates/quickapi/_sidebar.html:26
+#: templates/quickapi/base.html:90
 msgid "Requests"
 msgstr "Запросы"
 
@@ -347,8 +351,8 @@ msgstr "с HTTP Basic авторизацией"
 msgid "without HTTP Basic authorization"
 msgstr "без HTTP Basic авторизации"
 
-#: templates/quickapi/_responses.html:24 templates/quickapi/base.html:80
-#: templates/quickapi/base.html.py:134
+#: templates/quickapi/_responses.html:24 templates/quickapi/_sidebar.html:27
+#: templates/quickapi/base.html:91
 msgid "Responses"
 msgstr "Ответы"
 
@@ -376,6 +380,10 @@ msgstr ""
 "Тип и структура вложенного объекта зависят от вызываемого метода (см. "
 "документацию ниже)."
 
+#: templates/quickapi/_sidebar.html:64
+msgid "Back on top"
+msgstr "Наверх"
+
 #: templates/quickapi/base.html:25
 msgid "API documentation"
 msgstr "Документация API"
@@ -384,17 +392,13 @@ msgstr "Документация API"
 msgid "QuickAPI - it's Django-application for the fast organization API."
 msgstr "QuickAPI - это Django-приложение для быстрой организации API."
 
-#: templates/quickapi/base.html:67
+#: templates/quickapi/base.html:78
 msgid "Toggle navigation"
 msgstr "Переключение навигации"
 
-#: templates/quickapi/base.html:72 templates/quickapi/base.html.py:74
+#: templates/quickapi/base.html:83 templates/quickapi/base.html.py:85
 msgid "The documentation for API"
 msgstr "Документация для API"
-
-#: templates/quickapi/base.html:143
-msgid "Back on top"
-msgstr "Наверх"
 
 #: templates/quickapi/base.html:163 templates/quickapi/base.html.py:215
 msgid "Close"

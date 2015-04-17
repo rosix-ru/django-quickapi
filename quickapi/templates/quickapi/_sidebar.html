@@ -1,0 +1,70 @@
+{% comment %}<!--
+ 
+    Copyright 2012-2015 Grigoriy Kramarenko <root@rosix.ru>
+
+    This file is part of QuickAPI.
+
+    QuickAPI is free software: you can redistribute it and/or
+    modify it under the terms of the GNU Affero General Public License
+    as published by the Free Software Foundation, either version 3 of
+    the License, or (at your option) any later version.
+
+    QuickAPI is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License for more details.
+
+    You should have received a copy of the GNU Affero General Public
+    License along with QuickAPI. If not, see
+    <http://www.gnu.org/licenses/>.
+-->
+{% endcomment %}{% load i18n %}
+
+<div id="sidebar" class="hidden-print hidden-xs hidden-sm">
+
+    <ul class="nav nav-pills nav-stacked sidebar-nav">
+        <li><a href="#requests">{% trans 'Requests' %}</a></li>
+        <li><a href="#responses">{% trans 'Responses' %}</a></li>
+        <li><a href="#methods">{% trans 'Methods' %}</a></li>
+    </ul>
+
+    <ul class="nav nav-pills nav-stacked sidebar-nav">
+
+    {% if test_method_doc %}
+        <li><a href="#method-quickapitest">quickapi.test</a></li>
+    {% endif %}
+
+{% regroup methods by namespace as namespace_list %}
+
+    {% for ns in namespace_list %}
+    
+        {% if ns.grouper %}
+        <li class="dropdown">
+
+            <a href="#method-namespace-{{ ns.grouper|slugify }}">
+                <strong> {{ ns.grouper }}* </strong>
+                <span class="caret"></span>
+            </a>
+
+            <ul class="nav nav-pills nav-stacked sidebar-nav">
+            {% for m in ns.list %}
+                <li><a href="#method-{{ m.name|slugify }}">{{ m.name|cut:ns.grouper }}</a></li>
+            {% endfor %}
+            </ul>
+
+        </li>
+        {% else %}{# без пространства имён не группируем #}
+            {% for m in ns.list %}
+                <li><a href="#method-{{ m.name|slugify }}">{{ m.name }}</a></li>
+            {% endfor %}
+        {% endif %}
+    {% endfor %}
+    </ul>
+
+    <hr>
+
+    <ul class="nav nav-pills nav-stacked sidebar-nav">
+        <li><a href="#"><i class="fa fa-arrow-up fa-lg"></i> {% trans 'Back on top' %}</a></li>
+    </ul>
+
+</div>

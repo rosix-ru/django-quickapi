@@ -36,20 +36,32 @@
 
     {% endif %}
 
-    {% for m in methods %}
-        <div class="method-head">
-            <h2 id="method-{{ m.name|slugify }}">{{ m.name }}</h2>
-        </div> 
 
-        <div class="panel panel-{{ m.doc|yesno:'primary,danger' }}">
-            <div class="panel-body">
-            {% if m.doc %}
-                <div>{{ m.doc|formatdoc|safe }}</div>
-            {% else %}
-                <h4 class="text-muted"><i class="fa fa-clock-o fa-lg"></i> {% trans 'no description available' %}</h4>
-            {% endif %}
-            </div>
+{% regroup methods by namespace as namespace_list %}
+
+    {% for ns in namespace_list %}
+
+        {% if ns.grouper %}
+        <div id="method-namespace-{{ ns.grouper|slugify }}" class="method-head text-primary">
+            <h1>{% trans 'Namespace' %} <code><strong>{{ ns.grouper }}</strong></code></h1>
         </div> 
+        {% endif %}
+
+        {% for m in ns.list %}
+            <div id="method-{{ m.name|slugify }}" class="method-head">
+                <h2>{{ m.name }}</h2>
+            </div> 
+
+            <div class="panel panel-{{ m.doc|yesno:'primary,danger' }}">
+                <div class="panel-body">
+                {% if m.doc %}
+                    <div>{{ m.doc|formatdoc|safe }}</div>
+                {% else %}
+                    <h4 class="text-muted"><i class="fa fa-clock-o fa-lg"></i> {% trans 'no description available' %}</h4>
+                {% endif %}
+                </div>
+            </div> 
+        {% endfor %}
 
     {% endfor %}
 </div>
