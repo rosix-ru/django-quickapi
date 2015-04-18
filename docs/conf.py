@@ -158,6 +158,7 @@ intersphinx_mapping = {
 # a list of builtin themes.
 #html_theme = 'default'
 html_theme = 'djangodocs'
+html_theme = 'rosix'
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
@@ -197,7 +198,7 @@ html_last_updated_fmt = '%B %d, %Y'
 html_use_smartypants = True
 
 # HTML translator class for the builder
-html_translator_class = "projectdocs.ProjectHTMLTranslator"
+#html_translator_class = "projectdocs.ProjectHTMLTranslator"
 
 
 # Custom sidebar templates, maps document names to template names.
@@ -208,7 +209,7 @@ html_translator_class = "projectdocs.ProjectHTMLTranslator"
 #html_additional_pages = {}
 
 # If false, no module index is generated.
-#html_domain_indices = True
+html_domain_indices = False #True
 
 # If false, no index is generated.
 #html_use_index = True
