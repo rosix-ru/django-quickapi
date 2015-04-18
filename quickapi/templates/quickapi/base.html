@@ -151,7 +151,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#" title="{% trans 'The documentation for API' %}">
+                <a class="navbar-brand" href="#" data-toggle="modal" data-target="#modal-license" title="{% trans 'The documentation for API' %}">
                     <img style="display:inline;" width="24" height="24" src="{% get_static_prefix %}quickapi/{% get_version 'quickapi' %}/img/logo.png"/>
                     <span>{% block navbar_brand %}{% trans 'The documentation for API' %}{% endblock %}</span>
                 </a>
@@ -162,11 +162,13 @@
                     <li><a href="#requests"><i class="fa fa-arrow-up fa-lg"></i> {% trans 'Requests' %}</a></li>
                     <li><a href="#responses"><i class="fa fa-arrow-down fa-lg"></i> {% trans 'Responses' %}</a></li>
                     <li><a href="#methods"><i class="fa fa-retweet fa-lg"></i> {% trans 'Methods' %}</a></li>
+<!--
                     <li>
                         <a href="#" data-toggle="modal" data-target="#modal-license">
                             <img style="height:18px; background: white;" src="{% get_static_prefix %}licenses/GNU/img/agplv3-88x31.png">
                         </a>
                     </li>
+-->
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                 {% block navbar_project %}
