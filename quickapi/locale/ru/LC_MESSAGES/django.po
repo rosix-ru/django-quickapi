@@ -21,8 +21,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: QuickAPI\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-04-18 13:23+1000\n"
-"PO-Revision-Date: 2015-04-17 13:58+1000\n"
+"POT-Creation-Date: 2015-04-18 14:11+1000\n"
+"PO-Revision-Date: 2015-04-18 14:11+1000\n"
 "Last-Translator: Grigoriy Kramarenko <root@rosix.ru>\n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -282,13 +282,74 @@ msgstr "Неопределённое сообщение"
 msgid "Methods"
 msgstr "Методы"
 
-#: templates/quickapi/_methods.html:46 templates/quickapi/_navbar.html:54
+#: templates/quickapi/_methods.html:54 templates/quickapi/_navbar.html:54
 msgid "Namespace"
 msgstr "Пространство имён"
 
-#: templates/quickapi/_methods.html:60
+#: templates/quickapi/_methods.html:75
 msgid "no description available"
 msgstr "описание отсутствует"
+
+#: templates/quickapi/_modal.html:23
+msgid ""
+"This is short non-official localized text of license. Please, read full "
+"official text."
+msgstr ""
+"Это краткий неофициальный локализованный текст лицензии. Пожалуйста, "
+"прочитайте полный официальный текст."
+
+#: templates/quickapi/_modal.html:24
+msgid ""
+"QuickAPI is free software: you can redistribute it and/or modify it under "
+"the terms of the GNU Affero General Public License as published by the Free "
+"Software Foundation, either version 3 of the License, or (at your option) "
+"any later version."
+msgstr ""
+"QuickAPI это свободная программа: Вы можете перераспространять ее и/или "
+"изменять ее на условиях Стандартной общественной лицензии GNU Афферо в том "
+"виде, в каком она была опубликована Фондом свободного программного "
+"обеспечения; либо версии 3 лицензии, либо (по Вашему выбору) любой более "
+"поздней версии."
+
+#: templates/quickapi/_modal.html:25
+msgid ""
+"QuickAPI is distributed in the hope that it will be useful, but WITHOUT ANY "
+"WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS "
+"FOR A PARTICULAR PURPOSE. See the GNU Affero General Public License for more "
+"details."
+msgstr ""
+"QuickAPI распространяется в надежде, что она будет полезной, но БЕЗО ВСЯКИХ "
+"ГАРАНТИЙ; даже без неявной гарантии ТОВАРНОГО ВИДА или ПРИГОДНОСТИ ДЛЯ "
+"ОПРЕДЕЛЕННЫХ ЦЕЛЕЙ. Подробнее см. в Стандартной общественной лицензии GNU "
+"Афферо."
+
+#: templates/quickapi/_modal.html:26
+msgid ""
+"You should have received a copy of the GNU Affero General Public License "
+"along with QuickAPI. If not, see"
+msgstr ""
+"Вы должны были получить копию Стандартной общественной лицензии GNU Афферо "
+"вместе с QuickAPI. Если это не так, см."
+
+#: templates/quickapi/_modal.html:33 templates/quickapi/_modal.html.py:63
+msgid "Close"
+msgstr "Закрыть"
+
+#: templates/quickapi/_modal.html:34
+msgid "License"
+msgstr "Лицензия"
+
+#: templates/quickapi/_modal.html:34
+msgid "GNU Affero General Public License"
+msgstr "Стандартная общественная лицензия GNU Афферо"
+
+#: templates/quickapi/_modal.html:55
+msgid "Full official text"
+msgstr "Полный официальный текст"
+
+#: templates/quickapi/_modal.html:60
+msgid "Get the code"
+msgstr "Получить код"
 
 #: templates/quickapi/_navbar.html:29
 msgid "Toggle navigation"
@@ -396,76 +457,9 @@ msgstr "Документация API"
 msgid "QuickAPI - it's Django-application for the fast organization API."
 msgstr "QuickAPI - это Django-приложение для быстрой организации API."
 
-#: templates/quickapi/base.html:218
+#: templates/quickapi/base.html:225
 msgid "Back on top"
 msgstr "Наверх"
-
-#: templates/quickapi/base.html:230 templates/quickapi/base.html.py:282
-msgid "Close"
-msgstr "Закрыть"
-
-#: templates/quickapi/base.html:231
-msgid "License"
-msgstr "Лицензия"
-
-#: templates/quickapi/base.html:231
-msgid "GNU Affero General Public License"
-msgstr "Стандартная общественная лицензия GNU Афферо"
-
-#: templates/quickapi/base.html:237
-msgid ""
-"This is short non-official localized text of license. Please, read full "
-"official text."
-msgstr ""
-"Это краткий неофициальный локализованный текст лицензии. Пожалуйста, "
-"прочитайте полный официальный текст."
-
-#: templates/quickapi/base.html:243
-msgid ""
-"\n"
-"QuickAPI is free software: you can redistribute it and/or\n"
-"modify it under the terms of the GNU Affero General Public License\n"
-"as published by the Free Software Foundation, either version 3 of\n"
-"the License, or (at your option) any later version.\n"
-msgstr ""
-"\n"
-"QuickAPI это свободная программа: Вы можете перераспространять ее и/или\n"
-" изменять ее на условиях Стандартной общественной лицензии GNU Афферо\n"
-" в том виде, в каком она была опубликована Фондом свободного программного\n"
-" обеспечения; либо версии 3 лицензии, либо (по Вашему выбору) любой более\n"
-" поздней версии.\n"
-
-#: templates/quickapi/base.html:252
-msgid ""
-"\n"
-"QuickAPI is distributed in the hope that it will be useful,\n"
-"but WITHOUT ANY WARRANTY; without even the implied warranty of\n"
-"MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the\n"
-"GNU Affero General Public License for more details.\n"
-msgstr ""
-"\n"
-"QuickAPI распространяется в надежде, что она будет полезной,\n"
-" но БЕЗО ВСЯКИХ ГАРАНТИЙ; даже без неявной гарантии ТОВАРНОГО ВИДА\n"
-" или ПРИГОДНОСТИ ДЛЯ ОПРЕДЕЛЕННЫХ ЦЕЛЕЙ. Подробнее см. в Стандартной\n"
-" общественной лицензии GNU Афферо.\n"
-
-#: templates/quickapi/base.html:261
-msgid ""
-"\n"
-"You should have received a copy of the GNU Affero General Public\n"
-"License along with QuickAPI. If not, see\n"
-msgstr ""
-"\n"
-"Вы должны были получить копию Стандартной общественной лицензии GNU Афферо\n"
-" вместе с QuickAPI. Если это не так, см.\n"
-
-#: templates/quickapi/base.html:274
-msgid "Full official text"
-msgstr "Полный официальный текст"
-
-#: templates/quickapi/base.html:279
-msgid "Get the code"
-msgstr "Получить код"
 
 #: templatetags/quickapi_base.py:159
 msgid "Project"

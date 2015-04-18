@@ -1,0 +1,72 @@
+{% comment %}<!--
+ 
+    Copyright 2012-2015 Grigoriy Kramarenko <root@rosix.ru>
+
+    This file is part of QuickAPI.
+
+    QuickAPI is free software: you can redistribute it and/or
+    modify it under the terms of the GNU Affero General Public License
+    as published by the Free Software Foundation, either version 3 of
+    the License, or (at your option) any later version.
+
+    QuickAPI is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License for more details.
+
+    You should have received a copy of the GNU Affero General Public
+    License along with QuickAPI. If not, see
+    <http://www.gnu.org/licenses/>.
+-->
+{% endcomment %}{% load i18n static%}
+
+{% trans 'This is short non-official localized text of license. Please, read full official text.' as trans0 %}
+{% trans 'QuickAPI is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.' as trans1 %}
+{% trans 'QuickAPI is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero General Public License for more details.' as trans2 %}
+{% trans 'You should have received a copy of the GNU Affero General Public License along with QuickAPI. If not, see' as trans3 %}
+
+
+<div id="modal-license" class="modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="{% trans 'Close' %}"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">{% trans 'License' %}: {% trans 'GNU Affero General Public License' %}</h4>
+            </div>
+
+            <div class="modal-body">
+
+                <div class="alert alert-info">{{ trans0 }}</div>
+
+                <img class="pull-right" src="{% get_static_prefix %}licenses/GNU/img/agplv3-155x51.png">
+
+                <p>{{ trans1 }}</p>
+
+                <p>{{ trans2 }}</p>
+
+                <p>{{ trans3 }} &lt;http://www.gnu.org/licenses/&gt;.</p>
+
+            </div>
+
+            <div class="modal-footer">
+
+                <a href="{% get_static_prefix %}licenses/GNU/AGPLv3.txt" role="button" class="btn btn-primary">
+                    <i class="fa fa-file-text-o fa-lg"> </i>
+                    <span> {% trans 'Full official text' %} </span>
+                </a>
+
+                <a href="https://rosix.ru/projects/django-quickapi/" role="button" class="btn btn-success">
+                    <i class="fa fa-download fa-lg"> </i>
+                    <span> {% trans 'Get the code' %} </span>
+                </a>
+
+                <button type="button" class="btn btn-default" data-dismiss="modal">{% trans 'Close' %}</button>
+
+            </div>
+
+        </div><!-- /.modal-content -->
+
+    </div><!-- /.modal-dialog -->
+
+</div><!-- /.modal -->
+

@@ -25,7 +25,15 @@
 
     {% if test_method_doc %}
         <div id="method-quickapitest" class="method-head text-danger">
-            <h2>quickapi.test</h2>
+            <h2></h2>
+            <h2>
+                <span> quickapi.test </span>
+                <small>
+                    <a href="#method-quickapitest" class="paragraph">
+                        <i class="fa fa-paragraph"></i>
+                    </a>
+                </small>
+            </h2>
         </div>
 
         <div class="panel panel-primary">
@@ -49,7 +57,14 @@
 
         {% for m in ns.list %}
             <div id="method-{{ m.name|slugify }}" class="method-head text-danger">
-                <h2>{{ m.name }}</h2>
+                <h2>
+                    <span> {{ m.name }} </span>
+                    <small>
+                        <a href="#method-{{ m.name|slugify }}" class="paragraph">
+                            <i class="fa fa-paragraph"></i>
+                        </a>
+                    </small>
+                </h2>
             </div> 
 
             <div class="panel panel-{{ m.doc|yesno:'primary,danger' }}">
