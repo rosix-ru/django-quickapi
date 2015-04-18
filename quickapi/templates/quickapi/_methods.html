@@ -24,8 +24,8 @@
     <legend><h1>{% trans 'Methods' %}</h1></legend>
 
     {% if test_method_doc %}
-        <div class="method-head">
-            <h2 id="method-quickapitest">quickapi.test</h2>
+        <div id="method-quickapitest" class="method-head text-danger">
+            <h2>quickapi.test</h2>
         </div>
 
         <div class="panel panel-primary">
@@ -48,7 +48,7 @@
         {% endif %}
 
         {% for m in ns.list %}
-            <div id="method-{{ m.name|slugify }}" class="method-head">
+            <div id="method-{{ m.name|slugify }}" class="method-head text-danger">
                 <h2>{{ m.name }}</h2>
             </div> 
 

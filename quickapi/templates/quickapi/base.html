@@ -45,22 +45,88 @@
     <link rel="stylesheet" href="{% get_static_prefix %}pygments/{% get_version 'pygments' %}/{% PYGMENTS_STYLE %}.css">
 
     <style type="text/css">
-        #sidebar { position: fixed; top: 3px; }
-        .sidebar-nav li>a { padding: 1px 8px; }
-        #responses, #methods, .method-head { padding-top: 20px; }
-        .sidebar-nav .nav {display: none; padding-bottom: 10px; }
-        .sidebar-nav .nav li>a { padding-left: 18px; }
-        .sidebar-nav .nav li:first-child { margin-top: 2px; }
-        @media (min-width: 992px) {
-            .sidebar-nav>.active>ul { display: block; }
+        html {
+            position: relative;
+            min-height: 100%;
         }
-        .sidebar-nav .nav-pills>li.active>a,
-        .sidebar-nav .nav-pills>li.active>a:focus,
-        .sidebar-nav .nav-pills>li.active>a:hover {
+        body {
+            margin-bottom: 100px;
+        }
+        body > .container {
+            margin-top: 20px;
+        }
+        .navbar-brand > img {
+            display: inline;
+        }
+        #requests, #responses, #methods, .method-head {
+            padding-top: 20px;
+        }
+        .backtop {
+            position: fixed;
+            bottom: 30px;
+            right: 20px;
+            z-index: 10;
+            display: none;
+        }
+        .backtop > a {
+            padding: 10px;
+            background-color: #f5f5f5;
+        }
+        .backtop > a:hover {
+            background-color: #777;
             color: #fff;
-            background-color: #5bc0de;
         }
-        .sidebar-nav>li.active .fa-plus-square-o { display: none; }
+
+        /* FOOTER */
+
+        .footer {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            min-height: 91px;
+            background-color: #f5f5f5;
+        }
+        .footer>div {
+            background-color: #f5f5f5;
+        }
+        .footer-content {
+            padding: 35px 0px;
+        }
+
+        /* SIDEBAR */
+
+        #sidebar {
+            position: fixed; top: 20px;
+        }
+        #sidebar hr {
+            margin: 8px;
+        }
+        .sidebar-nav li > a {
+            padding: 1px 8px;
+        }
+        .sidebar-nav .nav {
+            display: none; padding-bottom: 10px;
+        }
+        .sidebar-nav .nav li > a {
+            padding-left: 18px;
+        }
+        .sidebar-nav .nav li:first-child {
+            margin-top: 2px;
+        }
+        .sidebar-nav>li.active .fa-plus-square-o {
+            display: none;
+        }
+        .nav-pills>li.method-name.active>a,
+        .nav-pills>li.method-name.active>a:focus,
+        .nav-pills>li.method-name.active>a:hover {
+            color: #fff;
+            background-color: #d9534f;
+        }
+
+        @media (min-width: 992px) {
+            .sidebar-nav>.active>ul, .backtop { display: block; }
+        }
+
     </style>
     {% endblock %}
     <!-- END: block style -->
@@ -73,8 +139,11 @@
 <body data-spy="scroll" data-target="#sidebar">
     <!-- START: block navbar -->
     {% block navbar %}
-    <div class="navbar navbar-inverse navbar-static-top" role="navigation">
+
+    <nav class="navbar navbar-inverse navbar-static-top" role="navigation">
+
         <div class="container">
+
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                     <span class="sr-only">{% trans 'Toggle navigation' %}</span>
@@ -87,6 +156,7 @@
                     <span>{% block navbar_brand %}{% trans 'The documentation for API' %}{% endblock %}</span>
                 </a>
             </div>
+
             <div class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">
                     <li><a href="#requests"><i class="fa fa-arrow-up fa-lg"></i> {% trans 'Requests' %}</a></li>
@@ -109,8 +179,10 @@
                 {% endblock %}
                 </ul>
             </div><!--/.nav-collapse -->
+
         </div>
-    </div>
+
+    </nav>
     {% endblock %}
     <!-- END: block navbar -->
 
@@ -154,6 +226,39 @@
     </div><!-- /.container -->
     {% endblock %}
     <!-- END: block container -->
+
+    <!-- START: block footer -->
+    {% block footer %}
+    <!-- .footer -->
+    <div class="footer">
+
+        <div class="container">
+
+            <div class="col-xs-12">
+
+                <div class="footer-content text-center">
+                    
+                    <button class="btn" data-toggle="modal" data-target="#modal-license">
+                        <span> <strong>QuickAPI</strong> <span class="badge">{% QUICKAPI_VERSION %}</span> </span>
+                        <img style="height:18px; background: white;" src="{% get_static_prefix %}licenses/GNU/img/agplv3-88x31.png">
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+    <!-- /.footer -->
+    {% endblock %}
+    <!-- END: block footer -->
+
+    <div class="backtop">
+        <a href="#" title="{% trans 'Back on top' %}">
+            <i class="fa fa-angle-double-up fa-lg"></i>
+        </a>
+    </div>
 
     <!-- START: block modal -->
     {% block modal %}

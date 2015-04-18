@@ -22,16 +22,19 @@
 
 <div id="sidebar" class="hidden-print hidden-xs hidden-sm">
 
-    <ul class="nav nav-pills nav-stacked sidebar-nav">
+    <ul class="nav nav-pills sidebar-nav">
         <li><a href="#requests">{% trans 'Requests' %}</a></li>
         <li><a href="#responses">{% trans 'Responses' %}</a></li>
         <li><a href="#methods">{% trans 'Methods' %}</a></li>
+        
     </ul>
+
+    <hr>
 
     <ul class="nav nav-pills nav-stacked sidebar-nav">
 
     {% if test_method_doc %}
-        <li><a href="#method-quickapitest">quickapi.test</a></li>
+        <li class="method-name"><a href="#method-quickapitest">quickapi.test</a></li>
     {% endif %}
 
 {% regroup methods by namespace as namespace_list %}
@@ -48,23 +51,17 @@
 
             <ul class="nav nav-pills nav-stacked sidebar-nav">
             {% for m in ns.list %}
-                <li><a href="#method-{{ m.name|slugify }}">{{ m.name|cut:ns.grouper }}</a></li>
+                <li class="method-name"><a href="#method-{{ m.name|slugify }}">{{ m.name|cut:ns.grouper }}</a></li>
             {% endfor %}
             </ul>
 
         </li>
         {% else %}{# без пространства имён не группируем #}
             {% for m in ns.list %}
-                <li><a href="#method-{{ m.name|slugify }}">{{ m.name }}</a></li>
+                <li class="method-name"><a href="#method-{{ m.name|slugify }}">{{ m.name }}</a></li>
             {% endfor %}
         {% endif %}
     {% endfor %}
-    </ul>
-
-    <hr>
-
-    <ul class="nav nav-pills nav-stacked sidebar-nav">
-        <li><a href="#"><i class="fa fa-arrow-up"></i> {% trans 'Back on top' %}</a></li>
     </ul>
 
 </div>
