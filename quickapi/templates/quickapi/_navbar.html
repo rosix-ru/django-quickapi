@@ -1,0 +1,76 @@
+{% comment %}<!--
+ 
+    Copyright 2012-2015 Grigoriy Kramarenko <root@rosix.ru>
+
+    This file is part of QuickAPI.
+
+    QuickAPI is free software: you can redistribute it and/or
+    modify it under the terms of the GNU Affero General Public License
+    as published by the Free Software Foundation, either version 3 of
+    the License, or (at your option) any later version.
+
+    QuickAPI is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License for more details.
+
+    You should have received a copy of the GNU Affero General Public
+    License along with QuickAPI. If not, see
+    <http://www.gnu.org/licenses/>.
+-->
+{% endcomment %}{% load i18n static quickapi_base %}
+
+<nav class="navbar navbar-inverse navbar-static-top" role="navigation">
+
+    <div class="container">
+
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">{% trans 'Toggle navigation' %}</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand active" href="#" data-toggle="modal" data-target="#modal-license" title="{% trans 'The documentation for API' %}">
+                <img style="display:inline;" width="24" height="24" src="{% get_static_prefix %}quickapi/{% get_version 'quickapi' %}/img/logo.png"/>
+                <span>{% block navbar_brand %}{% trans 'The documentation for API' %}{% endblock %}</span>
+            </a>
+        </div>
+
+        <div class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="#requests"><i class="fa fa-arrow-up fa-lg"></i> {% trans 'Requests' %}</a></li>
+                <li><a href="#responses"><i class="fa fa-arrow-down fa-lg"></i> {% trans 'Responses' %}</a></li>
+                <li><a href="#methods"><i class="fa fa-retweet fa-lg"></i> {% trans 'Methods' %}</a></li>
+            </ul>
+
+            <ul class="nav navbar-nav hidden-sm hidden-md hidden-lg">
+        {% regroup methods by namespace as namespace_list %}
+
+        {% for ns in namespace_list %}
+            {% if ns.grouper %}
+                <li>
+                    <a href="#method-namespace-{{ ns.grouper|slugify }}">
+                        <span>{% trans 'Namespace' %} <strong>{{ ns.grouper }}</strong></span>
+                    </a>
+                </li>
+            {% endif %}
+        {% endfor %}
+            </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+            {% block navbar_project %}
+                <li>
+                    <a href="{% PROJECT_URL %}" class="navbar-brand">
+                        <i class="fa fa-level-up fa-lg"></i>
+                        <span> {% PROJECT_NAME %}</span>
+                    </a>
+                </li>
+            {% endblock %}
+            </ul>
+
+        </div><!--/.nav-collapse -->
+
+    </div>
+
+</nav><!--/.navbar -->
