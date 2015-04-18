@@ -40,7 +40,7 @@ QUICKAPI_DECIMAL_LOCALE        = getattr(settings, 'QUICKAPI_DECIMAL_LOCALE', Fa
 QUICKAPI_ENSURE_ASCII          = getattr(settings, 'QUICKAPI_ENSURE_ASCII', False)
 QUICKAPI_PYGMENTS_STYLE        = getattr(settings, 'QUICKAPI_PYGMENTS_STYLE', 'default')
 
-VERSIONS = {
+QUICKAPI_VERSIONS = getattr(settings, 'QUICKAPI_VERSIONS', {
     'django': DJANGO_VERSION,
     'quickapi': QUICKAPI_VERSION,
     'jquery': '2.1.3',
@@ -48,6 +48,4 @@ VERSIONS = {
     'bootstrap': '3.3.4.quickapi',
     'font-awesome': '4.3.0',
     'pygments': '2.0',
-    'underscore': '1.7.0',
-    'underscore.string': '3.0.2',
-}
+})

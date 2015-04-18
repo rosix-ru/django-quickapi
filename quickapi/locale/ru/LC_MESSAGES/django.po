@@ -21,7 +21,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: QuickAPI\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-04-18 02:12+1000\n"
+"POT-Creation-Date: 2015-04-18 13:23+1000\n"
 "PO-Revision-Date: 2015-04-17 13:58+1000\n"
 "Last-Translator: Grigoriy Kramarenko <root@rosix.ru>\n"
 "Language-Team: \n"
@@ -277,12 +277,12 @@ msgstr "не расширено"
 msgid "Undefined message"
 msgstr "Неопределённое сообщение"
 
-#: templates/quickapi/_methods.html:24 templates/quickapi/_sidebar.html:28
-#: templates/quickapi/base.html:92
+#: templates/quickapi/_methods.html:24 templates/quickapi/_navbar.html:44
+#: templates/quickapi/_sidebar.html:28
 msgid "Methods"
 msgstr "Методы"
 
-#: templates/quickapi/_methods.html:46
+#: templates/quickapi/_methods.html:46 templates/quickapi/_navbar.html:54
 msgid "Namespace"
 msgstr "Пространство имён"
 
@@ -290,10 +290,23 @@ msgstr "Пространство имён"
 msgid "no description available"
 msgstr "описание отсутствует"
 
-#: templates/quickapi/_requests.html:25 templates/quickapi/_sidebar.html:26
-#: templates/quickapi/base.html:90
+#: templates/quickapi/_navbar.html:29
+msgid "Toggle navigation"
+msgstr "Переключение навигации"
+
+#: templates/quickapi/_navbar.html:34 templates/quickapi/_navbar.html.py:36
+msgid "The documentation for API"
+msgstr "Документация для API"
+
+#: templates/quickapi/_navbar.html:42 templates/quickapi/_requests.html:25
+#: templates/quickapi/_sidebar.html:26
 msgid "Requests"
 msgstr "Запросы"
+
+#: templates/quickapi/_navbar.html:43 templates/quickapi/_responses.html:24
+#: templates/quickapi/_sidebar.html:27
+msgid "Responses"
+msgstr "Ответы"
 
 #: templates/quickapi/_requests.html:27
 msgid "Query parameters can be transmitted in a single JSON object via POST"
@@ -351,11 +364,6 @@ msgstr "с HTTP Basic авторизацией"
 msgid "without HTTP Basic authorization"
 msgstr "без HTTP Basic авторизации"
 
-#: templates/quickapi/_responses.html:24 templates/quickapi/_sidebar.html:27
-#: templates/quickapi/base.html:91
-msgid "Responses"
-msgstr "Ответы"
-
 #: templates/quickapi/_responses.html:26
 msgid "The general structure of the answers"
 msgstr "Общая структура ответов"
@@ -380,10 +388,6 @@ msgstr ""
 "Тип и структура вложенного объекта зависят от вызываемого метода (см. "
 "документацию ниже)."
 
-#: templates/quickapi/_sidebar.html:64
-msgid "Back on top"
-msgstr "Наверх"
-
 #: templates/quickapi/base.html:25
 msgid "API documentation"
 msgstr "Документация API"
@@ -392,27 +396,23 @@ msgstr "Документация API"
 msgid "QuickAPI - it's Django-application for the fast organization API."
 msgstr "QuickAPI - это Django-приложение для быстрой организации API."
 
-#: templates/quickapi/base.html:78
-msgid "Toggle navigation"
-msgstr "Переключение навигации"
+#: templates/quickapi/base.html:218
+msgid "Back on top"
+msgstr "Наверх"
 
-#: templates/quickapi/base.html:83 templates/quickapi/base.html.py:85
-msgid "The documentation for API"
-msgstr "Документация для API"
-
-#: templates/quickapi/base.html:163 templates/quickapi/base.html.py:215
+#: templates/quickapi/base.html:230 templates/quickapi/base.html.py:282
 msgid "Close"
 msgstr "Закрыть"
 
-#: templates/quickapi/base.html:164
+#: templates/quickapi/base.html:231
 msgid "License"
 msgstr "Лицензия"
 
-#: templates/quickapi/base.html:164
+#: templates/quickapi/base.html:231
 msgid "GNU Affero General Public License"
 msgstr "Стандартная общественная лицензия GNU Афферо"
 
-#: templates/quickapi/base.html:170
+#: templates/quickapi/base.html:237
 msgid ""
 "This is short non-official localized text of license. Please, read full "
 "official text."
@@ -420,7 +420,7 @@ msgstr ""
 "Это краткий неофициальный локализованный текст лицензии. Пожалуйста, "
 "прочитайте полный официальный текст."
 
-#: templates/quickapi/base.html:176
+#: templates/quickapi/base.html:243
 msgid ""
 "\n"
 "QuickAPI is free software: you can redistribute it and/or\n"
@@ -435,7 +435,7 @@ msgstr ""
 " обеспечения; либо версии 3 лицензии, либо (по Вашему выбору) любой более\n"
 " поздней версии.\n"
 
-#: templates/quickapi/base.html:185
+#: templates/quickapi/base.html:252
 msgid ""
 "\n"
 "QuickAPI is distributed in the hope that it will be useful,\n"
@@ -449,7 +449,7 @@ msgstr ""
 " или ПРИГОДНОСТИ ДЛЯ ОПРЕДЕЛЕННЫХ ЦЕЛЕЙ. Подробнее см. в Стандартной\n"
 " общественной лицензии GNU Афферо.\n"
 
-#: templates/quickapi/base.html:194
+#: templates/quickapi/base.html:261
 msgid ""
 "\n"
 "You should have received a copy of the GNU Affero General Public\n"
@@ -459,11 +459,11 @@ msgstr ""
 "Вы должны были получить копию Стандартной общественной лицензии GNU Афферо\n"
 " вместе с QuickAPI. Если это не так, см.\n"
 
-#: templates/quickapi/base.html:207
+#: templates/quickapi/base.html:274
 msgid "Full official text"
 msgstr "Полный официальный текст"
 
-#: templates/quickapi/base.html:212
+#: templates/quickapi/base.html:279
 msgid "Get the code"
 msgstr "Получить код"
 
@@ -562,33 +562,37 @@ msgstr "список объектов"
 msgid "or specific information"
 msgstr "или специальная информация"
 
-#: views.py:69
+#: views.py:62
 #, python-format
 msgid "Test response. Redirect to %s."
 msgstr "Тестовый ответ. Перенаправление на %s."
 
-#: views.py:71 views.py:73
+#: views.py:64 views.py:66
 #, python-format
 msgid "Test response. Error %d."
 msgstr "Тестовый ответ. Ошибка %d."
 
-#: views.py:84 views.py:143
+#: views.py:77 views.py:140
 msgid "String in your localization"
 msgstr "Строка в вашей локализации"
 
-#: views.py:92
+#: views.py:85
 msgid "Hidden in not debug mode"
 msgstr "Скрыто в debug-режиме"
 
-#: views.py:108
+#: views.py:103
 msgid "Test response."
 msgstr "Тестовый ответ."
 
-#: views.py:144
+#: views.py:140
+msgid "versions of components"
+msgstr "версии компонентов"
+
+#: views.py:141
 msgid "*In debug mode shows the settings. Here are the default.*"
 msgstr "*В debug-режиме показывает настройки. Здесь приведены по-умолчанию.*"
 
-#: views.py:280
+#: views.py:277
 #, python-format
 msgid "Method `%s` does not exist"
 msgstr "Метод `%s` не существует"

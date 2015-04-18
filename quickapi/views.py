@@ -25,6 +25,7 @@ import traceback
 import decimal
 import json
 
+from django.conf import settings
 from django.contrib.auth import authenticate, login
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
@@ -36,16 +37,8 @@ from django.utils.encoding import force_text
 from django.utils.termcolors import colorize
 from django.utils.translation import get_language, ugettext_lazy as _
 
+from quickapi import conf
 from quickapi.http import JSONResponse, JSONRedirect, MESSAGES
-from quickapi.conf import (settings,
-    QUICKAPI_DEFINED_METHODS,
-    QUICKAPI_ONLY_AUTHORIZED_USERS,
-    QUICKAPI_INDENT,
-    QUICKAPI_DEBUG,
-    QUICKAPI_SWITCH_LANGUAGE,
-    QUICKAPI_SWITCH_LANGUAGE_AUTO,
-    QUICKAPI_DECIMAL_LOCALE,
-    QUICKAPI_ENSURE_ASCII)
 from quickapi.utils.method import get_methods
 from quickapi.utils.doc import apidoc_lazy, string_lazy
 from quickapi.utils.lang import switch_language
@@ -93,14 +86,16 @@ def test(request, code=200, redirect='/'):
     }
     if settings.DEBUG:
         data['settings'] = {
-            'QUICKAPI_DEFINED_METHODS': QUICKAPI_DEFINED_METHODS,
-            'QUICKAPI_ONLY_AUTHORIZED_USERS': QUICKAPI_ONLY_AUTHORIZED_USERS,
-            'QUICKAPI_INDENT': QUICKAPI_INDENT,
-            'QUICKAPI_DEBUG': QUICKAPI_DEBUG,
-            'QUICKAPI_SWITCH_LANGUAGE': QUICKAPI_SWITCH_LANGUAGE,
-            'QUICKAPI_SWITCH_LANGUAGE_AUTO': QUICKAPI_SWITCH_LANGUAGE_AUTO,
-            'QUICKAPI_DECIMAL_LOCALE': QUICKAPI_DECIMAL_LOCALE,
-            'QUICKAPI_ENSURE_ASCII': QUICKAPI_ENSURE_ASCII,
+            'QUICKAPI_DEFINED_METHODS': conf.QUICKAPI_DEFINED_METHODS,
+            'QUICKAPI_ONLY_AUTHORIZED_USERS': conf.QUICKAPI_ONLY_AUTHORIZED_USERS,
+            'QUICKAPI_INDENT': conf.QUICKAPI_INDENT,
+            'QUICKAPI_DEBUG': conf.QUICKAPI_DEBUG,
+            'QUICKAPI_SWITCH_LANGUAGE': conf.QUICKAPI_SWITCH_LANGUAGE,
+            'QUICKAPI_SWITCH_LANGUAGE_AUTO': conf.QUICKAPI_SWITCH_LANGUAGE_AUTO,
+            'QUICKAPI_DECIMAL_LOCALE': conf.QUICKAPI_DECIMAL_LOCALE,
+            'QUICKAPI_ENSURE_ASCII': conf.QUICKAPI_ENSURE_ASCII,
+            'QUICKAPI_PYGMENTS_STYLE': conf.QUICKAPI_PYGMENTS_STYLE,
+            'QUICKAPI_VERSIONS': conf.QUICKAPI_VERSIONS
         }
     return JSONResponse(data=data)
 
@@ -136,11 +131,13 @@ test.__doc__ = apidoc_lazy(
         "QUICKAPI_DEBUG": false, 
         "QUICKAPI_SWITCH_LANGUAGE_AUTO": true, 
         "QUICKAPI_SWITCH_LANGUAGE": true,
-        "QUICKAPI_ENSURE_ASCII": false
+        "QUICKAPI_ENSURE_ASCII": false,
+        "QUICKAPI_PYGMENTS_STYLE": "default",
+        "QUICKAPI_VERSIONS": {/*%s*/}
     }
 }
 ```
-""", _('String in your localization')),
+""", (_('String in your localization'), _('versions of components'))),
     footer=_('*In debug mode shows the settings. Here are the default.*')
 )
 
@@ -181,7 +178,7 @@ def index(request, methods=METHODS):
             return run(request, methods)
         except Exception as e:
             # unexpected error
-            if QUICKAPI_DEBUG:
+            if conf.QUICKAPI_DEBUG:
                 print(colorize(force_text(e), fg='red'))
             return JSONResponse(status=500, message=force_text(e))
 
@@ -233,7 +230,7 @@ def run(request, methods):
 
             logger = logging.getLogger('quickapi.views.run')
 
-            if QUICKAPI_DEBUG:
+            if conf.QUICKAPI_DEBUG:
                 print(colorize('%s: %s' % (logger.name, force_text(e)), fg='red'))
 
             logger.error(traceback.format_exc())
@@ -253,21 +250,21 @@ def run(request, methods):
             login(request, user)
             is_authenticate = True
 
-        elif QUICKAPI_ONLY_AUTHORIZED_USERS and method != 'quickapi.test':
+        elif conf.QUICKAPI_ONLY_AUTHORIZED_USERS and method != 'quickapi.test':
 
             return JSONResponse(status=401)
 
 
     logger = logging.getLogger('quickapi.method.%s' % method)
 
-    if QUICKAPI_DEBUG:
+    if conf.QUICKAPI_DEBUG:
         print(colorize(logger.name, fg='blue'))
 
     if method in methods:
         try:
             real_method = methods[method]['method']
         except Exception as e:
-            if QUICKAPI_DEBUG:
+            if conf.QUICKAPI_DEBUG:
                 print(colorize('%s: %s' % (logger.name, force_text(e)), fg='red'))
 
             logger.error(traceback.format_exc())
@@ -279,7 +276,7 @@ def run(request, methods):
     else:
         e = _('Method `%s` does not exist') % method
 
-        if QUICKAPI_DEBUG:
+        if conf.QUICKAPI_DEBUG:
             print(colorize('%s: %s' % (logger.name, force_text(e)), fg='red'))
 
         logger.warning(force_text(e))
@@ -289,7 +286,7 @@ def run(request, methods):
     try:
         return real_method(request, **kwargs)
     except TypeError as e:
-        if QUICKAPI_DEBUG:
+        if conf.QUICKAPI_DEBUG:
             print(colorize('%s: %s' % (logger.name, force_text(e)), fg='red'))
 
         logger.warning(traceback.format_exc())
@@ -297,7 +294,7 @@ def run(request, methods):
         return JSONResponse(status=400, message=force_text(e))
 
     except Exception as e:
-        if QUICKAPI_DEBUG:
+        if conf.QUICKAPI_DEBUG:
             print(colorize('%s: %s' % (logger.name, force_text(e)), fg='red'))
 
         logger.error(traceback.format_exc())
