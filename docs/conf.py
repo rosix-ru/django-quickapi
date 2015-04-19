@@ -12,7 +12,6 @@
 # serve to show the default.
 
 from __future__ import unicode_literals
-
 import sys, os, locale
 
 from gettext import textdomain, bindtextdomain, gettext
@@ -106,14 +105,13 @@ for x in sys.argv:
 
 locale.setlocale(locale.LC_ALL, locale.locale_alias.get(language, codepage))
 
-
 # Location for .po/.mo translation files used when language is set
 locale_dirs = ['locale/']
 gettext_compact = False
 
 # There are two options for replacing |today|: either, you set today to some
 # non-false value, then it is used:
-#today = None
+#today = ''
 # Else, today_fmt is used as the format for a strftime call.
 today_fmt = '%B %d, %Y'
 
@@ -129,7 +127,8 @@ exclude_patterns = ['_build']
 
 # If true, the current module name will be prepended to all description
 # unit titles (such as .. function::).
-add_module_names = False #True
+#add_module_names = True
+#~ add_module_names = False
 
 # If true, sectionauthor and moduleauthor directives will be shown in the
 # output. They are ignored by default.
@@ -137,28 +136,18 @@ add_module_names = False #True
 
 # The name of the Pygments (syntax highlighting) style to use.
 # Likes: 'friendly', 'sphinx', 'tango', 'trac'
-pygments_style = 'trac'
+pygments_style = 'default'
 
 # A list of ignored prefixes for module index sorting.
 modindex_common_prefix = ['quickapi.']
 
-# Links to Python's docs should reference the most recent version of the 3.x
-# branch, which is located at this URL.
-intersphinx_mapping = {
-    'python': ('https://docs.python.org/', None),
-    'django': ('http://django.readthedocs.org/en/latest/', None),
-    #'sphinx': ('http://sphinx-doc.org/', None),
-    #'six': ('http://pythonhosted.org/six/', None),
-    #'psycopg2': ('http://initd.org/psycopg/docs/', None),
-}
 
 # -- Options for HTML output ---------------------------------------------------
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #html_theme = 'default'
-html_theme = 'djangodocs'
-html_theme = 'rosix'
+html_theme = 'rosixdoc'
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
@@ -197,10 +186,6 @@ html_last_updated_fmt = '%B %d, %Y'
 # typographically correct entities.
 html_use_smartypants = True
 
-# HTML translator class for the builder
-#html_translator_class = "projectdocs.ProjectHTMLTranslator"
-
-
 # Custom sidebar templates, maps document names to template names.
 #html_sidebars = {}
 
@@ -209,7 +194,7 @@ html_use_smartypants = True
 #html_additional_pages = {}
 
 # If false, no module index is generated.
-html_domain_indices = False #True
+#html_domain_indices = True
 
 # If false, no index is generated.
 #html_use_index = True
@@ -235,29 +220,25 @@ html_domain_indices = False #True
 #html_file_suffix = None
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = name+'doc'
-
+htmlhelp_basename = name + 'doc'
 
 
 # -- Options for LaTeX output --------------------------------------------------
 
 latex_elements = {
-    # The paper size ('letterpaper' or 'a4paper').
-    #'papersize': 'letterpaper',
+# The paper size ('letterpaper' or 'a4paper').
+#'papersize': 'letterpaper',
 
-    # The font size ('10pt', '11pt' or '12pt').
-    #'pointsize': '10pt',
+# The font size ('10pt', '11pt' or '12pt').
+#'pointsize': '10pt',
 
-    # Additional stuff for the LaTeX preamble.
-    'preamble': ('\\DeclareUnicodeCharacter{2264}{\\ensuremath{\\le}}'
-                 '\\DeclareUnicodeCharacter{2265}{\\ensuremath{\\ge}}')
+# Additional stuff for the LaTeX preamble.
+#'preamble': '',
 }
 
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, documentclass [howto/manual]).
-latex_documents = [
-    (master_doc, name+'.tex', title, author, 'manual'),
-]
+latex_documents = [(master_doc, name+'.tex', title, author, 'manual')]
 
 # The name of an image file (relative to this directory) to place at the top of
 # the title page.
@@ -295,9 +276,7 @@ man_pages = [(master_doc, name, title, [author], 1)]
 # Grouping the document tree into Texinfo files. List of tuples
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
-texinfo_documents = [
-    (master_doc, name, title, author, name, about, 'Miscellaneous'),
-]
+texinfo_documents = [(master_doc, name, title, author, project, about, 'Miscellaneous')]
 
 # Documents to append as an appendix to all manuals.
 #texinfo_appendices = []

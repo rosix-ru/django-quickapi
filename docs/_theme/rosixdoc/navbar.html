@@ -1,0 +1,41 @@
+<nav class="navbar navbar-inverse navbar-static-top" role="navigation">
+
+    <div class="container">
+
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">{{ _('Navigation') }}</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand active" href="{{ pathto('index') }}" title="{{ docstitle|e }}">
+                <span>{{ shorttitle|e }}</span>
+            </a>
+        </div>
+
+    {%- if pagename != "search" %}
+        <div class="navbar-right">
+            <form class="navbar-form navbar-left" role="search" action="{{ pathto('search') }}" method="get">
+                <div class="form-group">
+                    <input type="text" name="q" class="form-control" placeholder="{{ _('Quick search') }}">
+                    <input type="hidden" name="check_keywords" value="yes" />
+                    <input type="hidden" name="area" value="default" />
+                </div>
+            </form>
+        </div>
+    {%- endif %}
+
+        <div class="collapse navbar-collapse">
+
+            <ul class="nav navbar-nav">
+                <li><a title="Table of contents" href="{{ pathto('contents') }}">{{ _('Table Of Contents') }}</a></li>
+                <li><a title="Global index" href="{{ pathto('genindex') }}">{{ _('Index') }}</a></li>
+                <li><a title="Module index" href="{{ pathto('py-modindex') }}">{{ _('Module Index') }}</a></li>
+            </ul>
+
+        </div><!--/.nav-collapse -->
+
+    </div>
+
+</nav><!--/.navbar -->

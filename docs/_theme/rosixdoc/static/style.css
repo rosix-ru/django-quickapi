@@ -1,0 +1,123 @@
+
+/*** Коррекция стилей BS ***/
+
+blockquote { padding: 0 1em; margin: 1em 0; border-left: 2px solid darkred; color: indigo;}
+
+ul { list-style-type: square; }
+ul ul { margin-top: 7px; margin-left: 20px; padding: 0; }
+
+dl code {
+    padding: 0px;
+    font-size: 125%;
+    color: darkblue;
+    background-color: transparent;
+}
+dl.class em.property { color: darkred; }
+dl.class em, dl.class span,
+dl.function em, dl.function span { color: #555; }
+
+code.literal {
+    padding: 2px 4px;
+    font-size: 96%;
+    background-color: rgba(255, 255, 0, 0.25);
+    border-radius: 4px;
+}
+code.literal span { color: darkblue; }
+
+dd { margin-left: 20px; }
+
+.viewcode-back { float: right; }
+.viewcode-link { padding: 0px 5px; float: right; color: orangered !important;}
+
+/*** подсветка активного пункта navbar ***/
+.navbar .active { color: #fff; }
+
+
+/*** ссылки на параграф ***/
+a.headerlink { color: darkred; font-size: 0.8em; padding: 0 4px 0 4px; text-decoration: none; visibility: hidden; }
+h1:hover > a.headerlink, h2:hover > a.headerlink, h3:hover > a.headerlink, h4:hover > a.headerlink, h5:hover > a.headerlink, h6:hover > a.headerlink, dt:hover > a.headerlink { visibility: visible; }
+
+
+/*** автоматические полосы прокрутки для кода ***/
+div.highlight > pre { overflow-wrap: inherit; }
+
+
+/*** Боковая панель ***/
+#searchbox { padding-bottom: 100px; }
+div.sphinxsidebar .logo { font-size: 1.8em; color: darkred; font-weight: 300; text-align: center; }
+div.sphinxsidebar .logo img { vertical-align: middle; }
+div.sphinxsidebar h3 { font-size: 1.5em; margin-bottom: 0.5em; }
+div.sphinxsidebar h4 { font-size: 1.2em; margin-bottom: 0; }
+div.sphinxsidebar h3,
+div.sphinxsidebar h4 { color: #333; font-weight: 300; }
+
+div.sphinxsidebar li.active > a { color: darkred; }
+div.sphinxsidebar li.active > a:hover { color: red; }
+
+div.sphinxsidebarwrapper > h3:first-child { margin-top: 0.5em; border: none; }
+div.sphinxsidebar h3 a { color: #333; }
+div.sphinxsidebar ul ul { color: #444; line-height: 130%; }
+
+.toctree-wrapper a,
+div.sphinxsidebar a { font-size: 110%; }
+.toctree-wrapper ul ul,
+div.sphinxsidebarwrapper ul ul { list-style-image: url(listitem.png); }
+.toctree-wrapper > ul,
+div.sphinxsidebarwrapper > ul,
+div.sphinxsidebar ul.this-page-menu { list-style-image: none; margin-left: -20px; }
+
+
+div.sphinxsidebar p.sourcelink { padding-left: 20px; padding-top: 0px; }
+div.sphinxsidebar p.topless { padding-left: 20px; padding-top: 10px; }
+
+
+/*** Оповещения с иконками ***/
+div.versionadded,
+div.versionchanged,
+div.admonition { min-height: 64px; padding: .8em 1em .8em; margin: 1em 0; border-style: solid; border-width: 1px; border-color: #555; }
+div.versionadded:before,
+div.versionchanged:before,
+div.admonition:before { color: #555; }
+div.versionadded + *,
+div.versionchanged + *,
+div.admonition + * { clear: both; }
+div.versionadded > *,
+div.versionchanged > *,
+div.admonition > * { margin-left: 60px; }
+div.danger, div.error, div.important { border-color: red; }
+div.versionchanged,
+div.warning, div.caution { border-color: darkorange; }
+div.attention{ border-color: blue; }
+div.versionadded,
+div.note { border-color: darkgreen; }
+div.hint { border-color: orange; }
+div.tip, div.seealso { border-color: #555; }
+div.versionadded:before,
+div.versionchanged:before,
+div.admonition:before { content: "\f0eb"; color: #555; font-family: 'FontAwesome'; position: relative; font-size: 50px; top: -15px; left: 10px; float: left; }
+div.danger:before, div.error:before, div.important:before { color: red; }
+div.versionchanged:before,
+div.warning:before, div.caution:before { color: darkorange; }
+div.attention:before { color: blue; }
+div.versionadded:before,
+div.note:before { color: darkgreen; }
+div.hint:before { color: orange; }
+div.tip:before, div.seealso:before { color: #555; }
+div.danger:before { content: "\f06a"; left: 1px; }
+div.error:before { content: "\f188"; left: 1px; }
+div.important:before { content: "\f05a"; left: 3px; }
+div.warning:before { content: "\f071"; left: -1px; }
+div.caution:before { content: "\f071"; left: -1px; }
+div.attention:before { content: "\f071"; left: -1px; }
+div.note:before { content: "\f05a"; left: 3px; }
+div.seealso:before { content: "\f19d"; left: -5px; }
+div.hint:before { content: "\f0eb"; left: 10px; }
+div.tip:before { content: "\f21b"; left: 5px; }
+div.versionadded:before { content: "\f067"; left: 5px; }
+div.versionchanged:before { content: "\f044"; left: 5px; }
+
+.admonition-title { font-weight:bold; margin-top:0 !important; margin-bottom:0 !important;}
+.admonition .last { margin-bottom:0 !important; }
+
+div.versionadded, div.versionchanged { color: #555; }
+span.versionmodified { font-weight: bold; display: block; }

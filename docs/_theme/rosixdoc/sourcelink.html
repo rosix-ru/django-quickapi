@@ -1,0 +1,10 @@
+{%- if show_source and has_source and sourcename %}
+<hr>
+
+<h3>{{ _('This Page') }}</h3>
+
+<p class="sourcelink">
+    <a href="{{ pathto('_sources/' + sourcename, true)|e }}" rel="nofollow">{{ _('Show Source') }}</a>
+</p>
+
+{%- endif %}
