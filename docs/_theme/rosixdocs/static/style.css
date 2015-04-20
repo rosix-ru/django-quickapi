@@ -14,7 +14,8 @@ dl code {
 }
 dl.class em.property { color: darkred; }
 dl.class em, dl.class span,
-dl.function em, dl.function span { color: #555; }
+dl.function em, dl.function span,
+dl.attribute code { color: #555; }
 
 code.literal {
     padding: 2px 4px;
