@@ -228,7 +228,7 @@ def run(request, methods):
 
         except Exception as e:
 
-            logger = logging.getLogger('quickapi.views.run')
+            logger = logging.getLogger('django.quickapi.views.run')
 
             if conf.QUICKAPI_DEBUG:
                 print(colorize('%s: %s' % (logger.name, force_text(e)), fg='red'))
@@ -255,7 +255,7 @@ def run(request, methods):
             return JSONResponse(status=401)
 
 
-    logger = logging.getLogger('quickapi.method.%s' % method)
+    logger = logging.getLogger('django.quickapi.method.%s' % method)
 
     if conf.QUICKAPI_DEBUG:
         print(colorize(logger.name, fg='blue'))
