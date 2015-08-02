@@ -27,8 +27,7 @@ import json
 from django.conf import settings
 from django.contrib.auth import authenticate, login
 from django.http import HttpResponseRedirect, HttpResponseBadRequest
-from django.shortcuts import render_to_response
-from django.template import RequestContext
+from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from django.utils import six
 from django.utils import timezone
@@ -96,7 +95,7 @@ def test(request, code=200, redirect='/'):
             'QUICKAPI_PYGMENTS_STYLE': conf.QUICKAPI_PYGMENTS_STYLE,
             'QUICKAPI_VERSIONS': conf.QUICKAPI_VERSIONS
         }
-    return JSONResponse(data=data)
+    return JSONResponse(data)
 
 test.__doc__ = apidoc_lazy(
     header=_("""Test response."""),
@@ -181,8 +180,7 @@ def index(request, methods=METHODS):
     ctx['methods'] = methods.values()
     ctx['test_method_doc'] = test.__doc__ if not 'quickapi.test' in methods else None
 
-    return render_to_response('quickapi/index.html', ctx,
-                            context_instance=RequestContext(request,))
+    return render(request, 'quickapi/index.html', ctx)
 
 
 # short name
