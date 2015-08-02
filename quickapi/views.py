@@ -26,9 +26,7 @@ import json
 
 from django.conf import settings
 from django.contrib.auth import authenticate, login
-from django.core.exceptions import SuspiciousOperation
-from django.http import (HttpResponseRedirect, HttpResponseBadRequest,
-    HttpResponseNotAllowed, HttpResponseForbidden)
+from django.http import HttpResponseRedirect, HttpResponseBadRequest
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.views.decorators.csrf import csrf_exempt
@@ -202,8 +200,7 @@ def run(request, methods):
     if warning_auth_in_get(request):
         url = clean_uri(request)+'#requests'
         msg = _('You made a dangerous request. Please, read the docs: %s') % url
-
-        raise SuspiciousOperation(msg)
+        return HttpResponseBadRequest(msg)
 
     if request.method == 'GET':
         REQUEST = request.GET
@@ -241,7 +238,7 @@ def run(request, methods):
             is_authenticate = True
 
         elif conf.QUICKAPI_ONLY_AUTHORIZED_USERS and method != 'quickapi.test':
-            return HttpResponseForbidden(status=401)
+            return HttpResponseBadRequest(status=401)
 
     if conf.QUICKAPI_DEBUG:
         logger.debug('Run method `%s` on %s', method, request.path)
@@ -251,7 +248,7 @@ def run(request, methods):
     elif method == 'quickapi.test':
         real_method = test
     else:
-        return HttpResponseNotAllowed(_('Method `%s` does not exist') % method)
+        return HttpResponseBadRequest(status=405)
 
     return real_method(request, **kwargs)
 
