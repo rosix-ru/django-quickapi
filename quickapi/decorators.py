@@ -23,29 +23,41 @@ from __future__ import unicode_literals
 from functools import wraps
 
 from django.utils.translation import ugettext_lazy as _
-from django.contrib.auth.decorators import user_passes_test
-from django.contrib.auth import REDIRECT_FIELD_NAME
 from django.http import HttpResponseBadRequest, HttpResponseServerError
 
+from .http import JSONResponse, JSONRedirect, MESSAGES
 
-def login_required(function=None, redirect_field_name=REDIRECT_FIELD_NAME, login_url=None):
+
+def login_required(function=None, json_only=False, login_url=None):
     """
     Decorator for views that checks that the user is logged in, redirecting
     to the log-in page if necessary.
-    This decorator different from those in Django that checks is
-    active user or not.
     """
 
-    actual_decorator = user_passes_test(
-        lambda u: u.is_active and u.is_authenticated(),
-        login_url=login_url,
-        redirect_field_name=redirect_field_name
-    )
+    def decorator(view_func):
+
+        @wraps(view_func)
+        def _wrapped_view(request, *args, **kwargs):
+            u = request.user
+
+            if u.is_active and u.is_authenticated():
+                return view_func(request, *args, **kwargs)
+
+            if json_only or request.is_ajax():
+                if login_url:
+                    JSONRedirect(login_url)
+                return JSONResponse(status=401)
+            elif login_url:
+                return HttpRedirect(login_url)
+            else:
+                return HttpResponseBadRequest(status=401, content=MESSAGES[401])
+
+        return _wrapped_view
 
     if function:
-        return actual_decorator(function)
+        return decorator(function)
 
-    return actual_decorator
+    return decorator
 
 
 def api_required(function=None, ajax_post=True, ajax_get=False,

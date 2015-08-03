@@ -21,7 +21,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: QuickAPI\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-04-18 14:11+1000\n"
+"POT-Creation-Date: 2015-05-29 11:14+1000\n"
 "PO-Revision-Date: 2015-04-18 14:11+1000\n"
 "Last-Translator: Grigoriy Kramarenko <root@rosix.ru>\n"
 "Language-Team: \n"
@@ -556,37 +556,42 @@ msgstr "список объектов"
 msgid "or specific information"
 msgstr "или специальная информация"
 
-#: views.py:62
+#: views.py:63
 #, python-format
 msgid "Test response. Redirect to %s."
 msgstr "Тестовый ответ. Перенаправление на %s."
 
-#: views.py:64 views.py:66
+#: views.py:65 views.py:67
 #, python-format
 msgid "Test response. Error %d."
 msgstr "Тестовый ответ. Ошибка %d."
 
-#: views.py:77 views.py:140
+#: views.py:78 views.py:141
 msgid "String in your localization"
 msgstr "Строка в вашей локализации"
 
-#: views.py:85
+#: views.py:86
 msgid "Hidden in not debug mode"
 msgstr "Скрыто в debug-режиме"
 
-#: views.py:103
+#: views.py:104
 msgid "Test response."
 msgstr "Тестовый ответ."
 
-#: views.py:140
+#: views.py:141
 msgid "versions of components"
 msgstr "версии компонентов"
 
-#: views.py:141
+#: views.py:142
 msgid "*In debug mode shows the settings. Here are the default.*"
 msgstr "*В debug-режиме показывает настройки. Здесь приведены по-умолчанию.*"
 
-#: views.py:277
+#: views.py:204
+#, python-format
+msgid "You made a dangerous request. Please, read the docs: %s"
+msgstr "Вы сделали опасный запрос. Пожалуйста, прочитайте документацию: %s"
+
+#: views.py:254
 #, python-format
 msgid "Method `%s` does not exist"
 msgstr "Метод `%s` не существует"

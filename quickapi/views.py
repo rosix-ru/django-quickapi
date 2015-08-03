@@ -21,20 +21,17 @@
 
 from __future__ import unicode_literals
 import logging
-import traceback
 import decimal
 import json
 
 from django.conf import settings
 from django.contrib.auth import authenticate, login
-from django.http import HttpResponseRedirect
-from django.shortcuts import render_to_response
-from django.template import RequestContext
+from django.http import HttpResponseRedirect, HttpResponseBadRequest
+from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from django.utils import six
 from django.utils import timezone
 from django.utils.encoding import force_text
-from django.utils.termcolors import colorize
 from django.utils.translation import get_language, ugettext_lazy as _
 
 from quickapi import conf
@@ -45,6 +42,7 @@ from quickapi.utils.lang import switch_language
 from quickapi.utils.requests import (parse_auth, clean_kwargs,
     clean_uri, warning_auth_in_get)
 
+logger = logging.getLogger('django.quickapi')
 
 @csrf_exempt
 def test(request, code=200, redirect='/'):
@@ -97,7 +95,7 @@ def test(request, code=200, redirect='/'):
             'QUICKAPI_PYGMENTS_STYLE': conf.QUICKAPI_PYGMENTS_STYLE,
             'QUICKAPI_VERSIONS': conf.QUICKAPI_VERSIONS
         }
-    return JSONResponse(data=data)
+    return JSONResponse(data)
 
 test.__doc__ = apidoc_lazy(
     header=_("""Test response."""),
@@ -174,13 +172,7 @@ def index(request, methods=METHODS):
     # Когда в запросе есть ключ 'jsonData' или 'method', то это вызов метода.
     # Иначе - это просмотр документации
     if 'jsonData' in REQUEST or 'method' in REQUEST:
-        try:
-            return run(request, methods)
-        except Exception as e:
-            # unexpected error
-            if conf.QUICKAPI_DEBUG:
-                print(colorize(force_text(e), fg='red'))
-            return JSONResponse(status=500, message=force_text(e))
+        return run(request, methods)
 
     # Vars for docs
     ctx = {}
@@ -188,8 +180,7 @@ def index(request, methods=METHODS):
     ctx['methods'] = methods.values()
     ctx['test_method_doc'] = test.__doc__ if not 'quickapi.test' in methods else None
 
-    return render_to_response('quickapi/index.html', ctx,
-                            context_instance=RequestContext(request,))
+    return render(request, 'quickapi/index.html', ctx)
 
 
 # short name
@@ -202,10 +193,12 @@ def run(request, methods):
     is_authenticate = request.user.is_authenticated()
     username = password = None
 
-    # Принудительно направляем на страницу документации нарушителей
-    # правил передачи параметров авторизации
+    # Нарушителей правил передачи параметров авторизации
+    # направляем на страницу документации
     if warning_auth_in_get(request):
-        return HttpResponseRedirect(clean_uri(request)+'#requests')
+        url = clean_uri(request)+'#requests'
+        msg = _('You made a dangerous request. Please, read the docs: %s') % url
+        return HttpResponseBadRequest(msg)
 
     if request.method == 'GET':
         REQUEST = request.GET
@@ -227,21 +220,13 @@ def run(request, methods):
             kwargs = data.get('kwargs', clean_kwargs(request, data))
 
         except Exception as e:
-
-            logger = logging.getLogger('quickapi.views.run')
-
-            if conf.QUICKAPI_DEBUG:
-                print(colorize('%s: %s' % (logger.name, force_text(e)), fg='red'))
-
-            logger.error(traceback.format_exc())
-
-            return JSONResponse(status=400, message=force_text(e))
+            return HttpResponseBadRequest(force_text(e))
 
         if not is_authenticate:
             username, password = parse_auth(request, data)
 
     else:
-        return JSONResponse(status=400)
+        return HttpResponseBadRequest()
 
     if not is_authenticate:
         user = authenticate(username=username, password=password)
@@ -251,53 +236,18 @@ def run(request, methods):
             is_authenticate = True
 
         elif conf.QUICKAPI_ONLY_AUTHORIZED_USERS and method != 'quickapi.test':
-
-            return JSONResponse(status=401)
-
-
-    logger = logging.getLogger('quickapi.method.%s' % method)
+            return HttpResponseBadRequest(status=401)
 
     if conf.QUICKAPI_DEBUG:
-        print(colorize(logger.name, fg='blue'))
+        logger.debug('Run method `%s` on %s', method, request.path)
 
     if method in methods:
-        try:
-            real_method = methods[method]['method']
-        except Exception as e:
-            if conf.QUICKAPI_DEBUG:
-                print(colorize('%s: %s' % (logger.name, force_text(e)), fg='red'))
-
-            logger.error(traceback.format_exc())
-
-            return JSONResponse(status=500, message=force_text(e))
-
+        real_method = methods[method]['method']
     elif method == 'quickapi.test':
         real_method = test
     else:
-        e = _('Method `%s` does not exist') % method
+        return HttpResponseBadRequest(status=405)
 
-        if conf.QUICKAPI_DEBUG:
-            print(colorize('%s: %s' % (logger.name, force_text(e)), fg='red'))
+    return real_method(request, **kwargs)
 
-        logger.warning(force_text(e))
-
-        return JSONResponse(status=405, message=force_text(e))
-
-    try:
-        return real_method(request, **kwargs)
-    except TypeError as e:
-        if conf.QUICKAPI_DEBUG:
-            print(colorize('%s: %s' % (logger.name, force_text(e)), fg='red'))
-
-        logger.warning(traceback.format_exc())
-
-        return JSONResponse(status=400, message=force_text(e))
-
-    except Exception as e:
-        if conf.QUICKAPI_DEBUG:
-            print(colorize('%s: %s' % (logger.name, force_text(e)), fg='red'))
-
-        logger.error(traceback.format_exc())
-
-        return JSONResponse(status=500, message=force_text(e))
 
