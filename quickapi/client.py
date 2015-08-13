@@ -101,9 +101,9 @@ class BaseClient(object):
         if self.use_basic_auth and self.username and self.password:
             s = '%s:%s' % (self.username, self.password)
             if six.PY3:
-                b = bytes(s, 'utf8')
+                b = bytes(s, 'utf-8')
             else:
-                b = bytes(s.encode('utf8'))
+                b = bytes(s.encode('utf-8'))
 
             headers['Authorization'] = b'Basic ' + base64.b64encode(b)
         
