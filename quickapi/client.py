@@ -65,7 +65,11 @@ class BaseClient(object):
     username = None
     password = None
     url      = 'http://localhost:8000/api/'
-    headers  = {"Content-type": "application/json", "Accept": "application/json"}
+    headers  = {
+        "Content-type": "application/json",
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate",
+    }
     timeout  = 10000
     cookiejar = None
     print_info = False
@@ -154,16 +158,22 @@ class BaseClient(object):
         request = self.get_request(jsondata)
 
         response = self.get_response(request)
+        info = response.info()
+        encoding = info.get('Content-encoding', None)
+
         if self.print_info:
             print('Status: %s' % response.code)
-            print(response.info())
+            print(info)
 
         data = response.read()
 
-        try:
-            return zlib.decompress(data)
-        except:
-            return data
+        if encoding in ('gzip', 'deflate'):
+            try:
+                return zlib.decompress(data)
+            except:
+                return data
+
+        return data
 
     def json_loads(self, data):
         """
