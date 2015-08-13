@@ -45,6 +45,7 @@ from __future__ import unicode_literals, print_function
 import json
 import six
 import zlib
+import base64
 
 if six.PY3:
     from urllib.parse import urlencode
@@ -69,16 +70,17 @@ class BaseClient(object):
     cookiejar = None
     print_info = False
     code_page = 'utf-8'
+    use_basic_auth = False
 
 
     def __init__(self, cookie_filename=None, **kwargs):
 
         for key, val in kwargs.items():
             setattr(self, key, val)
-        
+
         if cookie_filename:
             self.set_cookiejar(cookie_filename)
-    
+
     def set_cookiejar(self, name):
         self.cookiejar = MozillaCookieJar(name)
         try:
@@ -86,27 +88,48 @@ class BaseClient(object):
         except IOError:
             self.cookiejar.save()
 
-    def get_request(self, data, **kwargs):
+    def get_request(self, data):
         """
         Возвращает новый объект запроса.
         """
 
         params = urlencode({'jsonData': data})
         params = params.encode('ascii')
-        request = Request(url=self.url, data=params, headers=self.headers)
+        
+        headers = {}
+        headers.update(self.headers)
+        if self.use_basic_auth and self.username and self.password:
+            s = '%s:%s' % (self.username, self.password)
+            if six.PY3:
+                b = bytes(s, 'utf8')
+            else:
+                b = bytes(s.encode('utf8'))
+
+            headers['Authorization'] = b'Basic ' + base64.b64encode(b)
+        
+        request = Request(url=self.url, data=params, headers=headers)
 
         return request
 
-    def get_response(self, request, openerargs=(), **kwargs):
+    def get_opener(self):
+        """
+        Возвращает новый обработчик запроса с необходимыми процессорами.
+        """
+        args = ()
+
+        if not self.cookiejar is None:
+            cookiehand = HTTPCookieProcessor(self.cookiejar)
+            args += (cookiehand,)
+
+        return build_opener(*args)
+
+
+    def get_response(self, request):
         """
         Возвращает новый обработчик запроса и устанавливает куки.
         """
 
-        if not self.cookiejar is None:
-            cookiehand = HTTPCookieProcessor(self.cookiejar)
-            openerargs = (cookiehand,) + openerargs
-
-        opener = build_opener(*openerargs)
+        opener = self.get_opener()
 
         try:
             response = opener.open(request, timeout=self.timeout)
@@ -118,14 +141,18 @@ class BaseClient(object):
 
         return response
 
-    def get_result(self, data, **kwargs):
+    def get_result(self, data):
         """
         Запрашивает данные из API
         """
 
+        if self.print_info:
+            print('Kwargs: %s' % data.get('kwargs', {}))
+
         jsondata = json.dumps(data)
 
         request = self.get_request(jsondata)
+
         response = self.get_response(request)
         if self.print_info:
             print('Status: %s' % response.code)
@@ -138,7 +165,7 @@ class BaseClient(object):
         except:
             return data
 
-    def json_loads(self, data, **kwargs):
+    def json_loads(self, data):
         """
         Переобразовывает JSON в объекты Python, учитывая кодирование
         """
@@ -148,18 +175,18 @@ class BaseClient(object):
 
         return data
 
-    def prepare_data(self, data, **kwargs):
+    def prepare_data(self, data):
         """
         Предназначен для переопределения в наследуемых классах.
         Здесь просто добавляются учётные данные.
         """
-        if self.username:
+        if self.username and not self.use_basic_auth:
             data['username'] = self.username 
             data['password'] = self.password 
 
         return data
 
-    def clean(self, data, **kwargs):
+    def clean(self, data):
         """
         Преобразует полученные данные
         """

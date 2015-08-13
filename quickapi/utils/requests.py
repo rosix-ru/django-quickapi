@@ -27,9 +27,9 @@ from django.utils.encoding import force_text
 
 
 def parse_auth(request, data):
-    if request.META.has_key('HTTP_AUTHORIZATION'):
+    if 'HTTP_AUTHORIZATION' in request.META:
         key = request.META['HTTP_AUTHORIZATION']
-    elif request.META.has_key('HTTP_X_AUTHORIZATION'):
+    elif 'HTTP_X_AUTHORIZATION' in request.META:
         key = request.META['HTTP_X_AUTHORIZATION']
     else:
         return data.get('username', None), data.get('password', None)
