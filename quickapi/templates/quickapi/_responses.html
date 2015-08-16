@@ -24,9 +24,9 @@
     <legend><h1>{% trans 'Responses' %}</h1></legend>
 
     <h3>{% trans 'The general structure of the answers' %}</h3>
+    <p>{% trans 'The type and structure of nested object depend on the method to call (see documentation below).' %}</p>
 
 <div class="highlight">
-
 <pre>
 <span class="nx">response</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s1">&#39;status&#39;</span><span class="o">:</span> <span class="mi">200</span><span class="p">,</span> <span class="c1">// {% trans 'Codes HTTP that makes sense.' %}</span>
@@ -34,9 +34,8 @@
     <span class="s1">&#39;data&#39;</span><span class="o">:</span> <span class="o">&lt;</span>{% trans 'Nested object' %} <span class="nx">JSON</span><span class="o">&gt;</span><span class="p">,</span>
 <span class="p">}</span>
 </pre>
-
 </div>
-    <blockquote><small>{% trans 'The type and structure of nested object depend on the method to call (see documentation below).' %}</small></blockquote>
+
 </div>
 
 

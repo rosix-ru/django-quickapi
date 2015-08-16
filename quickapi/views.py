@@ -25,7 +25,6 @@ import decimal
 import json
 
 from django.conf import settings
-from django.contrib.auth import authenticate, login
 from django.http import HttpResponseRedirect, HttpResponseBadRequest
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
@@ -39,8 +38,8 @@ from quickapi.http import JSONResponse, JSONRedirect, MESSAGES
 from quickapi.utils.method import get_methods
 from quickapi.utils.doc import apidoc_lazy, string_lazy
 from quickapi.utils.lang import switch_language
-from quickapi.utils.requests import (parse_auth, clean_kwargs,
-    clean_uri, warning_auth_in_get)
+from quickapi.utils.requests import (parse_auth, login_from_request,
+    clean_kwargs, clean_uri, warning_auth_in_get, is_callable)
 
 logger = logging.getLogger('django.quickapi')
 
@@ -99,6 +98,15 @@ def test(request, code=200, redirect='/'):
 
 test.__doc__ = apidoc_lazy(
     header=_("""Test response."""),
+    params=string_lazy(
+"""
+    1. "code" - %(co)s (%(nr)s);
+    2. "redirect"  - %(re)s (%(nr)s).
+""", {
+    'co': _('code'),
+    're': _('address for redirect'),
+    'nr': _('not required'),
+}),
     data=string_lazy(
 """
 ```
@@ -145,8 +153,13 @@ METHODS = get_methods() # store default methods from settings
 
 @csrf_exempt
 def index(request, methods=METHODS):
-    """ Распределяет запросы.
-        Структура запроса ={
+    """
+    Распределяет запросы либо отдавая страницу документации, либо
+    вызывая метод.
+
+    Структура запроса для выполнения метода:
+
+        {
             'method': 'Имя вызываемого метода',
             'kwargs': { Словарь параметров },
             # Необязательные ключи могут браться из сессии, либо из
@@ -155,26 +168,20 @@ def index(request, methods=METHODS):
             'username': 'имя пользователя',
             'password': 'пароль пользователя',
         }
-        Параметр "methods" может использоваться сторонними приложениями
-        для организации определённых наборов методов API.
 
-        По-умолчанию словарь методов может определяться в переменной
-        settings.QUICKAPI_DEFINED_METHODS главного проекта.
+    Параметр "methods" может использоваться сторонними приложениями
+    для организации определённых наборов методов API.
+
+    По-умолчанию словарь методов может определяться в переменной
+    `settings.QUICKAPI_DEFINED_METHODS` главного проекта.
+
     """
 
     switch_language(request)
 
-    if request.method == 'GET':
-        REQUEST = request.GET
-    else:
-        REQUEST = request.POST
-
-    # Когда в запросе есть ключ 'jsonData' или 'method', то это вызов метода.
-    # Иначе - это просмотр документации
-    if 'jsonData' in REQUEST or 'method' in REQUEST:
+    if is_callable(request):
         return run(request, methods)
 
-    # Vars for docs
     ctx = {}
     ctx['api_url'] = clean_uri(request)
     ctx['methods'] = methods.values()
@@ -188,17 +195,23 @@ api = index
 
 
 def run(request, methods):
-    """ Авторизует пользователя, если он не авторизован и запускает методы """
+    """
+    Авторизует пользователя, если он не авторизован и запускает методы.
 
-    is_authenticate = request.user.is_authenticated()
-    username = password = None
+    Параметры авторизации запрещается передавать в GET-запросе, для
+    таких случаев их необходимо передавать в заголовке запроса,
+    специально предназначенного для Basic-авторизации.
+
+    """
+
+    is_authenticated = request.user.is_authenticated()
 
     # Нарушителей правил передачи параметров авторизации
     # направляем на страницу документации
     if warning_auth_in_get(request):
-        url = clean_uri(request)+'#requests'
+        url = clean_uri(request)+'#requests-auth'
         msg = _('You made a dangerous request. Please, read the docs: %s') % url
-        return HttpResponseBadRequest(msg)
+        return HttpResponseBadRequest(content=msg)
 
     if request.method == 'GET':
         REQUEST = request.GET
@@ -210,33 +223,30 @@ def run(request, methods):
 
         kwargs = clean_kwargs(request, REQUEST)
 
-        if not is_authenticate:
-            username, password = parse_auth(request, REQUEST)
+        if not is_authenticated:
+            is_authenticated = login_from_request(request, REQUEST)
 
     elif 'jsonData' in REQUEST:
         try:
             data   = json.loads(REQUEST.get('jsonData'))
             method = data.get('method')
             kwargs = data.get('kwargs', clean_kwargs(request, data))
-
         except Exception as e:
-            return HttpResponseBadRequest(force_text(e))
+            return HttpResponseBadRequest(content='%s\n%s' % (MESSAGES[400], force_text(e)))
 
-        if not is_authenticate:
-            username, password = parse_auth(request, data)
+        if not is_authenticated:
+            is_authenticated = login_from_request(request, data)
 
     else:
-        return HttpResponseBadRequest()
+        return HttpResponseBadRequest(content=MESSAGES[400])
 
-    if not is_authenticate:
-        user = authenticate(username=username, password=password)
-
-        if user is not None and user.is_active:
-            login(request, user)
-            is_authenticate = True
-
-        elif conf.QUICKAPI_ONLY_AUTHORIZED_USERS and method != 'quickapi.test':
-            return HttpResponseBadRequest(status=401)
+    if not is_authenticated:
+        if conf.QUICKAPI_ONLY_AUTHORIZED_USERS and method != 'quickapi.test':
+            meta = request.META
+            ip = meta.get("HTTP_X_REAL_IP", meta.get("REMOTE_ADDR", None))
+            logger.info('The attempt unauthorized access to method `%s` on %s from IP: %s.',
+                        method, request.path, ip)
+            return HttpResponseBadRequest(status=401, content=MESSAGES[401])
 
     if conf.QUICKAPI_DEBUG:
         logger.debug('Run method `%s` on %s', method, request.path)
@@ -246,7 +256,7 @@ def run(request, methods):
     elif method == 'quickapi.test':
         real_method = test
     else:
-        return HttpResponseBadRequest(status=405)
+        return HttpResponseBadRequest(status=405, content=MESSAGES[405])
 
     return real_method(request, **kwargs)
 

@@ -19,7 +19,7 @@ api = BaseClient(**kw)
 # Включение вывода заголовков ответа
 api.print_info = True
 
-# Неавторизованнный пользователь
+# Не авторизованный пользователь
 data = api.method('quickapi.test')
 
 # Установка файла с куками
@@ -34,6 +34,7 @@ data = api.method('quickapi.test')
 # Далее авторизация будет проходить по кукам, а данные лучше скрыть.
 api.username = None
 api.password = None
+data = api.method('quickapi.test')
 
 # Тест вызова ошибки
 data = api.method('quickapi.test', code=500)

@@ -21,9 +21,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: QuickAPI\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-05-29 11:14+1000\n"
-"PO-Revision-Date: 2015-04-18 14:11+1000\n"
-"Last-Translator: Grigoriy Kramarenko <root@rosix.ru>\n"
+"POT-Creation-Date: 2015-08-15 19:00+1000\n"
+"PO-Revision-Date: 2015-08-15 19:01+1000\n"
+"Last-Translator: Григорий Крамаренко <root@rosix.ru>\n"
 "Language-Team: \n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
@@ -36,20 +36,20 @@ msgstr ""
 msgid "Application Programming Interface"
 msgstr "Интерфейс Программирования Приложения"
 
-#: decorators.py:63
+#: decorators.py:108
 msgid "This method incorrectly configured."
 msgstr "Этот метод неправильно настроен"
 
-#: decorators.py:67 decorators.py:78
+#: decorators.py:112 decorators.py:123
 #, python-format
 msgid "This method not responsible on %s request."
 msgstr "Этот метод не отвечает на %s запрос."
 
-#: decorators.py:71 decorators.py:82
+#: decorators.py:116 decorators.py:127
 msgid "This method works without AJAX."
 msgstr "Этот метод работает без AJAX."
 
-#: decorators.py:74 decorators.py:85
+#: decorators.py:119 decorators.py:130
 msgid "This method works with AJAX only."
 msgstr "Этот метод работает только с AJAX."
 
@@ -369,65 +369,180 @@ msgstr "Запросы"
 msgid "Responses"
 msgstr "Ответы"
 
-#: templates/quickapi/_requests.html:27
-msgid "Query parameters can be transmitted in a single JSON object via POST"
-msgstr "Параметры запроса можно передать в одном JSON-объекте через POST"
+#: templates/quickapi/_requests.html:28
+msgid "Authentication"
+msgstr "Аутентификация"
+
+#: templates/quickapi/_requests.html:36
+msgid "When developing a Django-app for browser you can not think about it."
+msgstr ""
+"При разработке Django-приложений для браузера, вы можете не думать об этом."
+
+#: templates/quickapi/_requests.html:37
+msgid "Authentication will occur on the session key as it usually works in"
+msgstr ""
+"Аутентификация будет происходить по ключу сессии так, как это обычно "
+"работает в"
+
+#: templates/quickapi/_requests.html:40
+msgid ""
+"Authorized access to the execute methods from third-party applications and "
+"scripts is carried out according to the following rules."
+msgstr ""
+"Авторизованный доступ к выполнению методов из сторонних приложений и "
+"скриптов осуществляется по следующим правилам."
 
 #: templates/quickapi/_requests.html:43
-msgid "Authorization settings everywhere are optional."
-msgstr "Параметры авторизации везде являются необязательными."
+msgid ""
+"Accepted Basic-authorization in the <code>Authorization</code> header inside "
+"<code>POST</code> or <code>GET</code> requests."
+msgstr ""
+"Принимается Basic-авторизация в заголовке <code>Authorization</code> внутри "
+"<code>POST</code> или <code>GET</code> запросов."
 
 #: templates/quickapi/_requests.html:44
 msgid ""
-"For example, if the request object stores a user session, then "
-"authentication occurs on these data."
+"Accepted normal authorization <b>only</b> inside <code>POST</code> requests."
 msgstr ""
-"Так, например, если объект запроса хранит сессию пользователя, то "
-"авторизация происходит по этим данным."
+"Принимается обычная авторизация <b>только</b> внутри <code>POST</code> "
+"запросов."
 
-#: templates/quickapi/_requests.html:48 templates/quickapi/_requests.html:68
-#: templates/quickapi/_requests.html:88 templates/quickapi/_requests.html:107
-msgid "Example"
-msgstr "Пример"
+#: templates/quickapi/_requests.html:45
+msgid ""
+"After the first successful response from the server, the credentials are not "
+"required if the client supports <code>cookies</code>."
+msgstr ""
+"После первого успешного ответа сервера, учётные данные не требуются если "
+"клиент поддерживает <code>cookies</code>."
 
-#: templates/quickapi/_requests.html:48 templates/quickapi/_requests.html:68
-#: templates/quickapi/_requests.html:88 templates/quickapi/_requests.html:107
-msgid "for"
-msgstr "для"
+#: templates/quickapi/_requests.html:48
+msgid ""
+"Normal authorization - is the transmission in the clear parameters "
+"<code>username</code> and <code>password</code> directly inside the "
+"<code>POST</code> request or inside <code>jsonData</code>."
+msgstr ""
+"Обычная авторизация - это передача в открытом виде параметров "
+"<code>username</code> и <code>password</code> непосредственно в <code>POST</"
+"code> запросе или внутри <code>jsonData</code>."
 
 #: templates/quickapi/_requests.html:50
-msgid "Parameters, you can pass directly into the POST-query."
-msgstr "Параметры можно передавать непосредственно в POST-запросе."
+msgid "Structure of requests"
+msgstr "Структура запросов"
 
-#: templates/quickapi/_requests.html:64
-msgid "In this variant, you can only pass lists and simple values."
-msgstr "В этом варианте можно передавать только простые списки и значения."
+#: templates/quickapi/_requests.html:58
+msgid ""
+"Any request should be is mandatory key <code>method</code> and optional "
+"<code>language</code>."
+msgstr ""
+"Любой запрос должен содержать обязательный ключ <code>method</code> и "
+"необязательный <code>language</code>."
+
+#: templates/quickapi/_requests.html:59
+msgid "In <code>POST</code> request can additionally be keys:"
+msgstr "В <code>POST</code>-запросе дополнительно могут находится ключи: "
+
+#: templates/quickapi/_requests.html:60
+msgid "Other keys are regarded as parameters of the method."
+msgstr "Прочие ключи воспринимаются как параметры метода."
+
+#: templates/quickapi/_requests.html:61
+msgid ""
+"When using difficult-structured parameters, all keys except the "
+"<code>language</code>, must be packed in one <code>jsonData</code> (JSON "
+"encoded as "
+msgstr ""
+"При использовании сложно-структурированных параметров, все ключи, за "
+"исключением <code>language</code>, должны быть упакованы в один "
+"<code>jsonData</code> (JSON закодированный как "
+
+#: templates/quickapi/_requests.html:63
+msgid "This only works with <code>POST</code> requests."
+msgstr "Это возможно только с <code>POST</code> запросами."
 
 #: templates/quickapi/_requests.html:65
 msgid ""
-"Key \"key3\" in this case, jQuery will automatically change to \"key3[]\"."
+"For transfer of reserved names <code>username</code>, <code>password</code> "
+"and <code>language</code> in the role of parameters for the method, you must "
+"wrap all the parameters in the key <code>kwargs</code> inside "
+"<code>jsonData</code>."
 msgstr ""
-"Ключ \"key3\" в этом случае, jQuery автоматически заменит на \"key3[]\"."
+"Для передачи зарезервированных имён <code>username</code>, <code>password</"
+"code> и <code>language</code> в роли параметров для метода, вы должны "
+"обернуть все параметры в ключ <code>kwargs</code> внутри <code>jsonData</"
+"code>."
 
-#: templates/quickapi/_requests.html:84
-msgid "In this variant, you can transfer any serializable objects."
-msgstr "В этом варианте можно передавать любые сериализуемые объекты."
+#: templates/quickapi/_requests.html:86
+msgid "Usage ready clients"
+msgstr "Использование готовых клиентов"
 
-#: templates/quickapi/_requests.html:85
-msgid "To properly serialize dates in JSON is better to use special"
-msgstr "Для правильной сериализации дат в JSON лучше использовать специальный"
+#: templates/quickapi/_requests.html:105
+msgid "returns quickapi.test on /api/"
+msgstr "возвращает quickapi.test по /api/"
 
-#: templates/quickapi/_requests.html:88
-msgid "with HTTP Basic authorization"
-msgstr "с HTTP Basic авторизацией"
+#: templates/quickapi/_requests.html:108
+msgid "advanced usage"
+msgstr "расширенное использование"
 
-#: templates/quickapi/_requests.html:107
-msgid "without HTTP Basic authorization"
-msgstr "без HTTP Basic авторизации"
+#: templates/quickapi/_requests.html:115 templates/quickapi/_requests.html:116
+#: templates/quickapi/_requests.html:117 templates/quickapi/_requests.html:118
+msgid "by default"
+msgstr "по-умолчанию"
+
+#: templates/quickapi/_requests.html:119
+msgid "by default returns jsonData"
+msgstr "по-умолчанию возвращает jsonData"
+
+#: templates/quickapi/_requests.html:139
+msgid "You can set all important parameters:"
+msgstr "Можно установить все необходимые параметры:"
+
+#: templates/quickapi/_requests.html:143
+msgid "One instance for all called methods"
+msgstr "Один экземпляр для всех вызываемых методов"
+
+#: templates/quickapi/_requests.html:146
+msgid "Turn on the output response headers"
+msgstr "Включить печать заголовков ответа"
+
+#: templates/quickapi/_requests.html:149
+msgid "Not an authorized user"
+msgstr "Не авторизованный пользователь"
+
+#: templates/quickapi/_requests.html:152
+msgid "Installation file with cookies"
+msgstr "Установка файла с cookies"
+
+#: templates/quickapi/_requests.html:158
+msgid "You can enable Basic authorization"
+msgstr "Вы можете включить HTTP Basic авторизацию"
+
+#: templates/quickapi/_requests.html:161
+msgid "The attempted user authorization"
+msgstr "Попытка авторизации пользователя"
+
+#: templates/quickapi/_requests.html:164
+msgid ""
+"Further authentication will take place with the help of cookies, and the "
+"data is better to hide"
+msgstr ""
+"В дальнейшем авторизация будет происходить с помощью файлов cookie и данные "
+"лучше скрыть"
+
+#: templates/quickapi/_requests.html:170
+msgid "Test call failures"
+msgstr "Тестовый вызов ошибок"
 
 #: templates/quickapi/_responses.html:26
 msgid "The general structure of the answers"
 msgstr "Общая структура ответов"
+
+#: templates/quickapi/_responses.html:27
+msgid ""
+"The type and structure of nested object depend on the method to call (see "
+"documentation below)."
+msgstr ""
+"Тип и структура вложенного объекта зависят от вызываемого метода (см. "
+"документацию ниже)."
 
 #: templates/quickapi/_responses.html:32
 msgid "Codes HTTP that makes sense."
@@ -440,14 +555,6 @@ msgstr "Строка сообщения для пользователя (с по
 #: templates/quickapi/_responses.html:34
 msgid "Nested object"
 msgstr "Вложенный объект"
-
-#: templates/quickapi/_responses.html:39
-msgid ""
-"The type and structure of nested object depend on the method to call (see "
-"documentation below)."
-msgstr ""
-"Тип и структура вложенного объекта зависят от вызываемого метода (см. "
-"документацию ниже)."
 
 #: templates/quickapi/base.html:25
 msgid "API documentation"
@@ -556,57 +663,50 @@ msgstr "список объектов"
 msgid "or specific information"
 msgstr "или специальная информация"
 
-#: views.py:63
+#: views.py:59
 #, python-format
 msgid "Test response. Redirect to %s."
 msgstr "Тестовый ответ. Перенаправление на %s."
 
-#: views.py:65 views.py:67
+#: views.py:61 views.py:63
 #, python-format
 msgid "Test response. Error %d."
 msgstr "Тестовый ответ. Ошибка %d."
 
-#: views.py:78 views.py:141
+#: views.py:74 views.py:146
 msgid "String in your localization"
 msgstr "Строка в вашей локализации"
 
-#: views.py:86
+#: views.py:82
 msgid "Hidden in not debug mode"
 msgstr "Скрыто в debug-режиме"
 
-#: views.py:104
+#: views.py:100
 msgid "Test response."
 msgstr "Тестовый ответ."
 
-#: views.py:141
+#: views.py:106
+msgid "code"
+msgstr "код"
+
+#: views.py:107
+msgid "address for redirect"
+msgstr "адрес для перехода"
+
+#: views.py:108
+msgid "not required"
+msgstr "необязательно"
+
+#: views.py:146
 msgid "versions of components"
 msgstr "версии компонентов"
 
-#: views.py:142
+#: views.py:147
 msgid "*In debug mode shows the settings. Here are the default.*"
 msgstr "*В debug-режиме показывает настройки. Здесь приведены по-умолчанию.*"
 
-#: views.py:204
+#: views.py:213
 #, python-format
 msgid "You made a dangerous request. Please, read the docs: %s"
 msgstr "Вы сделали опасный запрос. Пожалуйста, прочитайте документацию: %s"
 
-#: views.py:254
-#, python-format
-msgid "Method `%s` does not exist"
-msgstr "Метод `%s` не существует"
-
-#~ msgid "All methods"
-#~ msgstr "Все методы"
-
-#~ msgid "Nothing"
-#~ msgstr "Пусто"
-
-#~ msgid "API work only with POST method on AJAX."
-#~ msgstr "API работает только с методом POST на AJAX."
-
-#~ msgid "Test response. Error 500."
-#~ msgstr "Test response. Ошибка 500"
-
-#~ msgid "QuickAPI method error %s"
-#~ msgstr "Ошибка %s метода QuickAPI"

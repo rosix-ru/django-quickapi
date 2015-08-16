@@ -21,7 +21,10 @@
 
 from __future__ import unicode_literals
 
+import json
+
 from django.conf import settings
+from django.contrib.auth import authenticate, login
 from django.utils import six
 from django.utils.encoding import force_text
 
@@ -43,6 +46,41 @@ def parse_auth(request, data):
         return force_text(b).split(':')
     else:
         return None, None
+
+
+def login_from_request(request, data=None):
+    """
+    Авторизует пользователя извлекая учётные значения из запроса
+    или переданного словаря данных. 
+    """
+    if data is None:
+        if 'HTTP_AUTHORIZATION' in request.META or 'HTTP_X_AUTHORIZATION' in request.META:
+            data = {}
+        else:
+            if request.method == 'GET':
+                REQUEST = request.GET
+            else:
+                REQUEST = request.POST
+
+            if 'method' in REQUEST:
+                data = REQUEST
+            elif 'jsonData' in request.POST:
+                try:
+                    data = json.loads(REQUEST.get('jsonData'))
+                except:
+                    return False
+            else:
+                return False
+
+    username, password = parse_auth(request, data)
+    user = authenticate(username=username, password=password)
+
+    if user is not None and user.is_active:
+        login(request, user)
+        return True
+
+    return False
+
 
 
 def clean_kwargs(request, data):
@@ -67,4 +105,21 @@ def warning_auth_in_get(request):
     if request.method == 'GET':
         return bool('username' in request.GET or 'password' in request.GET)
     return False
+
+
+def is_callable(request):
+    # Когда в POST запросе есть ключ 'jsonData' или 'method', то это вызов метода.
+    # Когда в GET запросе есть ключ 'method', то это тоже вызов метода.
+    # Иначе - это просмотр документации
+    if request.method == 'GET':
+        if 'method' in request.GET:
+            return True
+    else:
+        req = request.POST
+        if 'jsonData' in req or 'method' in req:
+            return True
+
+    return False
+
+
 
