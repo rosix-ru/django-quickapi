@@ -30,7 +30,7 @@
      * /все параметры необязательны и приведены здесь по-умолчанию/
      * 
      * $.quickAPI({
-     *   url: "/api/", 
+     *   url: "/api/", // по умолчанию: location.pathname
      *   data: {
      *     method: "name_your_method",
      *       kwargs: {
@@ -78,7 +78,7 @@
                 type: options.type || "POST",
                 async: options.sync === true ? false : options.async === false ? false : true,
                 timeout: options.timeout || window.AJAX_TIMEOUT || 3000,
-                url: options.url || window.QUICKAPI_URL || '/api/',
+                url: options.url || window.QUICKAPI_URL || location.pathname,
                 data: data,
                 dataType: 'json',
             },
