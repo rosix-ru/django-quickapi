@@ -49,7 +49,7 @@
 
     {% for ns in namespace_list %}
 
-        {% if ns.grouper %}
+        {% if ns.grouper and ns.list|length > 1 %}
         <div id="method-namespace-{{ ns.grouper|slugify }}" class="method-head text-primary">
             <h1>{% trans 'Namespace' %} <code><strong>{{ ns.grouper }}</strong></code></h1>
         </div> 
@@ -57,7 +57,7 @@
 
         {% for m in ns.list %}
             <div id="method-{{ m.name|slugify }}" class="method-head text-danger">
-                <h2>
+                <h2 title="{% trans 'Method name' %}">
                     <span> {{ m.name }} </span>
                     <small>
                         <a href="#method-{{ m.name|slugify }}" class="paragraph">

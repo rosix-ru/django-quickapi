@@ -41,7 +41,7 @@
 
     {% for ns in namespace_list %}
     
-        {% if ns.grouper %}
+        {% if ns.grouper and ns.list|length > 1 %}
         <li class="dropdown">
 
             <a href="#method-namespace-{{ ns.grouper|slugify }}">
