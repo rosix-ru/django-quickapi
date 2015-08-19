@@ -20,12 +20,13 @@
 #
 
 from __future__ import unicode_literals
+
 from importlib import import_module
 import sys
 
 from django.utils import six
 
-from quickapi.conf import QUICKAPI_DEFINED_METHODS, QUICKAPI_DEBUG
+from quickapi.conf import QUICKAPI_DEFINED_METHODS
     
 
 class Collection(object):
@@ -45,7 +46,7 @@ class Collection(object):
 
     def __setitem__(self, name, value):
         self._COLLECTION[name] = value
-        if not name in self._CHAIN:
+        if name not in self._CHAIN:
             self._CHAIN.append(name)
 
     def __setattr__(self, name, value):

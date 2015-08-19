@@ -31,15 +31,15 @@ def _apidoc_lazy(header, params=_('Missing.'), data='', footer=''):
     """
 
     template = _("""
-### Functional assignment
+### Assignment
 
 %(header)s
 
-### Request parameters
+### Parameters
 
 %(params)s
 
-### Returned object
+### Response
 
 %(data)s
 

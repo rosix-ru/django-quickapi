@@ -17,12 +17,11 @@
 #   License along with QuickAPI. If not, see
 #   <http://www.gnu.org/licenses/>.
 #
-
 msgid ""
 msgstr ""
 "Project-Id-Version: QuickAPI\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-02-21 18:46+1000\n"
+"POT-Creation-Date: 2015-08-17 17:09+1000\n"
 "PO-Revision-Date: 2013-01-23 11:43+1100\n"
 "Last-Translator: Grigoriy Kramarenko <root@rosix.ru>\n"
 "Language: en\n"
@@ -30,369 +29,527 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: apps.py:7
+#: apps.py:28
 msgid "Application Programming Interface"
 msgstr ""
 
-#: decorators.py:62
+#: decorators.py:108
 msgid "This method incorrectly configured."
 msgstr ""
 
-#: decorators.py:66 decorators.py:77
+#: decorators.py:112 decorators.py:123
 #, python-format
 msgid "This method not responsible on %s request."
 msgstr ""
 
-#: decorators.py:70 decorators.py:81
+#: decorators.py:116 decorators.py:127
 msgid "This method works without AJAX."
 msgstr ""
 
-#: decorators.py:73 decorators.py:84
+#: decorators.py:119 decorators.py:130
 msgid "This method works with AJAX only."
 msgstr ""
 
-#: http.py:45
+#: http.py:43
 msgid "Continue"
 msgstr ""
 
-#: http.py:46
+#: http.py:44
 msgid "Switching Protocols"
 msgstr ""
 
-#: http.py:47
+#: http.py:45
 msgid "Processing"
 msgstr ""
 
-#: http.py:49
+#: http.py:47
 msgid "OK"
 msgstr ""
 
-#: http.py:50
+#: http.py:48
 msgid "Created"
 msgstr ""
 
-#: http.py:51
+#: http.py:49
 msgid "Accepted"
 msgstr ""
 
-#: http.py:52
+#: http.py:50
 msgid "Non-Authoritative Information"
 msgstr ""
 
-#: http.py:53
+#: http.py:51
 msgid "No Content"
 msgstr ""
 
-#: http.py:54
+#: http.py:52
 msgid "Reset Content"
 msgstr ""
 
-#: http.py:55
+#: http.py:53
 msgid "Partial Content"
 msgstr ""
 
-#: http.py:56
+#: http.py:54
 msgid "Multi-Status"
 msgstr ""
 
-#: http.py:57
+#: http.py:55
 msgid "IM Used"
 msgstr ""
 
-#: http.py:59
+#: http.py:57
 msgid "Multiple Choices"
 msgstr ""
 
-#: http.py:60
+#: http.py:58
 msgid "Moved Permanently"
 msgstr ""
 
-#: http.py:61
+#: http.py:59
 msgid "Found"
 msgstr ""
 
-#: http.py:62
+#: http.py:60
 msgid "See Other"
 msgstr ""
 
-#: http.py:63
+#: http.py:61
 msgid "Not Modified"
 msgstr ""
 
-#: http.py:64
+#: http.py:62
 msgid "Use Proxy"
 msgstr ""
 
-#: http.py:65
+#: http.py:63
 msgid "Temporary Redirect"
 msgstr ""
 
-#: http.py:67
+#: http.py:65
 msgid "Bad Request"
 msgstr ""
 
-#: http.py:68
+#: http.py:66
 msgid "Unauthorized"
 msgstr ""
 
-#: http.py:69
+#: http.py:67
 msgid "Payment Required"
 msgstr ""
 
-#: http.py:70
+#: http.py:68
 msgid "Forbidden"
 msgstr ""
 
-#: http.py:71
+#: http.py:69
 msgid "Not Found"
 msgstr ""
 
-#: http.py:72
+#: http.py:70
 msgid "Method Not Allowed"
 msgstr ""
 
-#: http.py:73
+#: http.py:71
 msgid "Not Acceptable"
 msgstr ""
 
-#: http.py:74
+#: http.py:72
 msgid "Proxy Authentication Required"
 msgstr ""
 
-#: http.py:75
+#: http.py:73
 msgid "Request Timeout"
 msgstr ""
 
-#: http.py:76
+#: http.py:74
 msgid "Conflict"
 msgstr ""
 
-#: http.py:77
+#: http.py:75
 msgid "Gone"
 msgstr ""
 
-#: http.py:78
+#: http.py:76
 msgid "Length Required"
 msgstr ""
 
-#: http.py:79
+#: http.py:77
 msgid "Precondition Failed"
 msgstr ""
 
-#: http.py:80
+#: http.py:78
 msgid "Request Entity Too Large"
 msgstr ""
 
-#: http.py:81
+#: http.py:79
 msgid "Request-URI Too Large"
 msgstr ""
 
-#: http.py:82
+#: http.py:80
 msgid "Unsupported Media Type"
 msgstr ""
 
-#: http.py:83
+#: http.py:81
 msgid "Requested Range Not Satisfiable"
 msgstr ""
 
-#: http.py:84
+#: http.py:82
 msgid "Expectation Failed"
 msgstr ""
 
-#: http.py:85
+#: http.py:83
 msgid "Unprocessable Entity"
 msgstr ""
 
-#: http.py:86
+#: http.py:84
 msgid "Locked"
 msgstr ""
 
-#: http.py:87
+#: http.py:85
 msgid "Failed Dependency"
 msgstr ""
 
-#: http.py:88
+#: http.py:86
 msgid "Unordered Collection"
 msgstr ""
 
-#: http.py:89
+#: http.py:87
 msgid "Upgrade Required"
 msgstr ""
 
-#: http.py:90
+#: http.py:88
 msgid "Retry With"
 msgstr ""
 
-#: http.py:91
+#: http.py:89
 msgid "Unrecoverable Error"
 msgstr ""
 
-#: http.py:93
+#: http.py:91
 msgid "Internal Server Error"
 msgstr ""
 
-#: http.py:94
+#: http.py:92
 msgid "Not Implemented"
 msgstr ""
 
-#: http.py:95
+#: http.py:93
 msgid "Bad Gateway"
 msgstr ""
 
-#: http.py:96
+#: http.py:94
 msgid "Service Unavailable"
 msgstr ""
 
-#: http.py:97
+#: http.py:95
 msgid "Gateway Timeout"
 msgstr ""
 
-#: http.py:98
+#: http.py:96
 msgid "HTTP Version Not Supported"
 msgstr ""
 
-#: http.py:99
+#: http.py:97
 msgid "Variant Also Negotiates"
 msgstr ""
 
-#: http.py:100
+#: http.py:98
 msgid "Insufficient Storage"
 msgstr ""
 
-#: http.py:101
+#: http.py:99
 msgid "Loop Detected"
 msgstr ""
 
-#: http.py:102
+#: http.py:100
 msgid "Bandwidth Limit Exceeded"
 msgstr ""
 
-#: http.py:103
+#: http.py:101
 msgid "Not Extended"
 msgstr ""
 
-#: http.py:173
+#: http.py:171
 msgid "Undefined message"
 msgstr ""
 
-#: templates/quickapi/_methods.html:4 templates/quickapi/base.html:66
+#: templates/quickapi/_methods.html:24 templates/quickapi/_navbar.html:44
+#: templates/quickapi/_sidebar.html:28
 msgid "Methods"
 msgstr ""
 
-#: templates/quickapi/_requests.html:4 templates/quickapi/base.html:62
+#: templates/quickapi/_methods.html:54 templates/quickapi/_navbar.html:54
+msgid "Namespace"
+msgstr ""
+
+#: templates/quickapi/_methods.html:60
+msgid "Method name"
+msgstr ""
+
+#: templates/quickapi/_methods.html:75
+msgid "no description available"
+msgstr ""
+
+#: templates/quickapi/_modal.html:23
+msgid ""
+"This is short non-official localized text of license. Please, read full "
+"official text."
+msgstr ""
+
+#: templates/quickapi/_modal.html:24
+msgid ""
+"QuickAPI is free software: you can redistribute it and/or modify it under "
+"the terms of the GNU Affero General Public License as published by the Free "
+"Software Foundation, either version 3 of the License, or (at your option) "
+"any later version."
+msgstr ""
+
+#: templates/quickapi/_modal.html:25
+msgid ""
+"QuickAPI is distributed in the hope that it will be useful, but WITHOUT ANY "
+"WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS "
+"FOR A PARTICULAR PURPOSE. See the GNU Affero General Public License for more "
+"details."
+msgstr ""
+
+#: templates/quickapi/_modal.html:26
+msgid ""
+"You should have received a copy of the GNU Affero General Public License "
+"along with QuickAPI. If not, see"
+msgstr ""
+
+#: templates/quickapi/_modal.html:33 templates/quickapi/_modal.html.py:63
+msgid "Close"
+msgstr ""
+
+#: templates/quickapi/_modal.html:34
+msgid "License"
+msgstr ""
+
+#: templates/quickapi/_modal.html:34
+msgid "GNU Affero General Public License"
+msgstr ""
+
+#: templates/quickapi/_modal.html:55
+msgid "Full official text"
+msgstr ""
+
+#: templates/quickapi/_modal.html:60
+msgid "Get the code"
+msgstr ""
+
+#: templates/quickapi/_navbar.html:29
+msgid "Toggle navigation"
+msgstr ""
+
+#: templates/quickapi/_navbar.html:34 templates/quickapi/_navbar.html.py:36
+msgid "The documentation for API"
+msgstr ""
+
+#: templates/quickapi/_navbar.html:42 templates/quickapi/_requests.html:25
+#: templates/quickapi/_sidebar.html:26
 msgid "Requests"
 msgstr ""
 
-#: templates/quickapi/_requests.html:5
-msgid "Query parameters can be transmitted in a single JSON object via POST"
-msgstr ""
-
-#: templates/quickapi/_requests.html:18
-msgid "Authorization settings everywhere are optional."
-msgstr ""
-
-#: templates/quickapi/_requests.html:19
-msgid ""
-"For example, if the request object stores a user session, then "
-"authentication occurs on these data."
-msgstr ""
-
-#: templates/quickapi/_requests.html:23 templates/quickapi/_requests.html:37
-#: templates/quickapi/_requests.html:54 templates/quickapi/_requests.html:68
-msgid "Example"
-msgstr ""
-
-#: templates/quickapi/_requests.html:23 templates/quickapi/_requests.html:37
-#: templates/quickapi/_requests.html:54 templates/quickapi/_requests.html:68
-msgid "for"
-msgstr ""
-
-#: templates/quickapi/_requests.html:24
-msgid "Parameters, you can pass directly into the POST-query."
-msgstr ""
-
-#: templates/quickapi/_requests.html:33
-msgid "In this variant, you can only pass lists and simple values."
-msgstr ""
-
-#: templates/quickapi/_requests.html:34
-msgid ""
-"Key \"key3\" in this case, jQuery will automatically change to \"key3[]\"."
-msgstr ""
-
-#: templates/quickapi/_requests.html:50
-msgid "In this variant, you can transfer any serializable objects."
-msgstr ""
-
-#: templates/quickapi/_requests.html:51
-msgid "To properly serialize dates in JSON is better to use special"
-msgstr ""
-
-#: templates/quickapi/_requests.html:54
-msgid "with HTTP Basic authorization"
-msgstr ""
-
-#: templates/quickapi/_requests.html:68
-msgid "without HTTP Basic authorization"
-msgstr ""
-
-#: templates/quickapi/_responses.html:3 templates/quickapi/base.html:63
+#: templates/quickapi/_navbar.html:43 templates/quickapi/_responses.html:24
+#: templates/quickapi/_sidebar.html:27
 msgid "Responses"
 msgstr ""
 
-#: templates/quickapi/_responses.html:6
-msgid "Codes HTTP that makes sense."
+#: templates/quickapi/_requests.html:28
+msgid "Authentication"
 msgstr ""
 
-#: templates/quickapi/_responses.html:7
-msgid "The message string for the user (with support for localization)"
+#: templates/quickapi/_requests.html:36
+msgid "When developing a Django-app for browser you can not think about it."
 msgstr ""
 
-#: templates/quickapi/_responses.html:8
-msgid "Nested object"
+#: templates/quickapi/_requests.html:37
+msgid "Authentication will occur on the session key as it usually works in"
 msgstr ""
 
-#: templates/quickapi/_responses.html:12
+#: templates/quickapi/_requests.html:40
+msgid ""
+"Authorized access to the execute methods from third-party applications and "
+"scripts is carried out according to the following rules."
+msgstr ""
+
+#: templates/quickapi/_requests.html:43
+msgid ""
+"Accepted Basic-authorization in the <code>Authorization</code> header inside "
+"<code>POST</code> or <code>GET</code> requests."
+msgstr ""
+
+#: templates/quickapi/_requests.html:44
+msgid ""
+"Accepted normal authorization <b>only</b> inside <code>POST</code> requests."
+msgstr ""
+
+#: templates/quickapi/_requests.html:45
+msgid ""
+"After the first successful response from the server, the credentials are not "
+"required if the client supports <code>cookies</code>."
+msgstr ""
+
+#: templates/quickapi/_requests.html:48
+msgid ""
+"Normal authorization - is the transmission in the clear parameters "
+"<code>username</code> and <code>password</code> directly inside the "
+"<code>POST</code> request or inside <code>jsonData</code>."
+msgstr ""
+
+#: templates/quickapi/_requests.html:50
+msgid "Structure of requests"
+msgstr ""
+
+#: templates/quickapi/_requests.html:58
+msgid ""
+"Any request should be is mandatory key <code>method</code> and optional "
+"<code>language</code>."
+msgstr ""
+
+#: templates/quickapi/_requests.html:59
+msgid "In <code>POST</code> request can additionally be keys:"
+msgstr ""
+
+#: templates/quickapi/_requests.html:60
+msgid "Other keys are regarded as parameters of the method."
+msgstr ""
+
+#: templates/quickapi/_requests.html:61
+msgid ""
+"When using difficult-structured parameters, all keys except the "
+"<code>language</code>, must be packed in one <code>jsonData</code> (JSON "
+"encoded as "
+msgstr ""
+
+#: templates/quickapi/_requests.html:63
+msgid "This only works with <code>POST</code> requests."
+msgstr ""
+
+#: templates/quickapi/_requests.html:65
+msgid ""
+"For transfer of reserved names <code>username</code>, <code>password</code> "
+"and <code>language</code> in the role of parameters for the method, you must "
+"wrap all the parameters in the key <code>kwargs</code> inside "
+"<code>jsonData</code>."
+msgstr ""
+
+#: templates/quickapi/_requests.html:86
+msgid "Usage ready clients"
+msgstr ""
+
+#: templates/quickapi/_requests.html:105
+msgid "returns quickapi.test on /api/"
+msgstr ""
+
+#: templates/quickapi/_requests.html:108
+msgid "advanced usage"
+msgstr ""
+
+#: templates/quickapi/_requests.html:115 templates/quickapi/_requests.html:116
+#: templates/quickapi/_requests.html:117 templates/quickapi/_requests.html:118
+msgid "by default"
+msgstr ""
+
+#: templates/quickapi/_requests.html:119
+msgid "by default returns jsonData"
+msgstr ""
+
+#: templates/quickapi/_requests.html:139
+msgid "You can set all important parameters:"
+msgstr ""
+
+#: templates/quickapi/_requests.html:143
+msgid "One instance for all called methods"
+msgstr ""
+
+#: templates/quickapi/_requests.html:146
+msgid "Turn on the output response headers"
+msgstr ""
+
+#: templates/quickapi/_requests.html:149
+msgid "Not an authorized user"
+msgstr ""
+
+#: templates/quickapi/_requests.html:152
+msgid "Installation file with cookies"
+msgstr ""
+
+#: templates/quickapi/_requests.html:158
+msgid "You can enable Basic authorization"
+msgstr ""
+
+#: templates/quickapi/_requests.html:161
+msgid "The attempted user authorization"
+msgstr ""
+
+#: templates/quickapi/_requests.html:164
+msgid ""
+"Further authentication will take place with the help of cookies, and the "
+"data is better to hide"
+msgstr ""
+
+#: templates/quickapi/_requests.html:170
+msgid "Test call failures"
+msgstr ""
+
+#: templates/quickapi/_responses.html:26
+msgid "The general structure of the answers"
+msgstr ""
+
+#: templates/quickapi/_responses.html:27
 msgid ""
 "The type and structure of nested object depend on the method to call (see "
 "documentation below)."
 msgstr ""
 
-#: templates/quickapi/base.html:4 templates/quickapi/base.html.py:57
+#: templates/quickapi/_responses.html:32
+msgid "Codes HTTP that makes sense."
+msgstr ""
+
+#: templates/quickapi/_responses.html:33
+msgid "The message string for the user (with support for localization)"
+msgstr ""
+
+#: templates/quickapi/_responses.html:34
+msgid "Nested object"
+msgstr ""
+
+#: templates/quickapi/base.html:25
 msgid "API documentation"
 msgstr ""
 
-#: templates/quickapi/base.html:10
+#: templates/quickapi/base.html:31
 msgid "QuickAPI - it's Django-application for the fast organization API."
 msgstr ""
 
-#: templates/quickapi/base.html:50
-msgid "Toggle navigation"
-msgstr ""
-
-#: templates/quickapi/base.html:69
-msgid "All methods"
+#: templates/quickapi/base.html:225
+msgid "Back on top"
 msgstr ""
 
 #: templatetags/quickapi_base.py:159
 msgid "Project"
 msgstr ""
 
-#: utils/doc.py:30
-msgid "Nothing"
+#: utils/doc.py:28
+msgid "Missing."
 msgstr ""
 
-#: utils/doc.py:35
+#: utils/doc.py:33
 #, python-format
 msgid ""
 "\n"
+"### Assignment\n"
+"\n"
 "%(header)s\n"
 "\n"
-"#### Request parameters\n"
+"### Parameters\n"
 "\n"
 "%(params)s\n"
 "\n"
-"#### Returned object\n"
+"### Response\n"
 "\n"
 "%(data)s\n"
 "\n"
@@ -452,33 +609,49 @@ msgstr ""
 msgid "or specific information"
 msgstr ""
 
-#: views.py:71
+#: views.py:59
 #, python-format
 msgid "Test response. Redirect to %s."
 msgstr ""
 
-#: views.py:73 views.py:75
+#: views.py:61 views.py:63
 #, python-format
 msgid "Test response. Error %d."
 msgstr ""
 
-#: views.py:86 views.py:145
+#: views.py:74 views.py:146
 msgid "String in your localization"
 msgstr ""
 
-#: views.py:94
+#: views.py:82
 msgid "Hidden in not debug mode"
 msgstr ""
 
-#: views.py:110
-msgid "*Test response*"
+#: views.py:100
+msgid "Test response."
+msgstr ""
+
+#: views.py:106
+msgid "code"
+msgstr ""
+
+#: views.py:107
+msgid "address for redirect"
+msgstr ""
+
+#: views.py:108
+msgid "not required"
 msgstr ""
 
 #: views.py:146
+msgid "versions of components"
+msgstr ""
+
+#: views.py:147
 msgid "*In debug mode shows the settings. Here are the default.*"
 msgstr ""
 
-#: views.py:273
+#: views.py:213
 #, python-format
-msgid "Method `%s` does not exist"
+msgid "You made a dangerous request. Please, read the docs: %s"
 msgstr ""

@@ -20,12 +20,42 @@
 #
 
 from __future__ import unicode_literals
+
+import warnings
 from functools import wraps
 
 from django.utils.translation import ugettext_lazy as _
 from django.http import HttpResponseBadRequest, HttpResponseServerError
 
 from .http import JSONResponse, JSONRedirect, MESSAGES
+from .utils.requests import is_callable, login_from_request
+
+
+def auth_required(function=None, login_url=None):
+    """
+    Декоратор для методов QuickAPI, доступ к которым должны иметь 
+    только авторизованные пользователи.
+    """
+
+    def decorator(view_func):
+
+        @wraps(view_func)
+        def _wrapped_view(request, *args, **kwargs):
+            u = request.user
+
+            if u.is_active and u.is_authenticated() or login_from_request(request):
+                return view_func(request, *args, **kwargs)
+
+            if login_url:
+                return HttpRedirect(login_url)
+            return HttpResponseBadRequest(status=401, content=MESSAGES[401])
+
+        return _wrapped_view
+
+    if function:
+        return decorator(function)
+
+    return decorator
 
 
 def login_required(function=None, json_only=False, login_url=None):
@@ -33,6 +63,9 @@ def login_required(function=None, json_only=False, login_url=None):
     Decorator for views that checks that the user is logged in, redirecting
     to the log-in page if necessary.
     """
+
+    warnings.warn("QuickAPI decorator `login_required` is deprecated \
+    and will be removed in QuickAPI 3.5. Use new `auth_required` decorator.")
 
     def decorator(view_func):
 
@@ -45,7 +78,7 @@ def login_required(function=None, json_only=False, login_url=None):
 
             if json_only or request.is_ajax():
                 if login_url:
-                    JSONRedirect(login_url)
+                    return JSONRedirect(login_url)
                 return JSONResponse(status=401)
             elif login_url:
                 return HttpRedirect(login_url)
