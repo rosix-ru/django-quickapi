@@ -58,7 +58,7 @@ def test(request, code=200, redirect='/'):
         return JSONRedirect(location=redirect, status=code,
                 message=_('Test response. Redirect to %s.') % redirect)
     elif code == 400:
-        return JSONResponse(status=400, message=_('Test response. Error %d.') % 400)
+        return JSONResponse(status=400, message=force_text(_('Test response. Error %d.')) % 400)
     elif code == 500:
         return JSONResponse(status=500, message=_('Test response. Error %d.') % 500)
 
@@ -211,7 +211,7 @@ def run(request, methods):
     if warning_auth_in_get(request):
         url = clean_uri(request)+'#requests-auth'
         msg = _('You made a dangerous request. Please, read the docs: %s') % url
-        return HttpResponseBadRequest(content=msg)
+        return HttpResponseBadRequest(content=force_text(msg))
 
     if request.method == 'GET':
         REQUEST = request.GET
@@ -232,13 +232,13 @@ def run(request, methods):
             method = data.get('method')
             kwargs = data.get('kwargs', clean_kwargs(request, data))
         except Exception as e:
-            return HttpResponseBadRequest(content='%s\n%s' % (MESSAGES[400], force_text(e)))
+            return HttpResponseBadRequest(content='%s\n%s' % (force_text(MESSAGES[400]), force_text(e)))
 
         if not is_authenticated:
             is_authenticated = login_from_request(request, data)
 
     else:
-        return HttpResponseBadRequest(content=MESSAGES[400])
+        return HttpResponseBadRequest(content=force_text(MESSAGES[400]))
 
     if not is_authenticated:
         if conf.QUICKAPI_ONLY_AUTHORIZED_USERS and method != 'quickapi.test':
@@ -246,7 +246,7 @@ def run(request, methods):
             ip = meta.get("HTTP_X_REAL_IP", meta.get("REMOTE_ADDR", None))
             logger.info('The attempt unauthorized access to method `%s` on %s from IP: %s.',
                         method, request.path, ip)
-            return HttpResponseBadRequest(status=401, content=MESSAGES[401])
+            return HttpResponseBadRequest(status=401, content=force_text(MESSAGES[401]))
 
     if conf.QUICKAPI_DEBUG:
         logger.debug('Run method `%s` on %s', method, request.path)
@@ -256,7 +256,7 @@ def run(request, methods):
     elif method == 'quickapi.test':
         real_method = test
     else:
-        return HttpResponseBadRequest(status=405, content=MESSAGES[405])
+        return HttpResponseBadRequest(status=405, content=force_text(MESSAGES[405]))
 
     return real_method(request, **kwargs)
 
