@@ -44,7 +44,7 @@ JS_DIR="${VERSION_DIR}/js";
 IMG_DIR="${VERSION_DIR}/img";
 
 
-rm -R ${DST_DIR}
+[ -d ${DST_DIR} ] && rm -R ${DST_DIR};
 mkdir -p ${CSS_DIR} ${JS_DIR} ${IMG_DIR};
 
 

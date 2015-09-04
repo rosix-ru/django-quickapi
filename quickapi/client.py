@@ -58,6 +58,10 @@ else:
     from cookielib import MozillaCookieJar
 
 
+class RemoteAPIError(ValueError):
+    pass
+
+
 class BaseClient(object):
     """
     Базовый класс для работы с удалённым API
@@ -219,7 +223,7 @@ class BaseClient(object):
             else:
                 error = data
 
-            raise ValueError(error)
+            raise RemoteAPIError(error)
 
         return data['data']
 

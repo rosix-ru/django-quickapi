@@ -34,6 +34,7 @@ from django.utils.encoding import force_text
 from django.utils.translation import get_language, ugettext_lazy as _
 
 from quickapi import conf
+from quickapi.decorators import api_required
 from quickapi.http import JSONResponse, JSONRedirect, MESSAGES
 from quickapi.utils.method import get_methods
 from quickapi.utils.doc import apidoc_lazy, string_lazy
@@ -43,7 +44,7 @@ from quickapi.utils.requests import (parse_auth, login_from_request,
 
 logger = logging.getLogger('django.quickapi')
 
-@csrf_exempt
+@api_required(ajax_get=True, not_ajax_get=True)
 def test(request, code=200, redirect='/'):
     """
     Test response
@@ -144,7 +145,7 @@ test.__doc__ = apidoc_lazy(
 }
 ```
 """, (_('String in your localization'), _('versions of components'))),
-    footer=_('*In debug mode shows the settings. Here are the default.*')
+    footer=_('*In debug mode shows the settings. Here are the default.* <a href="./?method=quickapi.test">Click for test</a>.')
 )
 
 
