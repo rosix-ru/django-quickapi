@@ -24,7 +24,8 @@ from __future__ import unicode_literals
 import warnings
 from functools import wraps
 
-from django.utils.translation import ugettext_lazy as _
+from django.utils.encoding import force_text
+from django.utils.translation import ugettext as _
 from django.http import HttpResponseBadRequest, HttpResponseServerError
 
 from .http import JSONResponse, JSONRedirect, MESSAGES
@@ -48,7 +49,7 @@ def auth_required(function=None, login_url=None):
 
             if login_url:
                 return HttpRedirect(login_url)
-            return HttpResponseBadRequest(status=401, content=MESSAGES[401])
+            return HttpResponseBadRequest(status=401, content=force_text(MESSAGES[401]))
 
         return _wrapped_view
 
@@ -83,7 +84,7 @@ def login_required(function=None, json_only=False, login_url=None):
             elif login_url:
                 return HttpRedirect(login_url)
             else:
-                return HttpResponseBadRequest(status=401, content=MESSAGES[401])
+                return HttpResponseBadRequest(status=401, content=force_text(MESSAGES[401]))
 
         return _wrapped_view
 

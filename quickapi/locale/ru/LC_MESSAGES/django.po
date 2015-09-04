@@ -21,8 +21,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: QuickAPI\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-17 17:09+1000\n"
-"PO-Revision-Date: 2015-08-17 17:10+1000\n"
+"POT-Creation-Date: 2015-09-04 13:23+1000\n"
+"PO-Revision-Date: 2015-09-04 13:24+1000\n"
 "Last-Translator: Григорий Крамаренко <root@rosix.ru>\n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -37,20 +37,20 @@ msgstr ""
 msgid "Application Programming Interface"
 msgstr "Интерфейс Программирования Приложения"
 
-#: decorators.py:108
+#: decorators.py:109
 msgid "This method incorrectly configured."
 msgstr "Этот метод неправильно настроен"
 
-#: decorators.py:112 decorators.py:123
+#: decorators.py:113 decorators.py:124
 #, python-format
 msgid "This method not responsible on %s request."
 msgstr "Этот метод не отвечает на %s запрос."
 
-#: decorators.py:116 decorators.py:127
+#: decorators.py:117 decorators.py:128
 msgid "This method works without AJAX."
 msgstr "Этот метод работает без AJAX."
 
-#: decorators.py:119 decorators.py:130
+#: decorators.py:120 decorators.py:131
 msgid "This method works with AJAX only."
 msgstr "Этот метод работает только с AJAX."
 
@@ -668,49 +668,53 @@ msgstr "список объектов"
 msgid "or specific information"
 msgstr "или специальная информация"
 
-#: views.py:59
+#: views.py:60
 #, python-format
 msgid "Test response. Redirect to %s."
 msgstr "Тестовый ответ. Перенаправление на %s."
 
-#: views.py:61 views.py:63
+#: views.py:62 views.py:64
 #, python-format
 msgid "Test response. Error %d."
 msgstr "Тестовый ответ. Ошибка %d."
 
-#: views.py:74 views.py:146
+#: views.py:75 views.py:147
 msgid "String in your localization"
 msgstr "Строка в вашей локализации"
 
-#: views.py:82
+#: views.py:83
 msgid "Hidden in not debug mode"
 msgstr "Скрыто в debug-режиме"
 
-#: views.py:100
+#: views.py:101
 msgid "Test response."
 msgstr "Тестовый ответ."
 
-#: views.py:106
+#: views.py:107
 msgid "code"
 msgstr "код"
 
-#: views.py:107
+#: views.py:108
 msgid "address for redirect"
 msgstr "адрес для перехода"
 
-#: views.py:108
+#: views.py:109
 msgid "not required"
 msgstr "необязательно"
 
-#: views.py:146
+#: views.py:147
 msgid "versions of components"
 msgstr "версии компонентов"
 
-#: views.py:147
-msgid "*In debug mode shows the settings. Here are the default.*"
-msgstr "*В debug-режиме показывает настройки. Здесь приведены по-умолчанию.*"
+#: views.py:148
+msgid ""
+"*In debug mode shows the settings. Here are the default.* <a href=\"./?"
+"method=quickapi.test\">Click for test</a>."
+msgstr ""
+"*В debug-режиме показывает настройки. Здесь приведены по-умолчанию.* <a href="
+"\"./?method=quickapi.test\">Нажмите для проверки</a>."
 
-#: views.py:213
+#: views.py:214
 #, python-format
 msgid "You made a dangerous request. Please, read the docs: %s"
 msgstr "Вы сделали опасный запрос. Пожалуйста, прочитайте документацию: %s"
