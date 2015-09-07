@@ -65,10 +65,13 @@ def login_required(function=None, json_only=False, login_url=None):
     to the log-in page if necessary.
     """
 
-    warnings.warn("QuickAPI decorator `login_required` is deprecated \
-    and will be removed in QuickAPI 3.5. Use new `auth_required` decorator.")
-
     def decorator(view_func):
+
+        msg = "QuickAPI decorator `login_required` is deprecated " \
+            "and will be removed in QuickAPI 3.5. " \
+            "Use new `auth_required` decorator for %s.%s" % (view_func.__module__, view_func.__name__)
+
+        warnings.warn(msg, DeprecationWarning)
 
         @wraps(view_func)
         def _wrapped_view(request, *args, **kwargs):
