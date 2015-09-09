@@ -44,9 +44,9 @@ QUICKAPI_PYGMENTS_STYLE        = getattr(settings, 'QUICKAPI_PYGMENTS_STYLE', 'd
 QUICKAPI_VERSIONS = getattr(settings, 'QUICKAPI_VERSIONS', {
     'django': DJANGO_VERSION,
     'quickapi': QUICKAPI_VERSION,
-    'jquery': '2.1.3',
+    'jquery': '2.1.4',
     'jquery.json': '2.5.1',
-    'bootstrap': '3.3.4.quickapi',
-    'font-awesome': '4.3.0',
+    'bootstrap': '3.3.5.quickapi',
+    'font-awesome': '4.4.0',
     'pygments': '2.0',
 })
