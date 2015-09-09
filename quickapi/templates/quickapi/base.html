@@ -235,7 +235,7 @@
 
     <!-- START: block js -->
     {% block js %}
-    <script src="{% get_static_prefix %}jquery/{% get_version 'jquery' %}/jquery.min.js"></script>
+    <script src="{% get_static_prefix %}jquery/jquery-{% get_version 'jquery' %}.min.js"></script>
     <script src="{% get_static_prefix %}jquery/django/django-ajax-csrf.min.js"></script>
     <script src="{% get_static_prefix %}jquery/json/{% get_version 'jquery.json' %}/jquery.json.min.js"></script>
     <script src="{% get_static_prefix %}bootstrap/{% get_version 'bootstrap' %}/js/bootstrap.min.js"></script>
