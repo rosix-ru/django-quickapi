@@ -16,6 +16,42 @@ PASSWORD = getattr(settings, 'TEST_QUICKAPI_PASSWORD', 'quickapi')
 
 
 class QuickapiTestCase(TestCase):
+    url = QUICKAPI_URL
+
+    def assertJsonContent(self, content, msg=None, status=None, data=None, message=None):
+        """
+        Проверка контента ответа QuickAPI.
+
+        Параметр `mgs` передаётся для генерации сообщения об ошибке 
+        получения корректных данных. Остальные параметры - для 
+        диагностики самого контента.
+
+        Возвращает данные, полученные внутри контента (ключ `data`).
+        """
+
+        try:
+            r = json.loads(content)
+        except ValueError:
+            r = content
+
+        self.assertIsInstance(r, dict, msg)
+
+        self.assertIn('status', r)
+        if status is not None:
+            self.assertEqual(r['status'], status)
+
+        self.assertIn('data', r)
+        if data is not None:
+            self.assertEqual(r['data'], data)
+
+        self.assertIn('message', r)
+        if data is not None:
+            self.assertEqual(r['message'], message)
+
+        return r['data']
+
+
+class SimpleTest(QuickapiTestCase):
 
     def setUp(self):
         self.user = User.objects.create_user(username=USERNAME, password=PASSWORD)
@@ -24,7 +60,7 @@ class QuickapiTestCase(TestCase):
         """
         Тестирование опасной передачи параметров аторизации в GET-запросе.
         """
-        response = self.client.get(QUICKAPI_URL, {
+        response = self.client.get(self.url, {
             'method': 'quickapi.test',
             'username': USERNAME,
             'password': PASSWORD,
@@ -38,12 +74,9 @@ class QuickapiTestCase(TestCase):
         Зависит от настроек QuickAPI, если страница задекорирована
         с помощью `quickapi.decorators.auth_required`, то вернёт 401 код.
         """
-        response = self.client.get(QUICKAPI_URL, {'method': 'quickapi.test'})
+        response = self.client.get(self.url, {'method': 'quickapi.test'})
         if response.status_code == 200:
-            jsondata = json.loads(response.content)
-            self.assertIsInstance(jsondata, dict)
-
-            data = jsondata['data']
+            data = self.assertJsonContent(response.content)
             self.assertEqual(data['is_authenticated'], False)
         else:
             self.assertEqual(response.status_code, 401)
@@ -61,7 +94,7 @@ class QuickapiTestCase(TestCase):
 
         with self.settings(QUICKAPI_ONLY_AUTHORIZED_USERS=True):
             # Простая POST авторизация
-            response = self.client.post(QUICKAPI_URL, {
+            response = self.client.post(self.url, {
                 'method': 'quickapi.test',
                 'username': USERNAME,
                 'password': PASSWORD,
@@ -79,32 +112,26 @@ class QuickapiTestCase(TestCase):
             basic = b'Basic ' + base64.b64encode(b)
 
             # GET c заголовком 'HTTP_AUTHORIZATION'
-            response = self.client.get(QUICKAPI_URL, {'method': 'quickapi.test'}, HTTP_AUTHORIZATION=basic)
+            response = self.client.get(self.url, {'method': 'quickapi.test'}, HTTP_AUTHORIZATION=basic)
             self.assertEqual(response.status_code, 200)
             self.client.logout()
 
             # POST c заголовком 'HTTP_AUTHORIZATION'
-            response = self.client.post(QUICKAPI_URL, {'method': 'quickapi.test'}, HTTP_AUTHORIZATION=basic)
+            response = self.client.post(self.url, {'method': 'quickapi.test'}, HTTP_AUTHORIZATION=basic)
             self.assertEqual(response.status_code, 200)
             self.client.logout()
 
             # GET c заголовком 'HTTP_X_AUTHORIZATION'
-            response = self.client.get(QUICKAPI_URL, {'method': 'quickapi.test'}, HTTP_X_AUTHORIZATION=basic)
+            response = self.client.get(self.url, {'method': 'quickapi.test'}, HTTP_X_AUTHORIZATION=basic)
             self.assertEqual(response.status_code, 200)
             self.client.logout()
 
             # POST c заголовком 'HTTP_X_AUTHORIZATION'
-            response = self.client.post(QUICKAPI_URL, {'method': 'quickapi.test'}, HTTP_X_AUTHORIZATION=basic)
+            response = self.client.post(self.url, {'method': 'quickapi.test'}, HTTP_X_AUTHORIZATION=basic)
             self.assertEqual(response.status_code, 200)
 
             # parsing response
-            try:
-                jsondata = json.loads(response.content)
-            except ValueError:
-                jsondata = response.content
-            self.assertIsInstance(jsondata, dict)
-
-            data = jsondata['data']
+            data = self.assertJsonContent(response.content)
             self.assertEqual(data['is_authenticated'], True)
 
             self.client.logout()
@@ -122,25 +149,15 @@ class QuickapiTestCase(TestCase):
         self.assertEqual(auth, True)
 
         # GET method
-        response = self.client.get(QUICKAPI_URL, {'method': 'quickapi.test'})
+        response = self.client.get(self.url, {'method': 'quickapi.test'})
         self.assertEqual(response['Content-Type'], 'application/json; charset=%s' % settings.DEFAULT_CHARSET)
 
         # POST method
-        response = self.client.post(QUICKAPI_URL, {'method': 'quickapi.test'})
+        response = self.client.post(self.url, {'method': 'quickapi.test'})
         self.assertEqual(response['Content-Type'], 'application/json; charset=%s' % settings.DEFAULT_CHARSET)
 
-        # parsing response
-        try:
-            jsondata = json.loads(response.content)
-        except ValueError:
-            jsondata = response.content
-        self.assertIsInstance(jsondata, dict)
-
-        data = jsondata['data']
+        data = self.assertJsonContent(response.content)
         self.assertEqual(data['is_authenticated'], True)
-
-
-
 
 
 
