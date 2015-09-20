@@ -30,6 +30,10 @@ from django.utils.encoding import force_text
 
 
 def parse_auth(request, data):
+    """
+    Производит поиск авторизационных данных, возвращает кортеж из двух
+    элементов: username и password.
+    """
     if 'HTTP_AUTHORIZATION' in request.META:
         key = request.META['HTTP_AUTHORIZATION']
     elif 'HTTP_X_AUTHORIZATION' in request.META:
@@ -84,6 +88,9 @@ def login_from_request(request, data=None):
 
 
 def clean_kwargs(request, data):
+    """
+    Очищает данные запроса от зарезервированных ключей.
+    """
     kwargs = {}
 
     for key in data.keys():
@@ -98,19 +105,37 @@ def clean_kwargs(request, data):
 
 
 def clean_uri(request):
+    """
+    Очищает путь от параметров GET-запроса, оставляя только сам адрес.
+    """
     return request.build_absolute_uri().split(request.path)[0] + request.path
 
 
 def warning_auth_in_get(request):
-    if request.method == 'GET':
-        return bool('username' in request.GET or 'password' in request.GET)
-    return False
+    """
+    Проверка наличия данных авторизации в GET-запросах.
+    Выполняется с кешированием проверки в атрибут `_warning_auth_in_get`
+    запроса.
+    """
+    if request.method != 'GET':
+        return False
+
+    if hasattr(request, '_warning_auth_in_get'):
+        return request._warning_auth_in_get
+
+    request._warning_auth_in_get = bool('username' in request.GET or 'password' in request.GET)
+
+    return request._warning_auth_in_get
 
 
 def is_callable(request):
-    # Когда в POST запросе есть ключ 'jsonData' или 'method', то это вызов метода.
-    # Когда в GET запросе есть ключ 'method', то это тоже вызов метода.
-    # Иначе - это просмотр документации
+    """
+    Проверка вызова метода.
+
+    Когда в POST запросе есть ключ 'jsonData' или 'method', то это вызов метода.
+    Когда в GET запросе есть ключ 'method', то это тоже вызов метода.
+    Иначе - это просмотр документации.
+    """
     if request.method == 'GET':
         if 'method' in request.GET:
             return True
