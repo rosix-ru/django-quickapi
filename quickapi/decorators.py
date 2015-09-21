@@ -105,7 +105,7 @@ def login_required(function=None, json_only=False, login_url=None):
 
 
 def api_required(function=None, ajax_post=True, ajax_get=False,
-    not_ajax_post=True, not_ajax_get=False):
+    not_ajax_post=True, not_ajax_get=False, get=False):
     """
     Decorator for views that only work with API.
     By default GET requests denied.
@@ -115,7 +115,9 @@ def api_required(function=None, ajax_post=True, ajax_get=False,
 
         @wraps(view_func)
         def _wrapped_view(request, *args, **kwargs):
-            if not True in (ajax_post, ajax_get, not_ajax_post, not_ajax_get):
+            if get:
+                ajax_get = not_ajax_get = True
+            elif not True in (ajax_post, ajax_get, not_ajax_post, not_ajax_get):
                 return HttpResponseServerError(_('This method incorrectly configured.'))
 
             if request.method == 'POST':
