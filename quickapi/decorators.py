@@ -111,13 +111,14 @@ def api_required(function=None, ajax_post=True, ajax_get=False,
     By default GET requests denied.
     """
 
+    if get:
+        ajax_get = not_ajax_get = True
+
     def decorator(view_func):
 
         @wraps(view_func)
         def _wrapped_view(request, *args, **kwargs):
-            if get:
-                ajax_get = not_ajax_get = True
-            elif not True in (ajax_post, ajax_get, not_ajax_post, not_ajax_get):
+            if not True in (ajax_post, ajax_get, not_ajax_post, not_ajax_get):
                 return HttpResponseServerError(_('This method incorrectly configured.'))
 
             if request.method == 'POST':
