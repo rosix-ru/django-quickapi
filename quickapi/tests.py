@@ -5,18 +5,23 @@ import base64
 
 from django.apps import apps
 from django.conf import settings
-from django.test import TestCase
+from django.test import TestCase, override_settings
 from django.utils import six
 
 
 User = apps.get_model(settings.AUTH_USER_MODEL)
-QUICKAPI_URL = getattr(settings, 'TEST_QUICKAPI_URL', '/api/')
 USERNAME = getattr(settings, 'TEST_QUICKAPI_USERNAME', 'quickapi')
 PASSWORD = getattr(settings, 'TEST_QUICKAPI_PASSWORD', 'quickapi')
 
 
+class QuickapiTestError(ValueError):
+    pass
+
+
 class QuickapiTestCase(TestCase):
-    url = QUICKAPI_URL
+    """
+    Базовый класс для тестов в других приложениях
+    """
 
     def assertJsonContent(self, content, msg=None, status=None, data=None, message=None):
         """
@@ -33,6 +38,7 @@ class QuickapiTestCase(TestCase):
             r = json.loads(content)
         except ValueError:
             r = content
+            raise QuickapiTestError(r)
 
         self.assertIsInstance(r, dict, msg)
 
@@ -45,13 +51,15 @@ class QuickapiTestCase(TestCase):
             self.assertEqual(r['data'], data)
 
         self.assertIn('message', r)
-        if data is not None:
+        if message is not None:
             self.assertEqual(r['message'], message)
 
         return r['data']
 
 
+@override_settings(ROOT_URLCONF='quickapi.urls')
 class SimpleTest(QuickapiTestCase):
+    url = '/'
 
     def setUp(self):
         self.user = User.objects.create_user(username=USERNAME, password=PASSWORD)
@@ -141,7 +149,7 @@ class SimpleTest(QuickapiTestCase):
         Тестирование получения страницы quickapi или результата метода.
         """
         # GET page without authentication
-        response = self.client.get(QUICKAPI_URL)
+        response = self.client.get(self.url)
         self.assertEqual(response['Content-Type'], 'text/html; charset=%s' % settings.DEFAULT_CHARSET)
 
         # Authentication
