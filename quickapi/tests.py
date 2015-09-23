@@ -42,17 +42,21 @@ class QuickapiTestCase(TestCase):
 
         self.assertIsInstance(r, dict, msg)
 
-        self.assertIn('status', r)
-        if status is not None:
-            self.assertEqual(r['status'], status)
-
-        self.assertIn('data', r)
-        if data is not None:
-            self.assertEqual(r['data'], data)
-
         self.assertIn('message', r)
         if message is not None:
             self.assertEqual(r['message'], message)
+
+        msg = r['message'] or ''
+        if not six.PY3:
+            msg = bytes(msg.encode('utf-8'))
+
+        self.assertIn('status', r)
+        if status is not None:
+            self.assertEqual(r['status'], status, msg)
+
+        self.assertIn('data', r)
+        if data is not None:
+            self.assertEqual(r['data'], data, msg)
 
         return r['data']
 
