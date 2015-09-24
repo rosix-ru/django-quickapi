@@ -46,17 +46,18 @@ class QuickapiTestCase(TestCase):
         if message is not None:
             self.assertEqual(r['message'], message)
 
-        msg = r['message'] or ''
-        if not six.PY3:
-            msg = bytes(msg.encode('utf-8'))
-
         self.assertIn('status', r)
         if status is not None:
+            msg = r['message'] or ''
+            msg = '%d: %s' % (r['status'], msg)
+            if not six.PY3:
+                msg = bytes(msg.encode('utf-8'))
+
             self.assertEqual(r['status'], status, msg)
 
         self.assertIn('data', r)
         if data is not None:
-            self.assertEqual(r['data'], data, msg)
+            self.assertEqual(r['data'], data)
 
         return r['data']
 
