@@ -104,8 +104,9 @@ def login_required(function=None, json_only=False, login_url=None):
     return decorator
 
 
-def api_required(function=None, ajax_post=True, ajax_get=False,
-    not_ajax_post=True, not_ajax_get=False, get=False):
+def api_required(function=None, get=False,          post=True,
+                           ajax_get=False,     ajax_post=True, 
+                       not_ajax_get=False, not_ajax_post=True):
     """
     Decorator for views that only work with API.
     By default GET requests denied.
@@ -113,6 +114,9 @@ def api_required(function=None, ajax_post=True, ajax_get=False,
 
     if get:
         ajax_get = not_ajax_get = True
+
+    if not post:
+        ajax_post = not_ajax_post = False
 
     def decorator(view_func):
 
