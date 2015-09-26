@@ -29,7 +29,7 @@ from django.utils.translation import ugettext as _
 from django.http import HttpResponseBadRequest, HttpResponseServerError
 
 from .http import JSONResponse, JSONRedirect, MESSAGES
-from .utils.requests import is_callable, login_from_request
+from .utils.requests import is_callable, login_from_request, warning_auth_in_get, clean_uri
 
 
 def auth_required(function=None, login_url=None):
@@ -42,6 +42,13 @@ def auth_required(function=None, login_url=None):
 
         @wraps(view_func)
         def _wrapped_view(request, *args, **kwargs):
+            # Нарушителей правил передачи параметров авторизации
+            # направляем на страницу документации
+            if warning_auth_in_get(request):
+                url = clean_uri(request)+'#requests-auth'
+                msg = _('You made a dangerous request. Please, read the docs: %s') % url
+                return HttpResponseBadRequest(content=force_text(msg))
+
             u = request.user
 
             if u.is_active and u.is_authenticated() or login_from_request(request):
@@ -97,12 +104,19 @@ def login_required(function=None, json_only=False, login_url=None):
     return decorator
 
 
-def api_required(function=None, ajax_post=True, ajax_get=False,
-    not_ajax_post=True, not_ajax_get=False):
+def api_required(function=None, get=False,          post=True,
+                           ajax_get=False,     ajax_post=True, 
+                       not_ajax_get=False, not_ajax_post=True):
     """
     Decorator for views that only work with API.
     By default GET requests denied.
     """
+
+    if get:
+        ajax_get = not_ajax_get = True
+
+    if not post:
+        ajax_post = not_ajax_post = False
 
     def decorator(view_func):
 
