@@ -1,3 +1,5 @@
+.. _wiki-jquery:
+
 ==============
 Плагины jQuery
 ==============
@@ -7,6 +9,8 @@
 параметры существуют и как они назначены по умолчанию - смотрите 
 исходный код каждого плагина в каталоге ``/static_src/js/``.
 
+
+.. _wiki-jquery-quickapi:
 
 quickAPI
 ========
@@ -67,6 +71,7 @@ quickAPI
     </body></html>
 
 
+.. _wiki-jquery-quicktable:
 
 quickTable
 ==========

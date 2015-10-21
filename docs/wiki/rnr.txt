@@ -2,44 +2,172 @@
 Запросы и ответы
 ================ 
 
-Примеры приведены с использованием jQuery.
 
-Структура запроса 
+Аутентификация
+==============
+
+При разработке Django-приложений для браузера, вы можете не думать об 
+этом. Аутентификация будет происходить по ключу сессии так, как это 
+обычно работает в `Django`__.
+
+__ https://docs.djangoproject.com/en/dev/topics/http/sessions/
+
+Авторизованный доступ к выполнению методов из сторонних приложений и 
+скриптов осуществляется по следующим правилам:
+
+1. Принимается Basic-авторизация в заголовке ``Authorization`` внутри ``POST`` или ``GET`` запросов.
+2. Принимается обычная авторизация **только** внутри ``POST`` запросов.
+3. После первого успешного ответа сервера, учётные данные не требуются если клиент поддерживает ``cookies``.
+
+Обычная авторизация - это передача в открытом виде параметров ``username`` 
+и ``password`` непосредственно в ``POST`` запросе или внутри ``jsonData``.
+
+
+Структура запросов
+==================
+
+Любой запрос должен содержать обязательный ключ ``method`` и необязательный ``language``.
+
+В POST-запросе дополнительно могут находится ключи: ``username``, ``password``.
+
+Прочие ключи воспринимаются как параметры метода.
+
+При использовании сложно-структурированных параметров, все ключи, за 
+исключением ``language``, должны быть упакованы в один ``jsonData`` (JSON 
+закодированный как `URL Encoding`__). Это возможно только с ``POST`` запросами.
+
+__ http://www.w3schools.com/tags/ref_urlencode.asp
+
+Для передачи зарезервированных имён ``username``, ``password`` и ``language`` в 
+роли параметров для метода, вы должны обернуть все параметры в ключ 
+``kwargs`` внутри ``jsonData``.
+
+.. code-block:: shell
+
+    ### GET ###
+    curl "http://localhost:8000/reports/api/?method=quickapi.test"
+    curl "http://localhost:8000/reports/api/?method=quickapi.test&code=302&redirect=/login/"
+    curl "http://localhost:8000/reports/api/?method=quickapi.test&language=ru"
+
+    ### POST ###
+    curl "http://localhost:8000/reports/api/" -d "method=quickapi.test&language=en"
+    curl "http://localhost:8000/reports/api/" -d "method=quickapi.test&username=test&password=test"
+
+    ### POST + JSON ###
+    curl "http://localhost:8000/reports/api/" -d "jsonData=%7B%22method%22%3A%22quickapi.test%22%2C%22kwargs%22%3A%7B%22code%22%3A301%7D%7D"
+    curl "http://localhost:8000/reports/api/" -d "jsonData=%7B%22method%22%3A%22quickapi.test%22%2C%22kwargs%22%3A%7B%22code%22%3A301%7D%7D&language=en"
+
+
+Использование готовых клиентов
+------------------------------
+
+jQuery
+******
+
+.. code-block:: html
+
+    <script src="/static/quickapi/3.5.0/js/jquery.quickapi.min.js"></script>
+    <script>
+    // возвращает quickapi.test по /api/
+    $.quickAPI();
+
+    // расширенное использование
+    $.quickAPI({
+        url: "/api/", 
+        data: {
+            method: "quickapi.test",
+            kwargs: { code: 200},
+        },
+        type: "GET",    // `POST` по-умолчанию
+        async: false,   // `true` по-умолчанию
+        timeout: 1000,  // `3000` по-умолчанию
+        language: 'ru', // `window.LANGUAGE_CODE` по-умолчанию
+        simple_request: true // по-умолчанию возвращает jsonData
+        callback: function(json, status, xhr) {},
+        handlerShowAlert: function(head, msg, cls, cb) {},
+    })
+    </script>
+
+Более подробный пример находится :ref:`тут <wiki-jquery-quickapi>`.
+
+
+Python
+******
+
+.. code-block:: python
+
+    from quickapi.client import BaseClient
+
+    kw = {
+        'url': 'http://localhost:8000/reports/api/',
+        # Можно установить все необходимые параметры:
+        # `username`, `password`, `timeout`, `cookie_filename`...
+    }
+
+    # Один экземпляр для всех вызываемых методов
+    api = BaseClient(**kw)
+
+    # Включить печать заголовков ответа
+    api.print_info = True
+
+    # Не авторизованный пользователь
+    data = api.method('quickapi.test')
+
+    # Установка файла с cookies
+    api.set_cookiejar('cookies.txt')
+
+    api.username = 'login'
+    api.password = 'passw'
+
+    # Вы можете включить HTTP Basic авторизацию
+    api.use_basic_auth = True
+
+    # Попытка авторизации пользователя
+    data = api.method('quickapi.test')
+
+    # В дальнейшем авторизация будет происходить с помощью файлов cookie и данные лучше скрыть
+    api.username = None
+    api.password = None
+
+    data = api.method('quickapi.test', code=200)
+
+    # Тестовый вызов ошибок
+    data = api.method('quickapi.test', code=302)
+    data = api.method('quickapi.test', code=400)
+    data = api.method('quickapi.test', code=401)
+    data = api.method('quickapi.test', code=500)
+    data = api.method('quickapi.test', bugparam=1)
+    data = api.method('bug.method.name', code=200)
+
+
+Структура ответов
 =================
 
-.. code-block:: javascript
+Тип и структура вложенного объекта зависят от вызываемого метода. Но 
+общая схема выглядит единообразно.
 
-    $.post('/api/',
-        { jsonData: JSON.stringify({
-            'method': <method_name>,
-            'kwargs': { 'key': <param1>, 'key2': <param2>,
-                        'key3': [ <param3_1>, <param3_2>, <param3_3> ],
-                        ... },
-            'username': <login_name>, // not required for browsers
-            'password': <password>,   // not required for browsers
-            }),
-        }, function() {});
-
-
-Структура ответа
-================
-
-Стандартный ответ с данными (JSONResponse)
+Стандартный ответ с данными (JSONResponse):
 
 .. code-block:: javascript
 
     {
-        'status': 200, // codes HTTP having meaning.
-        'message': 'String message for the user',
-        'data': object, // any JSON object
+        "status": 200,
+        "message": "OK",
+        "data": null,
     }
 
-Переадресация (JSONRedirect)
+Переадресация (JSONRedirect):
 
 .. code-block:: javascript
 
     {
-        'status': 301, // codes HTTP having meaning.
-        'message': 'String message for the user',
-        'data': {'Location': '/to-redirect/'},
+        "status": 301,
+        "message": "Moved Permanently",
+        "data": {"Location": "/to-redirect/"},
     }
+
+Как вы могли заметить, всегда присутствуют ключи:
+
+* **status** - код ответа - тут могут быть ваши собственные коды, либо стандартные коды протокола HTTP;
+* **message** - небольшое сообщение, характризующее исполнение метода;
+* **data** - любые данные, которые вы хотите передать клиенту;

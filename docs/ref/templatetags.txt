@@ -5,3 +5,42 @@
 .. module:: quickapi.templatetags
    :synopsis: Пакет шаблонных тегов для QuickAPI.
 
+Пакет шаблонных тегов для QuickAPI.
+
+Модуль quickapi_base
+====================
+
+.. module:: quickapi.templatetags.quickapi_base
+    :synopsis: Представляет все базовые шаблонные теги и фильтры.
+
+Представляет все базовые шаблонные теги и фильтры.
+
+Фильтры
+-------
+
+.. function:: formatdoc(text)
+
+    Форматирует документацию для представления на HTML-странице.
+
+
+Тэги
+----
+
+.. function:: PROJECT_NAME()
+
+    Возвращает название проекта, если оно установлено в ``settings.py`` 
+    проекта, либо стандартное: ``Проект``
+
+.. function:: PROJECT_URL()
+
+    Возвращает URL проекта, если он установлен в ``settings.py`` 
+    проекта, либо корень.
+
+.. function:: get_version(key)
+
+    Возвращает версию пакета из ``quickapi.conf.VERSIONS``
+
+.. function:: PYGMENTS_STYLE()
+
+    Возвращает стиль, установленный в ``quickapi.conf.QUICKAPI_PYGMENTS_STYLE``
+

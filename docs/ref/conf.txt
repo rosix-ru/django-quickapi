@@ -78,3 +78,15 @@
     По умолчанию: ``False``.
 
 
+.. attribute:: QUICKAPI_CONTENT_COMPRESS
+
+    Когда разрешено, то QuickAPI cжимает все ответы длиной более 512 байт в ``deflate``.
+    По умолчанию: ``False``.
+
+
+.. attribute:: QUICKAPI_PYGMENTS_STYLE
+
+    Стиль кода для обработки документации методов в Pygments.
+    По умолчанию: ``default``.
+
+
