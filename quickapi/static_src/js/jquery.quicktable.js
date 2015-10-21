@@ -399,19 +399,34 @@
 
         $('body')
 
-        /* Keyup on filters */
-        .off('keyup', opts._selector_filtering)
-        .on('keyup', opts._selector_filtering, function(e) {
+        /* Keyup on character filters */
+        .off('keyup', opts._selector_filtering+':not(input[type=checkbox])')
+        .on('keyup', opts._selector_filtering+':not(input[type=checkbox])', function(e) {
 
             var fname = this.name || opts._default_filter_key,
                 old = opts.filters[fname],
-                min = Number($(this).data('minimum')) || 0,
+                min = Number($(this).data('minimum')) || 0, // minimum chars for query
                 len = this.value.length;
 
             if (this.value != old && (!len || len >= min)) {
 
                 opts.filters[fname] = this.value;
                 table.fn.delay(table.fn.get_first_page, opts.delay);
+
+            }
+
+        })
+
+        /* change on boolean filters */
+        .off('change', opts._selector_filtering+'[type=checkbox]')
+        .on('change', opts._selector_filtering+'[type=checkbox]', function(e) {
+
+            var fname = this.name;
+
+            if (fname && this.checked != opts.filters[fname]) {
+
+                opts.filters[fname] = this.checked;
+                table.fn.delay(table.fn.get_first_page, 0);
 
             }
 
