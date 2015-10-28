@@ -6,17 +6,33 @@
    :synopsis: Модуль декораторов QuickAPI.
 
 
-.. function:: login_required(function=None, redirect_field_name=REDIRECT_FIELD_NAME, login_url=None)
+.. function:: login_required(function=None, json_only=False, login_url=None)
+
+    .. versionchanged:: 3.4
+       Считается устаревшим, используйте ``auth_required``
 
     Декоратор для представлений, который проверяет авторизован ли 
     пользователь и активен ли он, при необходимости переадресовывает 
     на страницу авторизации.
 
+.. function:: auth_required(function=None, login_url=None)
 
-.. function:: api_required(function=None, ajax_post=True, ajax_get=False, not_ajax_post=True, not_ajax_get=False)
+    .. versionadded:: 3.3
+       Является заменой устаревшему ``login_required``
+
+    Декоратор для методов QuickAPI, доступ к которым должны иметь 
+    только авторизованные пользователи. В отличии от предшественника, 
+    умеет сразу авторизовывать пользователя, если он ещё неавторизован и 
+    в запросе имеются данные для входа пользователя.
+
+
+.. function:: api_required(function=None, get=False, post=True, ajax_get=False, ajax_post=True, not_ajax_get=False, not_ajax_post=True)
+
+    .. versionchanged:: 3.5
+       Добавлены параметры ``get`` и ``post`` - переключающие все свои типы запросов
 
     Декоратор для представлений, которые должны работать с API.
-    По умолчанию GET запросы запрещены.
+    По умолчанию все GET запросы запрещены.
 
 
 
@@ -27,11 +43,11 @@
 
     from django.contrib.auth.models import Group
 
-    from quickapi.decorators import login_required, api_required
+    from quickapi.decorators import auth_required, api_required
     from quickapi.http import JSONResponse
 
-    @login_required
-    @api_required(ajax_get=True)
+    @auth_required
+    @api_required(get=True)
     def exists_group(request, name):
 
         groups = Group.objects.filter(name=name)

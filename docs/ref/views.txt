@@ -18,25 +18,25 @@
     В остальных случаях возвращает данные, которые можно
     использовать в реальных приложениях:
 
-    .. code-block:: python
+.. code-block:: python
 
-        {
-            'REMOTE_ADDR': request.META.get("HTTP_X_REAL_IP", request.META.get("REMOTE_ADDR", None)),
-            'REMOTE_HOST': request.META.get("REMOTE_HOST", None),
-            'default language': settings.LANGUAGE_CODE,
-            'request language': get_language(),
-            'is_authenticated': request.user.is_authenticated(),
-            'types': {
-                'string': _('String in your localization'),
-                'datetime': now,
-                'date': now.date(),
-                'time': now.time(),
-                'decimal': decimal.Decimal('12345678.90'),
-                'float': 12345678.90,
-                'integer': 1234567890,
-            },
-            'settings': _('Hidden in not debug mode'),
-        }
+    {
+        'REMOTE_ADDR': request.META.get("HTTP_X_REAL_IP", request.META.get("REMOTE_ADDR", None)),
+        'REMOTE_HOST': request.META.get("REMOTE_HOST", None),
+        'default language': settings.LANGUAGE_CODE,
+        'request language': get_language(),
+        'is_authenticated': request.user.is_authenticated(),
+        'types': {
+            'string': _('String in your localization'),
+            'datetime': now,
+            'date': now.date(),
+            'time': now.time(),
+            'decimal': decimal.Decimal('12345678.90'),
+            'float': 12345678.90,
+            'integer': 1234567890,
+        },
+        'settings': _('Hidden in not debug mode'),
+    }
 
 
 
