@@ -26,29 +26,8 @@
 (function ($) {
     /* Общая функция для работы с django-quickapi
      * 
-     * Использование:
-     * /все параметры необязательны и приведены здесь по-умолчанию/
-     * 
-     * $.quickAPI({
-     *   url: "/api/", // по умолчанию: location.pathname
-     *   data: {
-     *     method: "name_your_method",
-     *       kwargs: {
-     *         method_param1: "value",
-     *         ...
-     *      },
-     *   },
-     *   type: "POST",
-     *   sync: false,
-     *   async: true,
-     *   timeout: 3000,
-     *   language: 'ru',
-     *   log: undefined, // аргумент для console.log(...)
-     *   simple_request: undefined, // аргумент для передачи данных
-     *                              // в простом виде (не в jsonData)
-     *   callback: function(json, status, xhr) {},
-     *   handlerShowAlert: function(head, msg, cls, cb) {//см. код ниже//},
-     * })
+     * Документация:
+     * https://docs.rosix.ru/django-quickapi/wiki/jquery.html#quickapi
      * 
      */
 
@@ -59,7 +38,7 @@
         // `args` is deprecation option
         if (!options.data) options.data = options.args || { method: "quickapi.test" };
 
-        if (options.simple_request) {
+        if (options.simple || options.type == 'GET') {
 
             data = options.data;
             if (!data.language) data.language = options.language || window.LANGUAGE_CODE
@@ -97,10 +76,14 @@
                     if (match) head = match[1];
 
                     match = msg.match(/<[body,BODY]+>([^+]*)<\/[body,BODY]+>/);
-                    if (match) msg = match[1]
-                                    .replace(/<\/?[^>]+>/g, '')
-                                    .replace(/ [ ]+/g, ' ')
-                                    .replace(/\n[\n]+/g, '\n')
+                    if (match) {
+                        msg = match[1]
+                            .replace(/<\/?[^>]+>/g, '')
+                            .replace(/ [ ]+/g, ' ')
+                            .replace(/\n[\n]+/g, '\n')
+                    } else {
+                        msg = '';
+                    }
                 }
 
                 if (msg.length > 512) {

@@ -29,40 +29,23 @@
 
 
 (function ($) {
-    /* Главным условием работы является наличие id у таблицы, а также
-     * переданных опций: url, method и columns.
+    /* Плагин для работы с QuickTable из состава django-quickapi
      * 
-     * Заметьте, что id таблицы используется для нахождения всех
-     * зависимых объектов.
-     * 
-     * ПРИМЕР:
-     * <table id="my-table">
-     *   <thead><tr><th>Username</th></tr></thead>
-     *   <tbody></tbody>
-     * </table>
-     * 
-     * <script>
-     *   var table = $('#my-table').quickTable({
-     *     url: '/api/',
-     *     method: 'auth.quicktable_users',
-     *     columns: [
-     *       { name: "id", hidden: true, notmanaged: true },
-     *       { name: "username", title: "Username" },
-     *     ]
-     *   });
-     * <script>
+     * Документация:
+     * https://docs.rosix.ru/django-quickapi/wiki/jquery.html#quicktable
      * 
      */
-    var pluginName="quickTable";
+    var pluginName = "quickTable";
 
     $.fn[pluginName] = function(options) {
 
         if (!this.size()) { console.error('The selector found nothing'); return undefined };
 
-        if ((!options.url && !window.QUICKAPI_URL) || !options.method) {
+        if (!options.method) {
             console.error(
                 "Not valid options for "+pluginName,
-                {url:options.url, method:options.method, QUICKAPI_URL: window.QUICKAPI_URL}
+                { method:options.method },
+                'method must be defined!'
             );
         };
 
@@ -70,7 +53,7 @@
 
             console.error(
                 "Not valid options for "+pluginName,
-                {columns:options.columns},
+                { columns:options.columns },
                 'columns must be not empty array!'
             );
 
@@ -89,10 +72,10 @@
         if (!id) { return this }; // not valid
 
         opts = $.extend({
-            url: window.QUICKAPI_URL,
-            method: undefined,
-            columns: undefined,
-            type: 'POST',
+            //url: undefined,
+            //method: undefined,
+            //columns: undefined,
+            //handlerShowAlert: undefined,
             timeout: 10000,
             async: true,
             autoload: true,
@@ -363,7 +346,7 @@
             table.request = $.quickAPI({
                 url: opts.url,
                 timeout: opts.timeout,
-                type: opts.type,
+                //type: 'POST',
                 async: opts.async,
                 args: {
                     method: opts.method,
@@ -375,7 +358,7 @@
                     },
                 },
                 callback: function(json, status, xhr) { return table.fn.render(json, replace) },
-                showAlert: opts.showAlert,
+                handlerShowAlert: opts.handlerShowAlert,
             })
             .always(function() {table.request = null});
 
