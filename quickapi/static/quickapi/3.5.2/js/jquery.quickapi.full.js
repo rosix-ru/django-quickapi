@@ -26,29 +26,8 @@
 (function ($) {
     /* Общая функция для работы с django-quickapi
      * 
-     * Использование:
-     * /все параметры необязательны и приведены здесь по-умолчанию/
-     * 
-     * $.quickAPI({
-     *   url: "/api/", // по умолчанию: location.pathname
-     *   data: {
-     *     method: "name_your_method",
-     *       kwargs: {
-     *         method_param1: "value",
-     *         ...
-     *      },
-     *   },
-     *   type: "POST",
-     *   sync: false,
-     *   async: true,
-     *   timeout: 3000,
-     *   language: 'ru',
-     *   log: undefined, // аргумент для console.log(...)
-     *   simple_request: undefined, // аргумент для передачи данных
-     *                              // в простом виде (не в jsonData)
-     *   callback: function(json, status, xhr) {},
-     *   handlerShowAlert: function(head, msg, cls, cb) {//см. код ниже//},
-     * })
+     * Документация:
+     * https://docs.rosix.ru/django-quickapi/wiki/jquery.html#quickapi
      * 
      */
 
@@ -59,7 +38,7 @@
         // `args` is deprecation option
         if (!options.data) options.data = options.args || { method: "quickapi.test" };
 
-        if (options.simple_request) {
+        if (options.simple || options.type == 'GET') {
 
             data = options.data;
             if (!data.language) data.language = options.language || window.LANGUAGE_CODE
@@ -97,10 +76,14 @@
                     if (match) head = match[1];
 
                     match = msg.match(/<[body,BODY]+>([^+]*)<\/[body,BODY]+>/);
-                    if (match) msg = match[1]
-                                    .replace(/<\/?[^>]+>/g, '')
-                                    .replace(/ [ ]+/g, ' ')
-                                    .replace(/\n[\n]+/g, '\n')
+                    if (match) {
+                        msg = match[1]
+                            .replace(/<\/?[^>]+>/g, '')
+                            .replace(/ [ ]+/g, ' ')
+                            .replace(/\n[\n]+/g, '\n')
+                    } else {
+                        msg = '';
+                    }
                 }
 
                 if (msg.length > 512) {
@@ -210,40 +193,23 @@
 
 
 (function ($) {
-    /* Главным условием работы является наличие id у таблицы, а также
-     * переданных опций: url, method и columns.
+    /* Плагин для работы с QuickTable из состава django-quickapi
      * 
-     * Заметьте, что id таблицы используется для нахождения всех
-     * зависимых объектов.
-     * 
-     * ПРИМЕР:
-     * <table id="my-table">
-     *   <thead><tr><th>Username</th></tr></thead>
-     *   <tbody></tbody>
-     * </table>
-     * 
-     * <script>
-     *   var table = $('#my-table').quickTable({
-     *     url: '/api/',
-     *     method: 'auth.quicktable_users',
-     *     columns: [
-     *       { name: "id", hidden: true, notmanaged: true },
-     *       { name: "username", title: "Username" },
-     *     ]
-     *   });
-     * <script>
+     * Документация:
+     * https://docs.rosix.ru/django-quickapi/wiki/jquery.html#quicktable
      * 
      */
-    var pluginName="quickTable";
+    var pluginName = "quickTable";
 
     $.fn[pluginName] = function(options) {
 
         if (!this.size()) { console.error('The selector found nothing'); return undefined };
 
-        if ((!options.url && !window.QUICKAPI_URL) || !options.method) {
+        if (!options.method) {
             console.error(
                 "Not valid options for "+pluginName,
-                {url:options.url, method:options.method, QUICKAPI_URL: window.QUICKAPI_URL}
+                { method:options.method },
+                'method must be defined!'
             );
         };
 
@@ -251,7 +217,7 @@
 
             console.error(
                 "Not valid options for "+pluginName,
-                {columns:options.columns},
+                { columns:options.columns },
                 'columns must be not empty array!'
             );
 
@@ -270,10 +236,10 @@
         if (!id) { return this }; // not valid
 
         opts = $.extend({
-            url: window.QUICKAPI_URL,
-            method: undefined,
-            columns: undefined,
-            type: 'POST',
+            //url: undefined,
+            //method: undefined,
+            //columns: undefined,
+            //handlerShowAlert: undefined,
             timeout: 10000,
             async: true,
             autoload: true,
@@ -544,7 +510,7 @@
             table.request = $.quickAPI({
                 url: opts.url,
                 timeout: opts.timeout,
-                type: opts.type,
+                //type: 'POST',
                 async: opts.async,
                 args: {
                     method: opts.method,
@@ -556,7 +522,7 @@
                     },
                 },
                 callback: function(json, status, xhr) { return table.fn.render(json, replace) },
-                showAlert: opts.showAlert,
+                handlerShowAlert: opts.handlerShowAlert,
             })
             .always(function() {table.request = null});
 
