@@ -31,7 +31,8 @@
 
 * **Тонкости:**
   :doc:`Мультиверсия <wiki/multiversion>` |
-  :doc:`Запросы и ответы <wiki/rnr>`
+  :doc:`Запросы и ответы <wiki/rnr>` |
+  :doc:`Плагины jQuery <wiki/jquery>`
 
 .. toctree::
     :maxdepth: 1

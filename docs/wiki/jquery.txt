@@ -4,9 +4,9 @@
 Плагины jQuery
 ==============
 
-В этом разделе показаны простейшие примеры использования встроенных 
-плагинов для jQuery. Более подробно о том как использовать, какие 
-параметры существуют и как они назначены по умолчанию - смотрите 
+В этом разделе показаны простейшие примеры использования встроенных
+плагинов для jQuery. Более подробно о том как использовать, какие
+параметры существуют и как они назначены по умолчанию - смотрите
 исходный код каждого плагина в каталоге ``/static_src/js/``.
 
 
@@ -17,14 +17,57 @@ quickAPI
 
 .. versionadded: 2.0
 
+Краткая памятка
+---------------
+
+Все параметры необязательны и их значения приведены здесь по-умолчанию.
+
+.. code-block:: javascript
+
+    $.quickAPI({
+      data: {
+        method: "quickapi.test",
+        kwargs: undefined,    // если определяете, то это должен быть объект
+      },
+      url:         undefined, // по умолчанию: текущая страница (location.pathname)
+                              // или, если существует: window.QUICKAPI_URL
+
+      sync:            false, // синхронность можно устанавливать любым
+      async:            true, // из этих двух параметров
+
+      simple:      undefined, // когда истина, то формирует простой запрос,
+                              // не упаковывая данные в `jsonData`
+
+      type:           "POST", // когда равно "GET" - формирует простой запрос
+                              // также, как и при `simple == true`
+
+      timeout:          3000, // или, если существует: window.AJAX_TIMEOUT
+
+      language:    undefined, // или, если существует: window.LANGUAGE_CODE
+
+      log:         undefined, // аргумент для console.log(...)
+
+      callback: function(json, status, xhr) {},
+                              // функция обратного вызова ничего не делает
+      handlerShowAlert: function(head, msg, cls, cb) {
+                              // код встроенной функции
+                              // смотрите в исходном коде плагина
+                        },
+                              // или, если существует: window.handlerShowAlert
+                              // с аналогичными параметрами.
+    })
+
+Полный пример
+-------------
+
 .. code-block:: html
 
     {% load static quickapi_base %}
-    
+
     <html lang="ru">
 
     <body>
-    
+
     <div id="place"></div>
 
     <button id="button-test1">Тест 1</button>
@@ -46,8 +89,9 @@ quickAPI
         }
 
         $('#button-test1').on('click', function() {
-            $.quickAPI({ 
+            $.quickAPI({
                 data: { method: "quickapi.test" },
+                type: 'GET',
                 callback: cb,
             })
         });
@@ -59,6 +103,7 @@ quickAPI
                 callback: cb,
                 language: "en",
                 type: "POST",
+                simple: true,
                 sync: true,
                 timeout: 3000,
                 log: "gets data from test2",
@@ -67,7 +112,7 @@ quickAPI
         });
 
     <script>
-    
+
     </body></html>
 
 
@@ -78,17 +123,86 @@ quickTable
 
 .. versionadded: 3.0
 
+Краткая памятка
+---------------
+
+Главным условием работы является наличие ``id`` у таблицы, а также
+переданных опций: ``method`` и ``columns``.
+
+.. note::
+    ``id`` таблицы используется для нахождения всех зависимых
+    объектов. Вы должны следовать этому правилу при определении разметки.
+
+.. note::
+    Поскольку параметры для ``QuickTable`` сложноструктурированные - то
+    для ``QuickAPI`` всегда используется ``POST-запрос`` с упаковкой в
+    ``jsonData``.
+
+.. code-block:: javascript
+
+    $('#my-table').quickTable({
+      // Обязательные параметры:
+      method: 'auth.quicktable_users',
+      columns: [
+        { name: "id", hidden: true, notmanaged: true },
+        { name: "username", title: "Username" },
+      ],
+
+      // Необязательные параметры:
+      url:         undefined, // по умолчанию: текущая страница (location.pathname)
+                              // или, если существует: window.QUICKAPI_URL
+
+      async:            true, // устанавливает асинхронность запроса
+
+      timeout:          3000, // или, если существует: window.AJAX_TIMEOUT
+
+      handlerShowAlert: undefined,
+                              // по умолчанию используется функционал $.quickAPI()
+
+      autoload: true,         // автоматическая загрузка содержимого таблицы
+
+      autorender_settings: true,
+                              // автоматическое формирование контроллера настроек
+
+      delay: 500,             // задержка посылки запроса от ввода символов (ms)
+
+      page: 1,                // номер страницы, с которой нужно начать отображение
+
+      limit: 25,              // количество строк на одну страницу
+
+      limit_list: [25, 50, 75, 100],
+                              // список вариантов количества строк на странице
+
+      filters: {},            // дополнительные фильтры, выполняемые всегда
+
+      ordering: [],           // список колонок сортировки
+
+      multiordering: false,   // флаг использования многоколоночной сортировки
+
+      table_type: 'table',    // тип таблицы, варианты: 'table', 'stack' или 'pager'
+
+      text_pager_prev: '&laquo;',
+                              // текст на кнопке пейджера `previous`
+
+      text_pager_next: '&raquo;',
+                              // текст на кнопке пейджера `next`
+    });
+
+
+Полный пример
+-------------
+
 .. code-block:: html
 
     {% load i18n static quickapi_base %}
-    
+
     <html lang="ru">
     <head>
         <link rel="stylesheet" href="{% get_static_prefix %}bootstrap/{% get_version 'bootstrap' %}/css/bootstrap.min.css">
         <link rel="stylesheet" href="{% get_static_prefix %}quickapi/{% get_version 'quickapi' %}/css/quicktable.min.css" />
     </head>
     <body>
-    
+
     <table id="table-users">
         <thead><tr><th>{% trans 'Username' %}</th></tr></thead>
         <tbody></tbody>
