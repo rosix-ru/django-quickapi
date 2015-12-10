@@ -172,11 +172,22 @@ class BaseClient(object):
 
         data = response.read()
 
-        if encoding in ('gzip', 'deflate'):
+        if encoding in ('gzip', 'zlib'):
             try:
-                return zlib.decompress(data)
+                # automatic header detection (zlib or gzip)
+                return zlib.decompress(data, zlib.MAX_WBITS|32)
             except:
                 return data
+        elif encoding == 'deflate':
+            try:
+                # strict deflate format
+                return zlib.decompress(data, -zlib.MAX_WBITS)
+            except:
+                try:
+                    # really zlib format
+                    return zlib.decompress(data)
+                except:
+                    return data
 
         return data
 
@@ -184,7 +195,6 @@ class BaseClient(object):
         """
         Переобразовывает JSON в объекты Python, учитывая кодирование
         """
-
         data = data.decode(self.code_page)
         data = json.loads(data)
 
