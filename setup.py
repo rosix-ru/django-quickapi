@@ -26,6 +26,7 @@ setup(
     name='django-quickapi', # this name for PyPI, really project name: QuickAPI
     version=quickapi.__version__,
     description='The Django-application for the fast organization API.',
+    long_description=open('README.rst').read(),
     author='Grigoriy Kramarenko',
     author_email='root@rosix.ru',
     url='https://github.com/rosix-ru/django-quickapi/',
