@@ -28,7 +28,7 @@ setup(
     description='The Django-application for the fast organization API.',
     author='Grigoriy Kramarenko',
     author_email='root@rosix.ru',
-    url='https://bitbucket.org/rosix/django-quickapi/',
+    url='https://github.com/rosix-ru/django-quickapi/',
     license='GNU Affero General Public License v3 or later (AGPLv3+)',
     platforms='any',
     zip_safe=False,

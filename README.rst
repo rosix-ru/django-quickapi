@@ -4,6 +4,6 @@ For the exchange of data is used JSON.
 
 The API is built on the RPC scheme: one address - many methods.
 
-Read the wiki_ for details.
+Read the documentation_ for details.
 
-.. _wiki: https://bitbucket.org/rosix/django-quickapi/wiki/
+.. _documentation: https://docs.rosix.org/django-quickapi/
