@@ -184,10 +184,7 @@ class BaseClient(object):
             except zlib.error:
                 return zlib.decompress(data, -zlib.MAX_WBITS)
         elif encoding == 'gzip':
-            try:
-                return zlib.decompress(data, zlib.MAX_WBITS | 16)
-            except zlib.error:
-                return data
+            return zlib.decompress(data, zlib.MAX_WBITS | 16)
         else:
             return data
 
