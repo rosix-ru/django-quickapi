@@ -22,7 +22,6 @@
 from __future__ import unicode_literals
 import datetime
 import decimal
-import zlib
 import json as jsonlib
 
 from django.utils.encoding import force_text
@@ -35,7 +34,7 @@ from django.utils.formats import number_format
 from django.utils.cache import add_never_cache_headers
 
 from quickapi.conf import (QUICKAPI_INDENT, QUICKAPI_DECIMAL_LOCALE,
-    QUICKAPI_ENSURE_ASCII, QUICKAPI_CONTENT_COMPRESS)
+    QUICKAPI_ENSURE_ASCII)
 
 
 MESSAGES = {
@@ -153,9 +152,6 @@ def get_json_response(ctx=None):
     content_type = "application/json; charset=%s" % settings.DEFAULT_CHARSET
     response = HttpResponse(content_type=content_type)
     add_never_cache_headers(response)
-    if QUICKAPI_CONTENT_COMPRESS and len(result) > 512:
-        response['Content-encoding'] = 'deflate'
-        result = zlib.compress(result)
     response.write(result)
     return response
 

@@ -172,24 +172,24 @@ class BaseClient(object):
 
         data = response.read()
 
-        if encoding in ('gzip', 'zlib'):
+        # Описание использования windowBits компрессора zlib
+        # находится по ссылке http://www.zlib.net/manual.html#Advanced
+        # Согласно нему:
+        # RFC 1950 ZLIB (тоже DEFLATE) wbits от 8 до 15
+        # RFC 1951 RAW DEFLATE wbits от -8 до -15
+        # RFC 1952 GZIP wbits в диапазоне от 8 до 15 с инкрементом 16
+        if encoding == 'deflate':
             try:
-                # automatic header detection (zlib or gzip)
-                return zlib.decompress(data, zlib.MAX_WBITS|32)
-            except:
-                return data
-        elif encoding == 'deflate':
-            try:
-                # strict deflate format
+                return zlib.decompress(data)
+            except zlib.error:
                 return zlib.decompress(data, -zlib.MAX_WBITS)
-            except:
-                try:
-                    # really zlib format
-                    return zlib.decompress(data)
-                except:
-                    return data
-
-        return data
+        elif encoding == 'gzip':
+            try:
+                return zlib.decompress(data, zlib.MAX_WBITS | 16)
+            except zlib.error:
+                return data
+        else:
+            return data
 
     def json_loads(self, data):
         """
