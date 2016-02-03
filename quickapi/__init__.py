@@ -19,14 +19,10 @@
 #   <http://www.gnu.org/licenses/>.
 #
 
-VERSION = (3, 7, 0)
-
-def get_version(*args, **kwargs):
-    return '%d.%d.%d' % VERSION
-
-def get_docs_version(*args, **kwargs):
-    return '%d.%d' % VERSION[:2]
-
-__version__ = get_version()
+from quickapi.utils.version import get_version, get_docs_version
 
 default_app_config = 'quickapi.apps.AppConfig'
+
+VERSION = (3, 7, 0, 'final', 0)
+
+__version__ = get_version(VERSION)
