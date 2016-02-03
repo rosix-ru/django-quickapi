@@ -28,11 +28,12 @@ from django.utils.encoding import force_text
 from django.utils.translation import ugettext as _
 from django.http import HttpResponseBadRequest, HttpResponseServerError
 
+from .conf import QUICKAPI_LOGIN_FROM_REQUEST
 from .http import JSONResponse, JSONRedirect, MESSAGES
-from .utils.requests import is_callable, login_from_request, warning_auth_in_get, clean_uri
+from .utils.requests import is_callable, request_login, warning_auth_in_get, clean_uri
 
 
-def auth_required(function=None, login_url=None):
+def auth_required(function=None, login_url=None, is_staff=None):
     """
     Декоратор для методов QuickAPI, доступ к которым должны иметь 
     только авторизованные пользователи.
@@ -51,7 +52,9 @@ def auth_required(function=None, login_url=None):
 
             u = request.user
 
-            if u.is_active and u.is_authenticated() or login_from_request(request):
+            if u.is_active and u.is_authenticated() or request_login(view_func, request):
+                if is_staff is not None and getattr(u, 'is_staff', None) != is_staff:
+                    return HttpResponseBadRequest(status=403, content=force_text(MESSAGES[403]))
                 return view_func(request, *args, **kwargs)
 
             if login_url:
@@ -122,11 +125,11 @@ def api_required(function=None, get=False,          post=True,
 
         @wraps(view_func)
         def _wrapped_view(request, *args, **kwargs):
-            if not True in (ajax_post, ajax_get, not_ajax_post, not_ajax_get):
+            if True not in (ajax_post, ajax_get, not_ajax_post, not_ajax_get):
                 return HttpResponseServerError(_('This method incorrectly configured.'))
 
             if request.method == 'POST':
-                if not True in (ajax_post, not_ajax_post):
+                if True not in (ajax_post, not_ajax_post):
                     return HttpResponseBadRequest(_('This method not responsible on %s request.') % 'POST')
 
                 elif request.is_ajax():
@@ -137,7 +140,7 @@ def api_required(function=None, get=False,          post=True,
                     return HttpResponseBadRequest(_('This method works with AJAX only.'))
 
             elif request.method == 'GET':
-                if not True in (ajax_get, not_ajax_get):
+                if True not in (ajax_get, not_ajax_get):
                     return HttpResponseBadRequest(_('This method not responsible on %s request.') % 'GET')
 
                 elif request.is_ajax():

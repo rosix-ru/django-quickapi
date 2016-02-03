@@ -32,6 +32,7 @@ PROJECT_URL  = getattr(settings, 'PROJECT_URL', None)
 
 QUICKAPI_DEFINED_METHODS       = getattr(settings, 'QUICKAPI_DEFINED_METHODS', {})
 QUICKAPI_ONLY_AUTHORIZED_USERS = getattr(settings, 'QUICKAPI_ONLY_AUTHORIZED_USERS', False)
+QUICKAPI_LOGIN_FROM_REQUEST    = getattr(settings, 'QUICKAPI_LOGIN_FROM_REQUEST', True)
 QUICKAPI_INDENT                = getattr(settings, 'QUICKAPI_INDENT', 2)
 QUICKAPI_DEBUG                 = getattr(settings, 'QUICKAPI_DEBUG', False)
 QUICKAPI_SWITCH_LANGUAGE       = getattr(settings, 'QUICKAPI_SWITCH_LANGUAGE', True)

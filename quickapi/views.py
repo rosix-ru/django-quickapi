@@ -39,7 +39,7 @@ from quickapi.http import JSONResponse, JSONRedirect, MESSAGES
 from quickapi.utils.method import get_methods
 from quickapi.utils.doc import apidoc_lazy, string_lazy
 from quickapi.utils.lang import switch_language
-from quickapi.utils.requests import (parse_auth, login_from_request,
+from quickapi.utils.requests import (parse_auth, request_login,
     clean_kwargs, clean_uri, warning_auth_in_get, is_callable)
 
 logger = logging.getLogger('django.quickapi')
@@ -86,6 +86,7 @@ def test(request, code=200, redirect='/'):
         data['settings'] = {
             'QUICKAPI_DEFINED_METHODS': conf.QUICKAPI_DEFINED_METHODS,
             'QUICKAPI_ONLY_AUTHORIZED_USERS': conf.QUICKAPI_ONLY_AUTHORIZED_USERS,
+            'QUICKAPI_LOGIN_FROM_REQUEST': conf.QUICKAPI_LOGIN_FROM_REQUEST,
             'QUICKAPI_INDENT': conf.QUICKAPI_INDENT,
             'QUICKAPI_DEBUG': conf.QUICKAPI_DEBUG,
             'QUICKAPI_SWITCH_LANGUAGE': conf.QUICKAPI_SWITCH_LANGUAGE,
@@ -219,24 +220,33 @@ def run(request, methods):
     else:
         REQUEST = request.POST
 
+    real_method = None
+    def get_real_method(name):
+        if method in methods:
+            return methods[method]['method']
+        elif method == 'quickapi.test':
+            return test
+
     if 'method' in REQUEST:
         method = REQUEST.get('method')
+        real_method = get_real_method(method)
 
         kwargs = clean_kwargs(request, REQUEST)
 
         if not is_authenticated:
-            is_authenticated = login_from_request(request, REQUEST)
+            is_authenticated = request_login(real_method, request, REQUEST)
 
     elif 'jsonData' in REQUEST:
         try:
             data   = json.loads(REQUEST.get('jsonData'))
             method = data.get('method')
+            real_method = get_real_method(method)
             kwargs = data.get('kwargs', clean_kwargs(request, data))
         except Exception as e:
             return HttpResponseBadRequest(content='%s\n%s' % (force_text(MESSAGES[400]), force_text(e)))
 
         if not is_authenticated:
-            is_authenticated = login_from_request(request, data)
+            is_authenticated = request_login(real_method, request, data)
 
     else:
         return HttpResponseBadRequest(content=force_text(MESSAGES[400]))
@@ -252,11 +262,7 @@ def run(request, methods):
     if conf.QUICKAPI_DEBUG:
         logger.debug('Run method `%s` on %s', method, request.path)
 
-    if method in methods:
-        real_method = methods[method]['method']
-    elif method == 'quickapi.test':
-        real_method = test
-    else:
+    if not real_method:
         return HttpResponseBadRequest(status=405, content=force_text(MESSAGES[405]))
 
     return real_method(request, **kwargs)

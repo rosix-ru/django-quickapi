@@ -28,6 +28,7 @@ from django.contrib.auth import authenticate, login
 from django.utils import six
 from django.utils.encoding import force_text
 
+from quickapi.conf import QUICKAPI_LOGIN_FROM_REQUEST
 
 def parse_auth(request, data):
     """
@@ -85,6 +86,14 @@ def login_from_request(request, data=None):
 
     return False
 
+
+def request_login(view, request, data=None):
+    """
+    Проверяет возможность авторизации из запроса и выполняет её при
+    необходимости.
+    """
+    if getattr(view, '_login_from_request', QUICKAPI_LOGIN_FROM_REQUEST):
+        return login_from_request(request, data)
 
 
 def clean_kwargs(request, data):

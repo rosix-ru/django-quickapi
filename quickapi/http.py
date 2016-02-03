@@ -26,7 +26,7 @@ import json as jsonlib
 
 from django.utils.encoding import force_text
 from django.conf import settings
-from django.http import HttpResponse
+from django.http import HttpResponse, response
 from django.utils.functional import Promise
 from django.utils.translation import ugettext_lazy as _
 from django.utils.timezone import is_aware
@@ -51,6 +51,7 @@ MESSAGES = {
     205: _('Reset Content'),
     206: _('Partial Content'),
     207: _('Multi-Status'),
+    208: _('Already Reported'),
     226: _('IM Used'),
 #3xx
     300: _('Multiple Choices'),
@@ -60,6 +61,7 @@ MESSAGES = {
     304: _('Not Modified'),
     305: _('Use Proxy'),
     307: _('Temporary Redirect'),
+    308: _('Permanent Redirect'),
 #4xx
     400: _('Bad Request'),
     401: _('Unauthorized'),
@@ -79,11 +81,15 @@ MESSAGES = {
     415: _('Unsupported Media Type'),
     416: _('Requested Range Not Satisfiable'),
     417: _('Expectation Failed'),
+    418: _("I'm A Teapot"),
     422: _('Unprocessable Entity'),
     423: _('Locked'),
     424: _('Failed Dependency'),
     425: _('Unordered Collection'),
     426: _('Upgrade Required'),
+    428: _('Precondition Required'),
+    429: _('Too Many Requests'),
+    431: _('Request Header Fields Too Large'),
     449: _('Retry With'),
     456: _('Unrecoverable Error'),
 # 5xx
@@ -98,6 +104,7 @@ MESSAGES = {
     508: _('Loop Detected'),
     509: _('Bandwidth Limit Exceeded'),
     510: _('Not Extended'),
+    511: _('Network Authentication Required'),
 }
 
 class JSONEncoder(jsonlib.JSONEncoder):
@@ -182,7 +189,7 @@ def JSONResponse(data=None, message=None, status=200, **kwargs):
     return get_json_response(dic)
 
 
-def JSONRedirect(location='/', message=None, status=301, **kwargs):
+def JSONRedirect(location='/', message=None, status=302, **kwargs):
     """
     Redirect to page for this API.
     """
