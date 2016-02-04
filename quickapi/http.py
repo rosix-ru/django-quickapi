@@ -151,14 +151,15 @@ def tojson(ctx, indent=None):
     return result
 
 
-def get_json_response(ctx=None):
+def get_json_response(ctx=None, anticache=True):
     """
     Building JSON response.
     """
     result = tojson(ctx, indent=QUICKAPI_INDENT)
     content_type = "application/json; charset=%s" % settings.DEFAULT_CHARSET
     response = HttpResponse(content_type=content_type)
-    add_never_cache_headers(response)
+    if anticache:
+        add_never_cache_headers(response)
     response.write(result)
     return response
 
