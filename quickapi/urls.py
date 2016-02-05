@@ -19,9 +19,7 @@
 #   <http://www.gnu.org/licenses/>.
 #
 
-from __future__ import unicode_literals
-from django.conf.urls import url, patterns
-
+from django.conf.urls import url
 from quickapi.views import index, test
 
 urlpatterns = [
