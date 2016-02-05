@@ -23,10 +23,11 @@ from __future__ import unicode_literals
 import datetime
 import decimal
 import json as jsonlib
+from types import GeneratorType
 
 from django.utils.encoding import force_text
 from django.conf import settings
-from django.http import HttpResponse, response
+from django.http import HttpResponse
 from django.utils.functional import Promise
 from django.utils.translation import ugettext_lazy as _
 from django.utils.timezone import is_aware
@@ -138,6 +139,8 @@ class JSONEncoder(jsonlib.JSONEncoder):
                 return force_text(o)
         elif isinstance(o, (Promise, Exception)):
             return force_text(o)
+        elif isinstance(o, GeneratorType):
+            return list(o)
         else:
             return super(JSONEncoder, self).default(o)
 

@@ -20,10 +20,9 @@
 #
 
 from __future__ import unicode_literals
-import operator
 
 from django.db.models import Q, Model
-from django.core.paginator import Paginator#, InvalidPage, EmptyPage
+from django.core.paginator import Paginator
 from django.utils import six
 from django.utils.encoding import force_text
 
@@ -46,20 +45,14 @@ class QuickTable(object):
                               # allow to kill our server by huge sets
                               # of data
 
-
     def __init__(self, *args, **kwargs):
-
         self.validate()
 
-
     def validate(self):
-
         if not self.manager:
             raise NotImplementedError("Not specified a model Manager for %s." % self.__class__)
-
         if not self.columns:
             raise NotImplementedError("Not specified columns for %s." % self.__class__)
-
 
     def map_column(self, name):
         """
@@ -68,12 +61,10 @@ class QuickTable(object):
         """
         return self.map_columns.get(name, name)
 
-
     def render_column(self, request, row, column):
         """
         Renders a column on a row
         """
-
         if column in ('__unicode__', '__str__'):
             return force_text(row)
 
@@ -82,65 +73,47 @@ class QuickTable(object):
         if hasattr(row, 'get_%s_display' % column):
             # It's a choice field
             return getattr(row, 'get_%s_display' % column)()
-
         elif '.' in column:
             data = row
             for part in column.split('.'):
                 if data is None:
                     break
                 data = getattr(data, part, None)
-
             if isinstance(data, Model):
                 return force_text(data)
-
             return data
-
         else:
             return getattr(row, column)
 
-
     def render_objects(self, request, qs):
-
         cols = [ self.map_column(c) for c in self.columns ]
-
         def _serialize(o):
             return { c: self.render_column(request, o, c) for c in cols }
-
         return map(_serialize, qs)
-
 
     def filtering(self, request, qs, filters):
         """
         Производит фильтрацию набора данных
         """
         for f, query in six.iteritems(filters):
-
             if f == self.global_filter_key:
                 qs = filter_queryset(qs, self.global_search_columns, query)
-
             elif f in self.custom_search_columns:
                 qs = filter_queryset(qs, (self.map_column(f),), query)
-
             elif f in self.custom_exact_columns:
                 qs = qs.filter(Q(**{'{0}__exact'.format(self.map_column(f)): query}))
-
         return qs
-
 
     def ordering(self, request, qs, ordering):
         """
         Функция проверяет параметры сортировки и применяет только валидную
         """
-
         ordering = [ o for o in ordering
             if (o and not o.startswith('--') and o.lstrip('-') in self.order_columns)
         ]
-
         if ordering:
             return qs.order_by(*ordering)
-
         return qs
-
 
     def paging(self, request, qs, page, limit, orphans=0):
         """
@@ -148,13 +121,11 @@ class QuickTable(object):
         """
         return Paginator(qs, per_page=limit, orphans=orphans).page(page)
 
-
     def get_info(self, request, qs):
         """
         Возвращает информацию о наборе. Для наследования.
         """
         return None
-
 
     def get_context_data(self, request, page, info):
         """
@@ -166,22 +137,17 @@ class QuickTable(object):
             'num_pages': page.paginator.num_pages,
             'info': info,
         }
-
         return data
-
 
     def method(self, request, filters, ordering, page, limit):
         """
         Стандартное получение данных. Для наследования.
         """
-
         qs   = self.manager.all()
         qs   = self.filtering(request, qs, filters)
         info = self.get_info(request, qs)
-
         qs   = self.ordering(request, qs, ordering)
         page = self.paging(request, qs, page, limit)
-
         return self.get_context_data(request, page, info)
 
 
