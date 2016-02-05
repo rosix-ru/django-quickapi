@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-#   Copyright 2012-2015 Grigoriy Kramarenko <root@rosix.ru>
+#   Copyright 2012-2016 Grigoriy Kramarenko <root@rosix.ru>
 #
 #   This file is part of QuickAPI.
 #
