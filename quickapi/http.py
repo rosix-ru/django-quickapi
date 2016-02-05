@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-#   Copyright 2012-2015 Grigoriy Kramarenko <root@rosix.ru>
+#   Copyright 2012-2016 Grigoriy Kramarenko <root@rosix.ru>
 #
 #   This file is part of QuickAPI.
 #
@@ -20,22 +20,15 @@
 #
 
 from __future__ import unicode_literals
-import datetime
-import decimal
-import json as jsonlib
-from types import GeneratorType
 
-from django.utils.encoding import force_text
+import json
+
 from django.conf import settings
 from django.http import HttpResponse
-from django.utils.functional import Promise
 from django.utils.translation import ugettext_lazy as _
-from django.utils.timezone import is_aware
-from django.utils.formats import number_format
 from django.utils.cache import add_never_cache_headers
 
-from quickapi.conf import (QUICKAPI_INDENT, QUICKAPI_DECIMAL_LOCALE,
-    QUICKAPI_ENSURE_ASCII)
+from quickapi.serializers import JSONEncoder, tojson
 
 
 MESSAGES = {
@@ -108,57 +101,12 @@ MESSAGES = {
     511: _('Network Authentication Required'),
 }
 
-class JSONEncoder(jsonlib.JSONEncoder):
-    """
-    JSONEncoder subclass that knows how to encode date/time, decimal
-    types and Lazy objects.
-    Almost like in Django, but with additions.
-    """
-    def default(self, o):
-        # See "Date Time String Format" in the ECMA-262 specification.
-        if isinstance(o, datetime.datetime):
-            r = o.isoformat()
-            if o.microsecond:
-                r = r[:23] + r[26:]
-            if r.endswith('+00:00'):
-                r = r[:-6] + 'Z'
-            return r
-        elif isinstance(o, datetime.date):
-            return o.isoformat()
-        elif isinstance(o, datetime.time):
-            if is_aware(o):
-                raise ValueError("JSON can't represent timezone-aware times.")
-            r = o.isoformat()
-            if o.microsecond:
-                r = r[:12]
-            return r
-        elif isinstance(o, decimal.Decimal):
-            if QUICKAPI_DECIMAL_LOCALE:
-                return number_format(o, use_l10n=True, force_grouping=True)
-            else:
-                return force_text(o)
-        elif isinstance(o, (Promise, Exception)):
-            return force_text(o)
-        elif isinstance(o, GeneratorType):
-            return list(o)
-        else:
-            return super(JSONEncoder, self).default(o)
-
-
-def tojson(ctx, indent=None):
-    """
-    Convert context to JSON.
-    """
-    result = jsonlib.dumps(ctx, ensure_ascii=QUICKAPI_ENSURE_ASCII, cls=JSONEncoder, indent=indent)
-    result = result.encode(settings.DEFAULT_CHARSET)
-    return result
-
 
 def get_json_response(ctx=None, anticache=True):
     """
     Building JSON response.
     """
-    result = tojson(ctx, indent=QUICKAPI_INDENT)
+    result = tojson(ctx).encode(settings.DEFAULT_CHARSET)
     content_type = "application/json; charset=%s" % settings.DEFAULT_CHARSET
     response = HttpResponse(content_type=content_type)
     if anticache:
