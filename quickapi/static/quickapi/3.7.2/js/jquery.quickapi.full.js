@@ -27,7 +27,7 @@
     /* Общая функция для работы с django-quickapi
      * 
      * Документация:
-     * https://docs.rosix.ru/django-quickapi/wiki/jquery.html#quickapi
+     * https://docs.rosix.org/django-quickapi/wiki/jquery.html#quickapi
      * 
      */
 
@@ -196,7 +196,7 @@
     /* Плагин для работы с QuickTable из состава django-quickapi
      * 
      * Документация:
-     * https://docs.rosix.ru/django-quickapi/wiki/jquery.html#quicktable
+     * https://docs.rosix.org/django-quickapi/wiki/jquery.html#quicktable
      * 
      */
     var pluginName = "quickTable";

@@ -23,6 +23,6 @@ from quickapi.utils.version import get_version, get_docs_version
 
 default_app_config = 'quickapi.apps.AppConfig'
 
-VERSION = (3, 7, 1, 'final', 0)
+VERSION = (3, 7, 2, 'final', 0)
 
 __version__ = get_version(VERSION)

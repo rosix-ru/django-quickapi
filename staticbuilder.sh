@@ -62,7 +62,7 @@ echo '';
 echo "STARTS THE CREATION OF CSS FILES";
 echo '';
 
-lessc --source-map "${SRC_DIR}/css/quicktable.less" "${SRC_DIR}/css/quicktable.css"
+lessc "${SRC_DIR}/css/quicktable.less" "${SRC_DIR}/css/quicktable.css"
 echo "created ${SRC_DIR}/css/quicktable.css";
 
 cp ${SRC_DIR}/css/quicktable.css ${CSS_DIR}/quicktable.css;

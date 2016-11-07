@@ -71,7 +71,6 @@ class BaseClient(object):
     password = None
     url      = 'http://localhost:8000/api/'
     headers  = {
-        "Content-type": "application/json",
         "Accept": "application/json",
         "Accept-Encoding": "gzip, deflate",
     }

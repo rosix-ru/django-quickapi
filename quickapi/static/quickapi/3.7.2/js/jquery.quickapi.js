@@ -27,7 +27,7 @@
     /* Общая функция для работы с django-quickapi
      * 
      * Документация:
-     * https://docs.rosix.ru/django-quickapi/wiki/jquery.html#quickapi
+     * https://docs.rosix.org/django-quickapi/wiki/jquery.html#quickapi
      * 
      */
 
