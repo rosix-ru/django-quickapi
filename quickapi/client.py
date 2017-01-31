@@ -125,7 +125,7 @@ class BaseClient(object):
         """
         args = ()
 
-        if not self.cookiejar is None:
+        if self.cookiejar is not None:
             cookiehand = HTTPCookieProcessor(self.cookiejar)
             args += (cookiehand,)
 
@@ -144,7 +144,7 @@ class BaseClient(object):
         except IOError as e:
             raise e
 
-        if not self.cookiejar is None:
+        if self.cookiejar is not None:
             self.cookiejar.save()
 
         return response
