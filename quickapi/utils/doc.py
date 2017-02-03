@@ -46,9 +46,12 @@ def _apidoc_lazy(header, params=_('Missing.'), data='', footer=''):
 %(footer)s
 
 """)
-    return template % {'header':header, 'params':params, 'data':data, 'footer':footer}
+    return template % {'header': header, 'params': params, 'data': data,
+                       'footer': footer}
+
 
 apidoc_lazy = lazy(_apidoc_lazy, six.text_type)
+
 
 def _combine_string(string, args=None):
     """
@@ -58,7 +61,9 @@ def _combine_string(string, args=None):
         return string
     return string % args
 
+
 string_lazy = lazy(_combine_string, six.text_type)
+
 
 JS_BOOLEAN_TEMPLATE = """
 ```
@@ -69,9 +74,11 @@ true // %s false
 """
 
 RETURN_BOOLEAN_SUCCESS = string_lazy(JS_BOOLEAN_TEMPLATE, _('if success or'))
-RETURN_BOOLEAN_NOTSUCCESS = string_lazy(JS_BOOLEAN_TEMPLATE, _('if not success or'))
+RETURN_BOOLEAN_NOTSUCCESS = string_lazy(JS_BOOLEAN_TEMPLATE,
+                                        _('if not success or'))
 RETURN_BOOLEAN_EXISTS = string_lazy(JS_BOOLEAN_TEMPLATE, _('if exists or'))
-RETURN_BOOLEAN_NOTEXISTS = string_lazy(JS_BOOLEAN_TEMPLATE, _('if not exists or'))
+RETURN_BOOLEAN_NOTEXISTS = string_lazy(JS_BOOLEAN_TEMPLATE,
+                                       _('if not exists or'))
 
 PARAMS_UPDATE_FIELD_TEMPLATE = """
     1. "pk" - %s;
@@ -79,8 +86,10 @@ PARAMS_UPDATE_FIELD_TEMPLATE = """
     3. "value" - %s.
 """
 
-PARAMS_UPDATE_FIELD = string_lazy(PARAMS_UPDATE_FIELD_TEMPLATE,
-    (_('primary key'), _('name of field'), _('new value for field')))
+PARAMS_UPDATE_FIELD = string_lazy(
+    PARAMS_UPDATE_FIELD_TEMPLATE,
+    (_('primary key'), _('name of field'), _('new value for field'))
+)
 
 
 QUICKTABLE_PARAMS = string_lazy("""
@@ -103,4 +112,3 @@ QUICKTABLE_DATA = string_lazy("""
 }
 ```
 """, (_('list of objects'), _('or specific information')))
-

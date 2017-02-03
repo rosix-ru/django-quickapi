@@ -21,22 +21,21 @@
 
 from __future__ import unicode_literals
 
-import json
-
 from django.conf import settings
 from django.http import HttpResponse
 from django.utils.translation import ugettext_lazy as _
 from django.utils.cache import add_never_cache_headers
 
-from quickapi.serializers import JSONEncoder, tojson
+from quickapi.serializers import JSONEncoder  # NOQA
+from quickapi.serializers import tojson
 
 
 MESSAGES = {
-#1xx
+    # 1xx
     100: _('Continue'),
     101: _('Switching Protocols'),
     102: _('Processing'),
-#2xx
+    # 2xx
     200: _('OK'),
     201: _('Created'),
     202: _('Accepted'),
@@ -47,7 +46,7 @@ MESSAGES = {
     207: _('Multi-Status'),
     208: _('Already Reported'),
     226: _('IM Used'),
-#3xx
+    # 3xx
     300: _('Multiple Choices'),
     301: _('Moved Permanently'),
     302: _('Found'),
@@ -56,7 +55,7 @@ MESSAGES = {
     305: _('Use Proxy'),
     307: _('Temporary Redirect'),
     308: _('Permanent Redirect'),
-#4xx
+    # 4xx
     400: _('Bad Request'),
     401: _('Unauthorized'),
     402: _('Payment Required'),
@@ -86,7 +85,7 @@ MESSAGES = {
     431: _('Request Header Fields Too Large'),
     449: _('Retry With'),
     456: _('Unrecoverable Error'),
-# 5xx
+    # 5xx
     500: _('Internal Server Error'),
     501: _('Not Implemented'),
     502: _('Bad Gateway'),
@@ -148,9 +147,8 @@ def JSONRedirect(location='/', message=None, status=302, **kwargs):
     dic = {
         'status': status,
         'message': message,
-        'data': { 'Location': location },
+        'data': {'Location': location},
     }
     dic.update(kwargs)
     dic = check_message(check_status(dic))
     return get_json_response(dic)
-

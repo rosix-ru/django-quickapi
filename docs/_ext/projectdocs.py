@@ -1,10 +1,6 @@
 """
 Sphinx plugins for Project documentation.
 """
-import json
-import os
-import re
-
 from sphinx import __version__ as sphinx_ver, addnodes
 from sphinx.writers.html import SmartyPantsHTMLTranslator
 
@@ -14,6 +10,7 @@ from gettext import textdomain, bindtextdomain, gettext
 domain = textdomain('ext')
 # set directory with localizations
 bindtextdomain(domain, localedir='locale')
+
 
 def _(message):
     v = gettext(message)
@@ -54,6 +51,7 @@ class ProjectHTMLTranslator(SmartyPantsHTMLTranslator):
         #
         # Don't apply smartypants to literal blocks
         #
+
         def visit_literal_block(self, node):
             self.no_smarty += 1
             SmartyPantsHTMLTranslator.visit_literal_block(self, node)
@@ -61,7 +59,6 @@ class ProjectHTMLTranslator(SmartyPantsHTMLTranslator):
         def depart_literal_block(self, node):
             SmartyPantsHTMLTranslator.depart_literal_block(self, node)
             self.no_smarty -= 1
-
 
     version_text = {
         'versionchanged': _('Changed in version %s'),
@@ -84,10 +81,10 @@ class ProjectHTMLTranslator(SmartyPantsHTMLTranslator):
         self.body.append("</div>\n")
 
     # Give each section a unique ID -- nice for custom CSS hooks
+
     def visit_section(self, node):
         old_ids = node.get('ids', [])
         node['ids'] = ['s-' + i for i in old_ids]
         node['ids'].extend(old_ids)
         SmartyPantsHTMLTranslator.visit_section(self, node)
         node['ids'] = old_ids
-

@@ -28,18 +28,23 @@ from quickapi import __version__ as QUICKAPI_VERSION
 DJANGO_VERSION = django_version()
 
 PROJECT_NAME = getattr(settings, 'PROJECT_NAME', None)
-PROJECT_URL  = getattr(settings, 'PROJECT_URL', None)
+PROJECT_URL = getattr(settings, 'PROJECT_URL', None)
 
-QUICKAPI_DEFINED_METHODS       = getattr(settings, 'QUICKAPI_DEFINED_METHODS', {})
-QUICKAPI_ONLY_AUTHORIZED_USERS = getattr(settings, 'QUICKAPI_ONLY_AUTHORIZED_USERS', False)
-QUICKAPI_LOGIN_FROM_REQUEST    = getattr(settings, 'QUICKAPI_LOGIN_FROM_REQUEST', True)
-QUICKAPI_INDENT                = getattr(settings, 'QUICKAPI_INDENT', 2)
-QUICKAPI_DEBUG                 = getattr(settings, 'QUICKAPI_DEBUG', False)
-QUICKAPI_SWITCH_LANGUAGE       = getattr(settings, 'QUICKAPI_SWITCH_LANGUAGE', True)
-QUICKAPI_SWITCH_LANGUAGE_AUTO  = getattr(settings, 'QUICKAPI_SWITCH_LANGUAGE_AUTO', True)
-QUICKAPI_DECIMAL_LOCALE        = getattr(settings, 'QUICKAPI_DECIMAL_LOCALE', False)
-QUICKAPI_ENSURE_ASCII          = getattr(settings, 'QUICKAPI_ENSURE_ASCII', False)
-QUICKAPI_PYGMENTS_STYLE        = getattr(settings, 'QUICKAPI_PYGMENTS_STYLE', 'default')
+QUICKAPI_DEFINED_METHODS = getattr(settings, 'QUICKAPI_DEFINED_METHODS', {})
+QUICKAPI_ONLY_AUTHORIZED_USERS = getattr(settings,
+                                         'QUICKAPI_ONLY_AUTHORIZED_USERS',
+                                         False)
+QUICKAPI_LOGIN_FROM_REQUEST = getattr(settings, 'QUICKAPI_LOGIN_FROM_REQUEST',
+                                      True)
+QUICKAPI_INDENT = getattr(settings, 'QUICKAPI_INDENT', 2)
+QUICKAPI_DEBUG = getattr(settings, 'QUICKAPI_DEBUG', False)
+QUICKAPI_SWITCH_LANGUAGE = getattr(settings, 'QUICKAPI_SWITCH_LANGUAGE', True)
+QUICKAPI_SWITCH_LANGUAGE_AUTO = getattr(settings,
+                                        'QUICKAPI_SWITCH_LANGUAGE_AUTO', True)
+QUICKAPI_DECIMAL_LOCALE = getattr(settings, 'QUICKAPI_DECIMAL_LOCALE', False)
+QUICKAPI_ENSURE_ASCII = getattr(settings, 'QUICKAPI_ENSURE_ASCII', False)
+QUICKAPI_PYGMENTS_STYLE = getattr(settings, 'QUICKAPI_PYGMENTS_STYLE',
+                                  'default')
 
 QUICKAPI_VERSIONS = getattr(settings, 'QUICKAPI_VERSIONS', {
     'django': DJANGO_VERSION,

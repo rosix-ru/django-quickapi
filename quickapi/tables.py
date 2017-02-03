@@ -36,23 +36,30 @@ class QuickTable(object):
     manager = None
     columns = ()
     order_columns = ()
-    global_search_columns = () # fields for searching on global_filter_key
-    custom_search_columns = () # when searching by one and above fields
-    custom_exact_columns  = () # when searching by one and above fields and exact only
-    map_columns           = {}
+    # fields for searching on global_filter_key
+    global_search_columns = ()
+    # when searching by one and above fields
+    custom_search_columns = ()
+    # when searching by one and above fields and exact only
+    custom_exact_columns = ()
+    map_columns = {}
     global_filter_key = '_search_'
-    max_display_length = 100  # max limit of records returned, do not
-                              # allow to kill our server by huge sets
-                              # of data
+    # max limit of records returned, do not allow to kill our server
+    # by huge sets of data
+    max_display_length = 100
 
     def __init__(self, *args, **kwargs):
         self.validate()
 
     def validate(self):
         if not self.manager:
-            raise NotImplementedError("Not specified a model Manager for %s." % self.__class__)
+            raise NotImplementedError(
+                "Not specified a model Manager for %s." % self.__class__
+            )
         if not self.columns:
-            raise NotImplementedError("Not specified columns for %s." % self.__class__)
+            raise NotImplementedError(
+                "Not specified columns for %s." % self.__class__
+            )
 
     def map_column(self, name):
         """
@@ -86,9 +93,11 @@ class QuickTable(object):
             return getattr(row, column)
 
     def render_objects(self, request, qs):
-        cols = [ self.map_column(c) for c in self.columns ]
+        cols = [self.map_column(c) for c in self.columns]
+
         def _serialize(o):
-            return { c: self.render_column(request, o, c) for c in cols }
+            return {c: self.render_column(request, o, c) for c in cols}
+
         return map(_serialize, qs)
 
     def filtering(self, request, qs, filters):
@@ -101,15 +110,21 @@ class QuickTable(object):
             elif f in self.custom_search_columns:
                 qs = filter_queryset(qs, (self.map_column(f),), query)
             elif f in self.custom_exact_columns:
-                qs = qs.filter(Q(**{'{0}__exact'.format(self.map_column(f)): query}))
+                qs = qs.filter(
+                    Q(**{'{0}__exact'.format(self.map_column(f)): query})
+                )
         return qs
 
     def ordering(self, request, qs, ordering):
         """
         Функция проверяет параметры сортировки и применяет только валидную
         """
-        ordering = [ o for o in ordering
-            if (o and not o.startswith('--') and o.lstrip('-') in self.order_columns)
+        ordering = [
+            o for o in ordering if (
+                o and
+                not o.startswith('--') and
+                o.lstrip('-') in self.order_columns
+            )
         ]
         if ordering:
             return qs.order_by(*ordering)
@@ -131,7 +146,7 @@ class QuickTable(object):
         """
         Формирование контекста JSON структуры
         """
-        data =  {
+        data = {
             'objects': self.render_objects(request, page.object_list),
             'page': page.number,
             'num_pages': page.paginator.num_pages,
@@ -143,11 +158,9 @@ class QuickTable(object):
         """
         Стандартное получение данных. Для наследования.
         """
-        qs   = self.manager.all()
-        qs   = self.filtering(request, qs, filters)
+        qs = self.manager.all()
+        qs = self.filtering(request, qs, filters)
         info = self.get_info(request, qs)
-        qs   = self.ordering(request, qs, ordering)
+        qs = self.ordering(request, qs, ordering)
         page = self.paging(request, qs, page, limit)
         return self.get_context_data(request, page, info)
-
-

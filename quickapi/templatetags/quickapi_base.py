@@ -53,6 +53,7 @@ except:
 else:
     highlight_support = True
 
+
 def drop_space(doc):
     """
     Удаление начальных и конечных пробелов в документации.
@@ -64,25 +65,28 @@ def drop_space(doc):
     for s in doc.split('\n'):
         # Если начинается код
         if s.strip(' ').startswith('`'):
-            cut = len(s[:s.find('`')]) # только выставляем обрезку
-            start_code = True          # устанавливаем начальный флаг
-        # Если заканчивается код
+            # только выставляем обрезку
+            cut = len(s[:s.find('`')])
+            # устанавливаем начальный флаг
+            start_code = True
+        # Если заканчивается код, то записываем, сбрасываем обрезку,
+        # сбрасываем начальный флаг и прерываем цикл.
         if s.strip().endswith('`') and not start_code:
-            L.append(s[cut:])          # то записываем,
-            cut = None                 # сбрасываем обрезку
-            start_code = False         # сбрасываем начальный флаг
-            continue                   # и прерываем цикл
-        # Теперь записываем
-        if not cut is None:
-            L.append(s[cut:])          # с обрезкой
+            L.append(s[cut:])
+            cut = None
+            start_code = False
+            continue
+        # Теперь записываем с обрезкой.
+        if cut is not None:
+            L.append(s[cut:])
+        # Или полностью очищенную строку.
         else:
-            L.append(s.strip(' '))     # или полностью очищенную строку
+            L.append(s.strip(' '))
     return '\n'.join(L)
 
+
 def highlight_prepare(text):
-    """
-    Обработка подстветки синтаксиса с помощью Pygments
-    """
+    "Обработка подстветки синтаксиса с помощью Pygments."
     TEXT = []
     MARK = []
     CODE = []
@@ -94,7 +98,7 @@ def highlight_prepare(text):
     for s in text.split('\n'):
         # Если начинается код
         if s.startswith('```') and not is_code:
-            start_code = is_code = True # ставим флаги
+            start_code = is_code = True  # ставим флаги
             if markdown_support and MARK:
                 # добавляем текст markdown
                 try:
@@ -102,11 +106,11 @@ def highlight_prepare(text):
                 except:
                     mark = ''
                 TEXT.append(mark)
-                MARK = [] # сбрасываем текст markdown
-            continue # и прерываем цикл
+                MARK = []  # сбрасываем текст markdown
+            continue  # и прерываем цикл
         # Если закончился код
         elif s.startswith('```') and is_code:
-            is_code = False # ставим флаги
+            is_code = False  # ставим флаги
             try:
                 # Подсвечиваем код
                 code = highlight('\n'.join(CODE), lexer, formatter)
@@ -143,6 +147,7 @@ def highlight_prepare(text):
 
     return '\n'.join(TEXT)
 
+
 @register.filter
 def formatdoc(text):
     text = drop_space(force_text(text))
@@ -154,16 +159,20 @@ def formatdoc(text):
         '<br>'.join(text.split('\n'))
     return text
 
+
 @register.simple_tag
 def PROJECT_NAME():
     return conf.PROJECT_NAME or _('Project')
+
 
 @register.simple_tag
 def PROJECT_URL():
     return conf.PROJECT_URL or '/'
 
+
 class TagDeprecationWarning(Warning):
     pass
+
 
 @register.simple_tag
 def DJANGO_VERSION():
@@ -173,6 +182,7 @@ def DJANGO_VERSION():
 
     return conf.DJANGO_VERSION
 
+
 @register.simple_tag
 def QUICKAPI_VERSION():
     warnings.warn(
@@ -181,9 +191,11 @@ def QUICKAPI_VERSION():
 
     return conf.QUICKAPI_VERSION
 
+
 @register.simple_tag
 def get_version(key):
     return conf.QUICKAPI_VERSIONS.get(key.lower(), 'stable')
+
 
 @register.simple_tag
 def PYGMENTS_STYLE():

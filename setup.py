@@ -23,7 +23,7 @@ from setuptools import setup, find_packages
 import quickapi
 
 setup(
-    name='django-quickapi', # this name for PyPI, really project name: QuickAPI
+    name='django-quickapi',
     version=quickapi.__version__,
     description='The Django-application for the fast organization API.',
     long_description=open('README.rst').read(),
@@ -34,14 +34,15 @@ setup(
     platforms='any',
     zip_safe=False,
     packages=find_packages(),
-    include_package_data = True,
+    include_package_data=True,
     install_requires=[],
     classifiers=[
         'Development Status :: 5 - Production/Stable',
         'Environment :: Web Environment',
         'Framework :: Django',
         'Intended Audience :: Developers',
-        'License :: OSI Approved :: GNU Affero General Public License v3 or later (AGPLv3+)',
+        'License :: OSI Approved :: '
+        'GNU Affero General Public License v3 or later (AGPLv3+)',
         'Natural Language :: Russian',
         'Natural Language :: English',
         'Operating System :: OS Independent',

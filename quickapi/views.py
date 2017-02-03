@@ -25,10 +25,9 @@ import decimal
 import json
 
 from django.conf import settings
-from django.http import HttpResponseRedirect, HttpResponseBadRequest
+from django.http import HttpResponseBadRequest
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
-from django.utils import six
 from django.utils import timezone
 from django.utils.encoding import force_text
 from django.utils.translation import get_language, ugettext_lazy as _
@@ -39,10 +38,13 @@ from quickapi.http import JSONResponse, JSONRedirect, MESSAGES
 from quickapi.utils.method import get_methods
 from quickapi.utils.doc import apidoc_lazy, string_lazy
 from quickapi.utils.lang import switch_language
-from quickapi.utils.requests import (parse_auth, request_login,
-    clean_kwargs, clean_uri, warning_auth_in_get, is_callable)
+from quickapi.utils.requests import (request_login,
+                                     clean_kwargs, clean_uri,
+                                     warning_auth_in_get, is_callable)
+
 
 logger = logging.getLogger('django.quickapi')
+
 
 @api_required(ajax_get=True, not_ajax_get=True)
 def test(request, code=200, redirect='/'):
@@ -56,17 +58,26 @@ def test(request, code=200, redirect='/'):
         code = 200
 
     if code in (301, 302):
-        return JSONRedirect(location=redirect, status=code,
-                message=_('Test response. Redirect to %s.') % redirect)
+        return JSONRedirect(
+            location=redirect, status=code,
+            message=_('Test response. Redirect to %s.') % redirect
+        )
     elif code == 400:
-        return JSONResponse(status=400, message=force_text(_('Test response. Error %d.')) % 400)
+        return JSONResponse(
+            status=400,
+            message=force_text(_('Test response. Error %d.')) % 400
+        )
     elif code == 500:
-        return JSONResponse(status=500, message=_('Test response. Error %d.') % 500)
+        return JSONResponse(
+            status=500,
+            message=_('Test response. Error %d.') % 500
+        )
 
     now = timezone.now()
 
     data = {
-        'REMOTE_ADDR': request.META.get("HTTP_X_REAL_IP", request.META.get("REMOTE_ADDR", None)),
+        'REMOTE_ADDR': request.META.get("HTTP_X_REAL_IP",
+                                        request.META.get("REMOTE_ADDR", None)),
         'REMOTE_HOST': request.META.get("REMOTE_HOST", None),
         'default language': settings.LANGUAGE_CODE,
         'request language': get_language(),
@@ -85,12 +96,14 @@ def test(request, code=200, redirect='/'):
     if settings.DEBUG:
         data['settings'] = {
             'QUICKAPI_DEFINED_METHODS': conf.QUICKAPI_DEFINED_METHODS,
-            'QUICKAPI_ONLY_AUTHORIZED_USERS': conf.QUICKAPI_ONLY_AUTHORIZED_USERS,
+            'QUICKAPI_ONLY_AUTHORIZED_USERS':
+                conf.QUICKAPI_ONLY_AUTHORIZED_USERS,
             'QUICKAPI_LOGIN_FROM_REQUEST': conf.QUICKAPI_LOGIN_FROM_REQUEST,
             'QUICKAPI_INDENT': conf.QUICKAPI_INDENT,
             'QUICKAPI_DEBUG': conf.QUICKAPI_DEBUG,
             'QUICKAPI_SWITCH_LANGUAGE': conf.QUICKAPI_SWITCH_LANGUAGE,
-            'QUICKAPI_SWITCH_LANGUAGE_AUTO': conf.QUICKAPI_SWITCH_LANGUAGE_AUTO,
+            'QUICKAPI_SWITCH_LANGUAGE_AUTO':
+                conf.QUICKAPI_SWITCH_LANGUAGE_AUTO,
             'QUICKAPI_DECIMAL_LOCALE': conf.QUICKAPI_DECIMAL_LOCALE,
             'QUICKAPI_ENSURE_ASCII': conf.QUICKAPI_ENSURE_ASCII,
             'QUICKAPI_PYGMENTS_STYLE': conf.QUICKAPI_PYGMENTS_STYLE,
@@ -98,22 +111,24 @@ def test(request, code=200, redirect='/'):
         }
     return JSONResponse(data)
 
+
 test.__doc__ = apidoc_lazy(
     header=_("""Test response."""),
     params=string_lazy(
-"""
+        """
     1. "code" - %(co)s (%(nr)s);
     2. "redirect"  - %(re)s (%(nr)s).
-""", {
-    'co': _('code'),
-    're': _('address for redirect'),
-    'nr': _('not required'),
-}),
+    """,
+        {
+            'co': _('code'),
+            're': _('address for redirect'),
+            'nr': _('not required'),
+        }
+    ),
     data=string_lazy(
-"""
+        """
 ```
 #!javascript
-
 {
     "REMOTE_ADDR": "127.0.0.1" || null,
     "REMOTE_HOST": "example.org" || null,
@@ -132,12 +147,12 @@ test.__doc__ = apidoc_lazy(
     "settings": {
         "QUICKAPI_DEFINED_METHODS": {
             "quickapi.test": "quickapi.views.test"
-        }, 
-        "QUICKAPI_INDENT": 2, 
-        "QUICKAPI_DECIMAL_LOCALE": false, 
-        "QUICKAPI_ONLY_AUTHORIZED_USERS": false, 
-        "QUICKAPI_DEBUG": false, 
-        "QUICKAPI_SWITCH_LANGUAGE_AUTO": true, 
+        },
+        "QUICKAPI_INDENT": 2,
+        "QUICKAPI_DECIMAL_LOCALE": false,
+        "QUICKAPI_ONLY_AUTHORIZED_USERS": false,
+        "QUICKAPI_DEBUG": false,
+        "QUICKAPI_SWITCH_LANGUAGE_AUTO": true,
         "QUICKAPI_SWITCH_LANGUAGE": true,
         "QUICKAPI_ENSURE_ASCII": false,
         "QUICKAPI_PYGMENTS_STYLE": "default",
@@ -145,12 +160,15 @@ test.__doc__ = apidoc_lazy(
     }
 }
 ```
-""", (_('String in your localization'), _('versions of components'))),
-    footer=_('*In debug mode shows the settings. Here are the default.* <a href="./?method=quickapi.test">Click for test</a>.')
+        """,
+        (_('String in your localization'), _('versions of components'))
+    ),
+    footer=_('*In debug mode shows the settings. Here are the default.* '
+             '<a href="./?method=quickapi.test">Click for test</a>.')
 )
 
 
-METHODS = get_methods() # store default methods from settings
+METHODS = get_methods()  # store default methods from settings
 
 
 @csrf_exempt
@@ -187,7 +205,8 @@ def index(request, methods=METHODS):
     ctx = {}
     ctx['api_url'] = clean_uri(request)
     ctx['methods'] = methods.values()
-    ctx['test_method_doc'] = test.__doc__ if not 'quickapi.test' in methods else None
+    ctx['test_method_doc'] = (test.__doc__ if 'quickapi.test' not in
+                              methods else None)
 
     return render(request, 'quickapi/index.html', ctx)
 
@@ -212,7 +231,8 @@ def run(request, methods):
     # направляем на страницу документации
     if warning_auth_in_get(request):
         url = clean_uri(request)+'#requests-auth'
-        msg = _('You made a dangerous request. Please, read the docs: %s') % url
+        msg = _('You made a dangerous request. '
+                'Please, read the docs: %s') % url
         return HttpResponseBadRequest(content=force_text(msg))
 
     if request.method == 'GET':
@@ -221,6 +241,7 @@ def run(request, methods):
         REQUEST = request.POST
 
     real_method = None
+
     def get_real_method(name):
         if method in methods:
             return methods[method]['method']
@@ -238,12 +259,14 @@ def run(request, methods):
 
     elif 'jsonData' in REQUEST:
         try:
-            data   = json.loads(REQUEST.get('jsonData'))
+            data = json.loads(REQUEST.get('jsonData'))
             method = data.get('method')
             real_method = get_real_method(method)
             kwargs = data.get('kwargs', clean_kwargs(request, data))
         except Exception as e:
-            return HttpResponseBadRequest(content='%s\n%s' % (force_text(MESSAGES[400]), force_text(e)))
+            return HttpResponseBadRequest(
+                content='%s\n%s' % (force_text(MESSAGES[400]), force_text(e))
+            )
 
         if not is_authenticated:
             is_authenticated = request_login(real_method, request, data)
@@ -255,16 +278,23 @@ def run(request, methods):
         if conf.QUICKAPI_ONLY_AUTHORIZED_USERS and method != 'quickapi.test':
             meta = request.META
             ip = meta.get("HTTP_X_REAL_IP", meta.get("REMOTE_ADDR", None))
-            logger.info('The attempt unauthorized access to method `%s` on %s from IP: %s.',
-                        method, request.path, ip)
-            return HttpResponseBadRequest(status=401, content=force_text(MESSAGES[401]))
+            logger.info(
+                'The attempt unauthorized access to method '
+                '`%s` on %s from IP: %s.',
+                method, request.path, ip
+            )
+            return HttpResponseBadRequest(
+                status=401,
+                content=force_text(MESSAGES[401])
+            )
 
     if conf.QUICKAPI_DEBUG:
         logger.debug('Run method `%s` on %s', method, request.path)
 
     if not real_method:
-        return HttpResponseBadRequest(status=405, content=force_text(MESSAGES[405]))
+        return HttpResponseBadRequest(
+            status=405,
+            content=force_text(MESSAGES[405])
+        )
 
     return real_method(request, **kwargs)
-
-

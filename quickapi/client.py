@@ -69,17 +69,16 @@ class BaseClient(object):
 
     username = None
     password = None
-    url      = 'http://localhost:8000/api/'
-    headers  = {
+    url = 'http://localhost:8000/api/'
+    headers = {
         "Accept": "application/json",
         "Accept-Encoding": "gzip, deflate",
     }
-    timeout  = 10000
+    timeout = 10000
     cookiejar = None
     print_info = False
     code_page = 'utf-8'
     use_basic_auth = False
-
 
     def __init__(self, cookie_filename=None, **kwargs):
 
@@ -103,7 +102,7 @@ class BaseClient(object):
 
         params = urlencode({'jsonData': data})
         params = params.encode('ascii')
-        
+
         headers = {}
         headers.update(self.headers)
         if self.use_basic_auth and self.username and self.password:
@@ -114,7 +113,7 @@ class BaseClient(object):
                 b = bytes(s.encode('utf-8'))
 
             headers['Authorization'] = b'Basic ' + base64.b64encode(b)
-        
+
         request = Request(url=self.url, data=params, headers=headers)
 
         return request
@@ -130,7 +129,6 @@ class BaseClient(object):
             args += (cookiehand,)
 
         return build_opener(*args)
-
 
     def get_response(self, request):
         """
@@ -202,8 +200,8 @@ class BaseClient(object):
         Здесь просто добавляются учётные данные.
         """
         if self.username and not self.use_basic_auth:
-            data['username'] = self.username 
-            data['password'] = self.password 
+            data['username'] = self.username
+            data['password'] = self.password
 
         return data
 
@@ -242,7 +240,3 @@ class BaseClient(object):
         data = self.get_result(data)
         data = self.clean(data)
         return data
-
-
-    
-    

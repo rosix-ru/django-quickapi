@@ -19,7 +19,8 @@
 #   <http://www.gnu.org/licenses/>.
 #
 
-from quickapi.utils.version import get_version, get_docs_version
+from quickapi.utils.version import get_version
+from quickapi.utils.version import get_docs_version  # NOQA
 
 default_app_config = 'quickapi.apps.AppConfig'
 

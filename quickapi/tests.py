@@ -23,12 +23,13 @@ class QuickapiTestCase(TestCase):
     Базовый класс для тестов в других приложениях
     """
 
-    def assertJsonContent(self, content, msg=None, status=None, data=None, message=None):
+    def assertJsonContent(self, content, msg=None, status=None, data=None,
+                          message=None):
         """
         Проверка контента ответа QuickAPI.
 
-        Параметр `mgs` передаётся для генерации сообщения об ошибке 
-        получения корректных данных. Остальные параметры - для 
+        Параметр `mgs` передаётся для генерации сообщения об ошибке
+        получения корректных данных. Остальные параметры - для
         диагностики самого контента.
 
         Возвращает данные, полученные внутри контента (ключ `data`).
@@ -67,7 +68,8 @@ class SimpleTest(QuickapiTestCase):
     url = '/'
 
     def setUp(self):
-        self.user = User.objects.create_user(username=USERNAME, password=PASSWORD)
+        self.user = User.objects.create_user(username=USERNAME,
+                                             password=PASSWORD)
 
     def test_warning_auth(self):
         """
@@ -125,22 +127,26 @@ class SimpleTest(QuickapiTestCase):
             basic = b'Basic ' + base64.b64encode(b)
 
             # GET c заголовком 'HTTP_AUTHORIZATION'
-            response = self.client.get(self.url, {'method': 'quickapi.test'}, HTTP_AUTHORIZATION=basic)
+            response = self.client.get(self.url, {'method': 'quickapi.test'},
+                                       HTTP_AUTHORIZATION=basic)
             self.assertEqual(response.status_code, 200)
             self.client.logout()
 
             # POST c заголовком 'HTTP_AUTHORIZATION'
-            response = self.client.post(self.url, {'method': 'quickapi.test'}, HTTP_AUTHORIZATION=basic)
+            response = self.client.post(self.url, {'method': 'quickapi.test'},
+                                        HTTP_AUTHORIZATION=basic)
             self.assertEqual(response.status_code, 200)
             self.client.logout()
 
             # GET c заголовком 'HTTP_X_AUTHORIZATION'
-            response = self.client.get(self.url, {'method': 'quickapi.test'}, HTTP_X_AUTHORIZATION=basic)
+            response = self.client.get(self.url, {'method': 'quickapi.test'},
+                                       HTTP_X_AUTHORIZATION=basic)
             self.assertEqual(response.status_code, 200)
             self.client.logout()
 
             # POST c заголовком 'HTTP_X_AUTHORIZATION'
-            response = self.client.post(self.url, {'method': 'quickapi.test'}, HTTP_X_AUTHORIZATION=basic)
+            response = self.client.post(self.url, {'method': 'quickapi.test'},
+                                        HTTP_X_AUTHORIZATION=basic)
             self.assertEqual(response.status_code, 200)
 
             # parsing response
@@ -155,7 +161,8 @@ class SimpleTest(QuickapiTestCase):
         """
         # GET page without authentication
         response = self.client.get(self.url)
-        self.assertEqual(response['Content-Type'], 'text/html; charset=%s' % settings.DEFAULT_CHARSET)
+        self.assertEqual(response['Content-Type'],
+                         'text/html; charset=%s' % settings.DEFAULT_CHARSET)
 
         # Authentication
         auth = self.client.login(username=USERNAME, password=PASSWORD)
@@ -163,14 +170,17 @@ class SimpleTest(QuickapiTestCase):
 
         # GET method
         response = self.client.get(self.url, {'method': 'quickapi.test'})
-        self.assertEqual(response['Content-Type'], 'application/json; charset=%s' % settings.DEFAULT_CHARSET)
+        self.assertEqual(
+            response['Content-Type'],
+            'application/json; charset=%s' % settings.DEFAULT_CHARSET
+        )
 
         # POST method
         response = self.client.post(self.url, {'method': 'quickapi.test'})
-        self.assertEqual(response['Content-Type'], 'application/json; charset=%s' % settings.DEFAULT_CHARSET)
+        self.assertEqual(
+            response['Content-Type'],
+            'application/json; charset=%s' % settings.DEFAULT_CHARSET
+        )
 
         data = self.assertJsonContent(response.content)
         self.assertEqual(data['is_authenticated'], True)
-
-
-

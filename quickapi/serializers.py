@@ -79,5 +79,3 @@ def tojson(ctx, indent=QUICKAPI_INDENT):
     """
     return json.dumps(ctx, ensure_ascii=QUICKAPI_ENSURE_ASCII,
                       cls=JSONEncoder, indent=indent)
-
-

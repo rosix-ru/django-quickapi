@@ -24,7 +24,7 @@ from __future__ import unicode_literals
 from django.utils import translation
 
 from quickapi.conf import (settings, QUICKAPI_SWITCH_LANGUAGE,
-    QUICKAPI_SWITCH_LANGUAGE_AUTO)
+                           QUICKAPI_SWITCH_LANGUAGE_AUTO)
 
 
 def switch_language(request, code=None):
@@ -60,4 +60,3 @@ def switch_language(request, code=None):
             new_language = None
 
     return old_language, new_language
-

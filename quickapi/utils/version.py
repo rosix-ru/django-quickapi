@@ -46,8 +46,8 @@ def get_major_version(version=None):
 
 
 def get_complete_version(version=None):
-    """Returns a tuple of the quickapi version. If version argument is non-empty,
-    then checks for correctness of the tuple provided.
+    """Returns a tuple of the quickapi version. If version argument is
+    non-empty, then checks for correctness of the tuple provided.
     """
     if version is None:
         from quickapi import VERSION as version
@@ -57,6 +57,7 @@ def get_complete_version(version=None):
 
     return version
 
+
 def get_git_changeset():
     """Returns a numeric identifier of the latest git changeset.
 
@@ -65,9 +66,11 @@ def get_git_changeset():
     so it's sufficient for generating the development version numbers.
     """
     repo_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    git_log = subprocess.Popen('git log --pretty=format:%ct --quiet -1 HEAD',
-            stdout=subprocess.PIPE, stderr=subprocess.PIPE,
-            shell=True, cwd=repo_dir, universal_newlines=True)
+    git_log = subprocess.Popen(
+        'git log --pretty=format:%ct --quiet -1 HEAD',
+        stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+        shell=True, cwd=repo_dir, universal_newlines=True
+    )
     timestamp = git_log.communicate()[0]
     try:
         timestamp = datetime.datetime.utcfromtimestamp(int(timestamp))

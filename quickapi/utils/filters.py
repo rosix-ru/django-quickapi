@@ -43,16 +43,14 @@ def filter_queryset(queryset, search_fields, query):
     """
     Фильтрация по нескольким полям
     """
-    if search_fields and not query in ('', None, False, True):
+    if search_fields and query not in ('', None, False, True):
 
-        orm_lookups = [construct_search(str(search_field))
-                       for search_field in search_fields]
+        orm_lookups = [construct_search(str(search_field)) for
+                       search_field in search_fields]
 
         for bit in query.split():
-            or_queries = [Q(**{orm_lookup: bit})
-                          for orm_lookup in orm_lookups]
+            or_queries = [Q(**{orm_lookup: bit}) for
+                          orm_lookup in orm_lookups]
             queryset = queryset.filter(reduce(operator.or_, or_queries))
 
     return queryset
-
-

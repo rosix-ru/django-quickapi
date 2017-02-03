@@ -27,7 +27,7 @@ import sys
 from django.utils import six
 
 from quickapi.conf import QUICKAPI_DEFINED_METHODS
-    
+
 
 class Collection(object):
     """
@@ -36,7 +36,7 @@ class Collection(object):
 
     def __init__(self):
         self._COLLECTION = {}
-        self._CHAIN      = []
+        self._CHAIN = []
 
     def __bool__(self):
         return bool(self._CHAIN)
@@ -62,7 +62,7 @@ class Collection(object):
 
     def __getattr__(self, name):
         if name in ('_COLLECTION', '_CHAIN'):
-            return super(Collection, self).__getattr__(name, value)
+            return super(Collection, self).__getattr__(name)
         return self.__getitem__(name)
 
     def __delitem__(self, name):
@@ -89,9 +89,9 @@ class Collection(object):
 
 def import_string(dotted_path):
     """
-    Import a dotted module path and return the attribute/class designated by the
-    last name in the path. Raise ImportError if the import failed.
-    
+    Import a dotted module path and return the attribute/class designated by
+    the last name in the path. Raise ImportError if the import failed.
+
     This code is taken from Django 1.7
     """
     try:
@@ -130,7 +130,7 @@ def get_methods(list_or_dict=QUICKAPI_DEFINED_METHODS, sort=True):
     else:
         raise ValueError('Parameter must be sequence or dictionary')
 
-    for key,val in seq:
+    for key, val in seq:
         if isinstance(val, six.string_types):
             method = import_string(val)
         else:
@@ -147,5 +147,3 @@ def get_methods(list_or_dict=QUICKAPI_DEFINED_METHODS, sort=True):
         collection.sort()
 
     return collection
-
-

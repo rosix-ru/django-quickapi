@@ -26,16 +26,17 @@ from functools import wraps
 
 from django.utils.encoding import force_text
 from django.utils.translation import ugettext as _
-from django.http import HttpResponseBadRequest, HttpResponseServerError
+from django.http import (HttpResponseBadRequest, HttpResponseServerError,
+                         HttpResponseRedirect)
 
-from .conf import QUICKAPI_LOGIN_FROM_REQUEST
 from .http import JSONResponse, JSONRedirect, MESSAGES
-from .utils.requests import is_callable, request_login, warning_auth_in_get, clean_uri
+from .utils.requests import (request_login, warning_auth_in_get,
+                             clean_uri)
 
 
 def auth_required(function=None, login_url=None, is_staff=None):
     """
-    Декоратор для методов QuickAPI, доступ к которым должны иметь 
+    Декоратор для методов QuickAPI, доступ к которым должны иметь
     только авторизованные пользователи.
     """
 
@@ -47,19 +48,28 @@ def auth_required(function=None, login_url=None, is_staff=None):
             # направляем на страницу документации
             if warning_auth_in_get(request):
                 url = clean_uri(request)+'#requests-auth'
-                msg = _('You made a dangerous request. Please, read the docs: %s') % url
+                msg = _('You made a dangerous request. '
+                        'Please, read the docs: %s') % url
                 return HttpResponseBadRequest(content=force_text(msg))
 
             u = request.user
 
-            if u.is_active and u.is_authenticated() or request_login(view_func, request):
-                if is_staff is not None and getattr(u, 'is_staff', None) != is_staff:
-                    return HttpResponseBadRequest(status=403, content=force_text(MESSAGES[403]))
+            if (u.is_active and u.is_authenticated() or
+                    request_login(view_func, request)):
+                if (is_staff is not None and
+                        getattr(u, 'is_staff', None) != is_staff):
+                    return HttpResponseBadRequest(
+                        status=403,
+                        content=force_text(MESSAGES[403])
+                    )
                 return view_func(request, *args, **kwargs)
 
             if login_url:
-                return HttpRedirect(login_url)
-            return HttpResponseBadRequest(status=401, content=force_text(MESSAGES[401]))
+                return HttpResponseRedirect(login_url)
+            return HttpResponseBadRequest(
+                status=401,
+                content=force_text(MESSAGES[401])
+            )
 
         return _wrapped_view
 
@@ -77,9 +87,10 @@ def login_required(function=None, json_only=False, login_url=None):
 
     def decorator(view_func):
 
-        msg = "QuickAPI decorator `login_required` is deprecated " \
-            "and will be removed in QuickAPI 4.0. " \
-            "Use new `auth_required` decorator for %s.%s" % (view_func.__module__, view_func.__name__)
+        msg = ("QuickAPI decorator `login_required` is deprecated "
+               "and will be removed in QuickAPI 4.0. "
+               "Use new `auth_required` decorator for "
+               "%s.%s") % (view_func.__module__, view_func.__name__)
 
         warnings.warn(msg, DeprecationWarning)
 
@@ -95,9 +106,12 @@ def login_required(function=None, json_only=False, login_url=None):
                     return JSONRedirect(login_url)
                 return JSONResponse(status=401)
             elif login_url:
-                return HttpRedirect(login_url)
+                return HttpResponseRedirect(login_url)
             else:
-                return HttpResponseBadRequest(status=401, content=force_text(MESSAGES[401]))
+                return HttpResponseBadRequest(
+                    status=401,
+                    content=force_text(MESSAGES[401])
+                )
 
         return _wrapped_view
 
@@ -107,9 +121,8 @@ def login_required(function=None, json_only=False, login_url=None):
     return decorator
 
 
-def api_required(function=None, get=False,          post=True,
-                           ajax_get=False,     ajax_post=True, 
-                       not_ajax_get=False, not_ajax_post=True):
+def api_required(function=None, get=False, post=True, ajax_get=False,
+                 ajax_post=True, not_ajax_get=False, not_ajax_post=True):
     """
     Decorator for views that only work with API.
     By default GET requests denied.
@@ -126,32 +139,40 @@ def api_required(function=None, get=False,          post=True,
         @wraps(view_func)
         def _wrapped_view(request, *args, **kwargs):
             if True not in (ajax_post, ajax_get, not_ajax_post, not_ajax_get):
-                return HttpResponseServerError(_('This method incorrectly configured.'))
-
+                return HttpResponseServerError(
+                    _('This method incorrectly configured.')
+                )
             if request.method == 'POST':
                 if True not in (ajax_post, not_ajax_post):
-                    return HttpResponseBadRequest(_('This method not responsible on %s request.') % 'POST')
-
+                    return HttpResponseBadRequest(
+                        _('This method not responsible on '
+                          '%s request.') % 'POST'
+                    )
                 elif request.is_ajax():
                     if not ajax_post:
-                        return HttpResponseBadRequest(_('This method works without AJAX.'))
-                
+                        return HttpResponseBadRequest(
+                            _('This method works without AJAX.')
+                        )
                 elif not not_ajax_post:
-                    return HttpResponseBadRequest(_('This method works with AJAX only.'))
-
+                    return HttpResponseBadRequest(
+                        _('This method works with AJAX only.')
+                    )
             elif request.method == 'GET':
                 if True not in (ajax_get, not_ajax_get):
-                    return HttpResponseBadRequest(_('This method not responsible on %s request.') % 'GET')
-
+                    return HttpResponseBadRequest(
+                        _('This method not responsible on '
+                          '%s request.') % 'GET'
+                    )
                 elif request.is_ajax():
                     if not ajax_get:
-                        return HttpResponseBadRequest(_('This method works without AJAX.'))
-
+                        return HttpResponseBadRequest(
+                            _('This method works without AJAX.')
+                        )
                 elif not not_ajax_get:
-                    return HttpResponseBadRequest(_('This method works with AJAX only.'))
-
+                    return HttpResponseBadRequest(
+                        _('This method works with AJAX only.')
+                    )
             return view_func(request, *args, **kwargs)
-
         return _wrapped_view
 
     if function:

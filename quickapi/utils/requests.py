@@ -30,6 +30,7 @@ from django.utils.encoding import force_text
 
 from quickapi.conf import QUICKAPI_LOGIN_FROM_REQUEST
 
+
 def parse_auth(request, data):
     """
     Производит поиск авторизационных данных, возвращает кортеж из двух
@@ -56,10 +57,11 @@ def parse_auth(request, data):
 def login_from_request(request, data=None):
     """
     Авторизует пользователя извлекая учётные значения из запроса
-    или переданного словаря данных. 
+    или переданного словаря данных.
     """
     if data is None:
-        if 'HTTP_AUTHORIZATION' in request.META or 'HTTP_X_AUTHORIZATION' in request.META:
+        if ('HTTP_AUTHORIZATION' in request.META or
+                'HTTP_X_AUTHORIZATION' in request.META):
             data = {}
         else:
             if request.method == 'GET':
@@ -132,7 +134,8 @@ def warning_auth_in_get(request):
     if hasattr(request, '_warning_auth_in_get'):
         return request._warning_auth_in_get
 
-    request._warning_auth_in_get = bool('username' in request.GET or 'password' in request.GET)
+    request._warning_auth_in_get = bool('username' in request.GET or
+                                        'password' in request.GET)
 
     return request._warning_auth_in_get
 
@@ -141,7 +144,8 @@ def is_callable(request):
     """
     Проверка вызова метода.
 
-    Когда в POST запросе есть ключ 'jsonData' или 'method', то это вызов метода.
+    Когда в POST запросе есть ключ 'jsonData' или 'method', то это вызов
+    метода.
     Когда в GET запросе есть ключ 'method', то это тоже вызов метода.
     Иначе - это просмотр документации.
     """
@@ -152,8 +156,4 @@ def is_callable(request):
         req = request.POST
         if 'jsonData' in req or 'method' in req:
             return True
-
     return False
-
-
-
