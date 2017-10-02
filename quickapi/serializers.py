@@ -24,6 +24,8 @@ from __future__ import unicode_literals
 import json
 from datetime import datetime, date, time
 from decimal import Decimal
+from six import PY2
+from six.moves import xrange
 from types import GeneratorType
 from uuid import UUID
 
@@ -68,6 +70,8 @@ class JSONEncoder(json.JSONEncoder):
         elif isinstance(o, (Promise, Exception, UUID)):
             return force_text(o)
         elif isinstance(o, GeneratorType):
+            return list(o)
+        elif PY2 and isinstance(o, xrange):
             return list(o)
         else:
             return super(JSONEncoder, self).default(o)
